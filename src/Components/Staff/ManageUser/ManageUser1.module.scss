@@ -1,0 +1,45 @@
+.container {
+  display: flex;
+  justify-content: center;
+  margin-left: 270px;
+  margin-top: 1px;
+}
+
+.tableContainer {
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  width: 1090%;
+}
+
+.table {
+  min-width: 800px;
+  border-collapse: collapse;
+}
+
+.tableHead {
+  background-color: #f50057;
+}
+
+.tableCell {
+  font-weight: bold;
+  color: white;
+  text-align: center !important;
+}
+
+.tableRow {
+  &:nth-child(even) {
+    background-color: #f8f8f8;
+  }
+
+  &:hover {
+    background-color: #ffe0e6;
+  }
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}

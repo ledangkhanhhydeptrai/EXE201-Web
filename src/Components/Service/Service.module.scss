@@ -1,0 +1,113 @@
+.app {
+  font-family: "Arial", sans-serif;
+  color: #4a3c31;
+  height: 100vh;
+  margin-top: -70px;
+
+  .intro {
+    text-align: center;
+    padding: 8rem;
+    margin-top: 65px;
+
+    h1 {
+      font-family: "Baloo Tamma";
+      font-size: 96px;
+      font-weight: 400;
+      line-height: 154px;
+      color: rgba(39, 34, 31, 1);
+    }
+
+    p {
+      margin: 1rem 0;
+      font-size: 28.5px;
+    }
+
+    .bookNow {
+      padding: 0.5rem 1rem;
+      background-color: rgba(136, 103, 80, 1);
+      color: rgba(252, 238, 213, 1);
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 20px;
+    }
+  }
+
+  .services {
+    padding: 2rem;
+    background: rgba(252, 238, 213, 1);
+    margin-top: -80px;
+    border-radius: 16px;
+    width: 100%;
+
+    h2 {
+      text-align: center;
+      margin-bottom: 1.5rem;
+      font-family: "Baloo Tamma";
+      font-weight: 400;
+      font-size: 64px;
+      line-height: 79px;
+    }
+
+    .servicesList {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+    }
+
+    .serviceCard {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      width: 300px;
+      padding: 20px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      text-align: center;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+      img {
+        width: 100%;
+        height: auto;
+        margin-bottom: 15px;
+        border-radius: 4px;
+      }
+
+      .serviceInfo {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+
+        h3 {
+          font-size: 22px;
+          margin-bottom: 10px;
+          color: rgba(199, 77, 47, 1);
+          font-weight: 400;
+        }
+
+        p {
+          flex: 1;
+          font-size: 14px;
+          margin-bottom: 15px;
+        }
+
+        .bookNow {
+          margin-top: auto;
+          padding: 10px 15px;
+          font-size: 14px;
+          border: none;
+          border-radius: 5px;
+          cursor: pointer;
+
+          &.red {
+            background-color: red;
+            color: white;
+          }
+        }
+      }
+    }
+  }
+}

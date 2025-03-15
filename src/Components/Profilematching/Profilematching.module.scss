@@ -1,0 +1,78 @@
+.app {
+  font-family: "Arial", sans-serif;
+
+  .main {
+    background-color: rgba(193, 147, 114, 1);
+    height: 110vh;
+    width: 80%;
+    border-radius: 40px;
+    padding: 40px 40px;
+    gap: 90px;
+    margin-top: 110px;
+    align-items: center;
+    margin-left: 150px;
+
+    h1 {
+      font-family: "Baloo Tamma";
+      font-weight: 400;
+      font-size: 128px;
+      color: rgba(255, 255, 255, 1);
+      text-align: left;
+      margin-left: 180px;
+    }
+
+    img {
+      width: 551px;
+      height: 415.87px;
+      border-radius: 14px;
+      border: 5px solid rgba(255, 231, 186, 1);
+      margin-left: 30px;
+    }
+
+    .titleprofile {
+      margin-left: 610px;
+      margin-top: -37%;
+
+      p {
+        width: 100%;
+        height: 58px;
+        font-family: "Roboto Condensed";
+        font-weight: 400;
+        font-size: 34px;
+        color: rgba(255, 255, 255, 1);
+      }
+    }
+
+    button {
+      margin-top: 60px;
+    }
+
+    .feedtry {
+      width: 269px;
+      height: 67px;
+      border-radius: 14px;
+      border: 1px solid rgba(193, 147, 114, 1);
+      font-family: "Roboto Condensed";
+      font-weight: 400;
+      font-size: 36px;
+      line-height: 22.58px;
+      color: rgba(102, 77, 60, 1);
+      background-color: rgba(255, 231, 186, 1);
+      margin-left: 210px;
+    }
+
+    .feedall {
+      width: 269px;
+      height: 67px;
+      border-radius: 14px;
+      border: 1px solid rgba(193, 147, 114, 1);
+      font-family: "Roboto Condensed";
+      font-weight: 400;
+      font-size: 36px;
+      line-height: 22.58px;
+      color: rgba(102, 77, 60, 1);
+      background-color: rgba(255, 231, 186, 1);
+      margin-left: 50px;
+    }
+  }
+}

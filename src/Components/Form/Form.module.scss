@@ -1,0 +1,99 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&display=swap');
+
+$primary-color: #fbe2b3;
+$secondary-color: #d4a276;
+$text-color: #6b4423;
+$button-bg: #c08457;
+$border-radius: 10px;
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: $primary-color;
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+
+  &::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 80px;
+    height: 100%;
+    background: url("https://s3-alpha-sig.figma.com/img/85c1/ba67/0708a8d78112f4a9c62bfd6acc107a17?Expires=1740355200&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=cRARhZ8UdI81qZAMwPhtHN-8JSM-gXys3TrpzzwO-Q0h8t91piROH-ARmHXhOMtaXiH62lt-84SHd-EvxeLMr1sPTtp1FEZ8a-RRD3MvBL7l03oOKv87BsiyOaWzbTtSGVXCssCgDduS-CRMDeCJkdPy3Exw67BsNCtu-cJ2FfUPrOz~xQBjWdg5lxoHmsdHeUZ9AA-V5mDXjoWajZ83kgZ5OLlItoN7HERMaRlt61mQ8IdvtTcZc927O-HIfKyf0QNo~Je5RR6pa8LC63HiFXa~R31dZ1fVLUy-Hzqa83Mo5y~Vxsti7Hs1b5gIDpj-bW~YC-yUKcJeCu2MIPpmFg__") repeat-y;
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 80px;
+    height: 100%;
+    background: url("https://s3-alpha-sig.figma.com/img/85c1/ba67/0708a8d78112f4a9c62bfd6acc107a17?Expires=1740355200&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=cRARhZ8UdI81qZAMwPhtHN-8JSM-gXys3TrpzzwO-Q0h8t91piROH-ARmHXhOMtaXiH62lt-84SHd-EvxeLMr1sPTtp1FEZ8a-RRD3MvBL7l03oOKv87BsiyOaWzbTtSGVXCssCgDduS-CRMDeCJkdPy3Exw67BsNCtu-cJ2FfUPrOz~xQBjWdg5lxoHmsdHeUZ9AA-V5mDXjoWajZ83kgZ5OLlItoN7HERMaRlt61mQ8IdvtTcZc927O-HIfKyf0QNo~Je5RR6pa8LC63HiFXa~R31dZ1fVLUy-Hzqa83Mo5y~Vxsti7Hs1b5gIDpj-bW~YC-yUKcJeCu2MIPpmFg__") repeat-y;
+  }
+}
+
+.formWrapper {
+  background: $primary-color;
+  padding: 40px;
+  text-align: center;
+  border-radius: $border-radius;
+}
+
+.title {
+  font-size: 28px;
+  font-weight: 600;
+  color: $text-color;
+  font-family: 'Fredoka', sans-serif;
+}
+
+.sectionTitle {
+  background: $button-bg;
+  color: white;
+  padding: 10px 20px;
+  border-radius: $border-radius;
+  font-size: 18px;
+  border: none;
+  margin: 15px 0;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+
+  input {
+    padding: 12px;
+    border-radius: $border-radius;
+    border: 1px solid #ccc;
+    font-size: 16px;
+  }
+}
+
+.buttons {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+
+  button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: $border-radius;
+    font-size: 16px;
+    cursor: pointer;
+  }
+
+  .backButton {
+    background: $button-bg;
+    color: white;
+  }
+
+  .nextButton {
+    background: $button-bg;
+    color: white;
+  }
+}

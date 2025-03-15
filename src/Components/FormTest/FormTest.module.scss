@@ -1,0 +1,61 @@
+.container {
+  background: #f8e6d1;
+  padding: 20px;
+  border-radius: 10px;
+  max-width: 800px;
+  margin: auto;
+  font-family: Arial, sans-serif;
+  text-align: center;
+}
+
+.subtitle {
+  color: #a67c52;
+  font-weight: bold;
+}
+
+.info p, .petInfo p {
+  margin: 5px 0;
+}
+
+.time {
+  background: #ffe4b5;
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+
+.petInfo {
+  background: #d2a679;
+  padding: 15px;
+  border-radius: 10px;
+  margin-top: 10px;
+}
+
+.petImage {
+  width: 100px;
+  height: 100px;
+  border-radius: 5px;
+  display: block;
+  margin-left: 45%;
+}
+
+.petName {
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.note {
+  font-size: 14px;
+  color: #555;
+  margin-top: 15px;
+}
+
+.actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.button {
+  font-weight: bold;
+}

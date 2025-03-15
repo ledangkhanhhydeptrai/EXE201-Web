@@ -1,0 +1,100 @@
+.app {
+  font-family: "Arial", sans-serif;
+  color: #4a3c31;
+  height: 100vh;
+  margin-top: 10px;
+
+  .main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: calc(100vh - 10px);
+    background-image: url('../../assets/z6369635997684_faf48a38e2c0842a94e7e13aac09c17f.jpg');
+    background-repeat: no-repeat;
+    background-size: 100%;
+    background-position: center;
+    margin-left: -11px;
+    margin-right: -12px;
+
+    .bookingconfirmation {
+      margin-top: 100px;
+
+      .confirmationcard {
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        padding: 16px;
+        width: 400px;
+
+
+        .cardheader {
+          background: rgba(255, 231, 186, 1);
+          color: rgba(193, 147, 114, 1);
+          font-weight: 400;
+          text-align: center;
+          padding: 8px;
+          width: 26vw;
+          margin-left: -16px;
+          margin-top: 10px;
+          font-family: "Roboto Condensed";
+          font-size: 18px;
+        }
+
+        .cardbody {
+          margin-top: 16px;
+
+          div {
+            margin-bottom: 8px;
+
+            strong {
+              font-weight: bold;
+            }
+          }
+        }
+
+        .cardfooter {
+          font-size: 14px;
+          color: rgba(193, 147, 114, 1);
+          margin-top: 16px;
+          text-align: right;
+        }
+      }
+
+      .cardactions {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 16px;
+        margin-left: 50px;
+        margin-top: 30px;
+
+        .btnsecondary {
+          background: rgba(136, 103, 80, 1);
+          color: rgba(255, 255, 255, 1);
+          padding: 8px 16px;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+          margin-left: 180px;
+
+          &:hover {
+            background: #d6d8db;
+          }
+        }
+
+        .btnprimary {
+          background: rgba(136, 103, 80, 1);
+          color: rgba(255, 255, 255, 1);
+          padding: 8px 16px;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+          margin-left: 10px;
+
+          &:hover {
+            background: #e0a800;
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,125 @@
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 20px;
+  background-color: #8b5e3c;
+  color: #fdf7ed;
+  width: 99vw;
+  margin-left: -12px;
+  margin-top: 13px;
+
+  &Left {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+
+    .logo {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+
+      img {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        margin-right: 10px;
+      }
+
+      .brandName {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #fff7d6;
+      }
+    }
+
+    .contactInfo {
+      p {
+        margin: 5px 0;
+        font-size: 0.9rem;
+        color: #fdf7ed;
+      }
+    }
+
+    .socialIcons {
+      margin-top: 15px;
+
+      a {
+        margin-right: 15px;
+
+        .icon {
+          font-size: 1.2rem;
+          color: #fdf7ed;
+          transition: color 0.3s;
+
+          &:hover {
+            color: #ffd700;
+          }
+        }
+      }
+    }
+  }
+
+  &Middle {
+    flex: 1;
+
+    ul {
+      list-style: none;
+      padding: 0;
+
+      li {
+        margin-bottom: 10px;
+        font-size: 1rem;
+        color: #fdf7ed;
+      }
+    }
+  }
+
+  &Right {
+    flex: 1;
+    text-align: center;
+
+    .adoptChart {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 10px;
+
+      .bar {
+        width: 10px;
+        margin: 0 5px;
+        background-color: #fdf7ed;
+        transition: height 0.3s, background-color 0.3s;
+
+        &:nth-child(1) {
+          height: 30px;
+        }
+
+        &:nth-child(2) {
+          height: 50px;
+        }
+
+        &:nth-child(3) {
+          height: 70px;
+        }
+
+        &:nth-child(4) {
+          height: 90px;
+        }
+
+        &:nth-child(5) {
+          height: 110px;
+        }
+
+        &:hover {
+          background-color: #ffd700;
+        }
+      }
+    }
+
+    span {
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #fdf7ed;
+    }
+  }
+}

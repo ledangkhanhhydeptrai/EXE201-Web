@@ -1,0 +1,182 @@
+.app {
+  font-family: "Arial", sans-serif;
+  width: 98.9vw;
+  margin-left: -10px;
+  margin-top: 85px;
+  height: auto;
+  background-color: #FDF5E5;
+
+  .main {
+    .imagesmall {
+      margin-left: 410px;
+
+      .names {
+        margin-top: -80px;
+        margin-left: 110px;
+        color: #592EA9;
+        font-family: "Sen", sans-serif;
+        font-weight: bold;
+        font-size: 28px;
+      }
+
+      .namespost {
+        margin-left: 110px;
+        margin-top: -10px;
+        font-family: "Inter", sans-serif;
+        font-size: 14px;
+        color: #4c4c4c;
+      }
+
+      img {
+        margin-top: 30px;
+        width: 100px;
+      }
+
+      .goods {
+        margin-top: 60px;
+        font-family: "Sen", sans-serif;
+        font-weight: bold;
+        font-size: 38px;
+        color: #232536;
+        width: 66%;
+      }
+    }
+
+    .icongoods {
+      margin-left: 400px;
+      margin-top: 30px;
+
+      p {
+        font-family: "Sen", sans-serif;
+        font-weight: bold;
+        font-size: 24px;
+        color: #232536;
+        margin-left: 40px;
+        margin-top: -35px;
+      }
+    }
+
+    .mainImage {
+      margin-left: 280px;
+      margin-top: 50px;
+
+      img {
+        width: 75%;
+      }
+
+      .ready {
+        margin-left: 100px;
+        margin-top: 60px;
+        font-family: "Sen", sans-serif;
+        font-weight: bold;
+        font-size: 36px;
+        color: #232536;
+      }
+
+      .oneday {
+        margin-left: 110px;
+        font-family: "Inter", sans-serif;
+        font-size: 16px;
+        color: #6D6E76;
+        width: 70%;
+      }
+
+      .space {
+        margin-left: 100px;
+        font-family: "Inter", sans-serif;
+        font-size: 16px;
+        color: #6D6E76;
+        width: 70%;
+      }
+
+      ul {
+        margin-left: 100px;
+
+        li {
+          font-family: "Sen", sans-serif;
+          font-weight: bold;
+          font-size: 24px;
+          color: #161722;
+        }
+      }
+    }
+
+    .next {
+      margin-top: 100px;
+      margin-left: 200px;
+
+      .titlenext {
+        margin-left: 100px;
+        font-family: "Sen", sans-serif;
+        font-weight: bold;
+        font-size: 36px;
+        color: #000000;
+      }
+
+      .cardContainer {
+        display: flex;
+        gap: 30px;
+        flex-wrap: wrap;
+        margin-left: 100px;
+
+        .card {
+          gap: 10px;
+          width: 310px;
+
+          img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+          }
+
+          .findday {
+            margin-top: 30px;
+            font-family: "Inter", sans-serif;
+            font-size: 14px;
+            color: darkgrey;
+          }
+
+          .findday1 {
+            color: #232536;
+            font-family: "Sen", sans-serif;
+            font-weight: bold;
+            font-size: 18px;
+          }
+        }
+      }
+    }
+
+    .join {
+      margin-top: 80px;
+      text-align: center;
+
+      .joinus {
+        font-family: "Sen", sans-serif;
+        font-weight: bold;
+        font-size: 45px;
+        color: #232536;
+        width: 80%;
+        margin-left: 200px;
+      }
+
+      .believeus {
+        font-family: "Inter", sans-serif;
+        font-size: 16px;
+        color: #6D6E76;
+        width: 30%;
+        margin-left: 530px;
+      }
+
+      .joinnow {
+        background-color: #FFE7BA;
+        color: #232536;
+        font-family: "Sen", sans-serif;
+        font-weight: bold;
+        font-size: 18px;
+        padding-top: 10px;
+        width: 15%;
+        padding-bottom: 10px;
+      }
+    }
+  }
+}

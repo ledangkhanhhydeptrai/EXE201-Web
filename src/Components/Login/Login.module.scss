@@ -1,0 +1,177 @@
+.app {
+  background-color: #FFFFFF;
+
+  .firsttitle {
+    margin-top: 50px;
+
+    .imagefirst {
+      margin-top: 1px;
+      margin-left: 100px;
+
+      img {
+        width: 50%;
+        height: 90vh;
+      }
+    }
+
+    .imagesecond {
+      margin-left: 850px;
+      margin-top: -717px;
+
+      img {
+        width: 270px;
+      }
+    }
+
+    .title {
+      margin-top: -30px;
+      margin-left: 50%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+
+      p {
+        font-family: "Roboto", sans-serif;
+        font-size: 30px;
+        color: #000000;
+        font-weight: 400;
+        line-height: 40px;
+      }
+
+      img {
+        width: 36px;
+        margin-left: 50px;
+      }
+
+      .googleButton {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 5px 10px;
+        border: none;
+        border-radius: 5px;
+        background-color: #ffffff;
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: bold;
+        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+        transition: all 0.3s ease;
+        font-family: "Roboto";
+        line-height: 40px;
+        border: 1px solid #5B86E5;
+        border-radius: 8px;
+        width: 30%;
+
+        &:hover {
+          background-color: #f0f0f0;
+        }
+
+        .googleIcon {
+          width: 20px;
+          height: 20px;
+          margin-left: 10px;
+          margin-top: 1px;
+        }
+      }
+
+      .hoac {
+        margin-top: 30px;
+
+        .borderleft {
+          width: 30px;
+          height: 5px;
+          background-color: #838383;
+          margin-left: -5px;
+          margin-top: 10px;
+        }
+
+        p {
+          font-size: 30px;
+          font-family: "Roboto", sans-serif;
+          color: #838383;
+          margin-top: -21px;
+          margin-left: -5px;
+        }
+
+        .borderright {
+          width: 30px;
+          height: 5px;
+          background-color: #838383;
+          margin-left: 100px;
+          margin-top: -38px;
+        }
+      }
+
+      .inputall {
+        margin-top: 30px;
+
+        input {
+          width: 458px;
+          height: 47px;
+          border: 1px solid #9d9d9d;
+        }
+      }
+
+      .buttonall {
+        margin-top: 30px;
+
+        .signin {
+          width: 395px;
+          height: 50px;
+          background-color: #000000;
+          font-size: 16px;
+          font-family: "Roboto", sans-serif;
+          color: #FFFFFF;
+          font-weight: bold;
+          border-radius: 10px;
+          padding: 5px 10px;
+        }
+
+        .registernow {
+          width: 395px;
+          height: 50px;
+          font-size: 16px;
+          font-family: "Roboto", sans-serif;
+          color: #5B86E5;
+          font-weight: bold;
+          border-radius: 8px;
+          padding: 5px 10px;
+          border: 1px solid #5B86E5;
+          background: #FFFFFF;
+        }
+      }
+
+      .passwordfinal {
+        margin-top: 30px;
+        margin-left: 270px;
+
+        p {
+          font-family: "Roboto", sans-serif;
+          font-size: 16px;
+          color: #5B86E5;
+
+          &:hover {
+            color: #000000;
+          }
+        }
+      }
+    }
+
+    .conditions {
+      margin-left: 80%;
+
+      p {
+        font-family: "Roboto", sans-serif;
+        font-size: 16px;
+        color: #000000;
+        text-decoration: underline;
+
+        &:hover {
+          color: #5B86E5;
+        }
+      }
+    }
+  }
+}

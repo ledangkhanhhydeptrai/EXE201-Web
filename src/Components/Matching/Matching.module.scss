@@ -1,0 +1,687 @@
+.app {
+  font-family: "Arial", sans-serif;
+
+  .brand {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+    width: 100%;
+    margin: auto;
+    padding: 20px;
+    margin-top: 150px;
+    margin-left: -100px;
+
+    img {
+      width: 40%;
+      border-radius: 10px;
+      margin-top: -50px;
+      height: 80vh;
+      margin-left: 210px;
+    }
+
+    .title {
+      margin-top: -140px;
+      margin-left: 40px;
+      text-align: left;
+
+      h1 {
+        font-size: 72px;
+        font-family: "Raleway";
+        font-weight: bold;
+        color: #000;
+      }
+
+      .findpet {
+        font-size: 32px;
+        font-family: "Libre Franklin";
+        font-weight: 400;
+        color: rgba(0, 0, 0, 1);
+      }
+
+      .typepet {
+        font-family: "Libre Franklin";
+        font-weight: 100;
+        font-size: 14px;
+        margin-left: 5px;
+        color: rgba(102, 77, 60, 1);
+      }
+
+      .petTypes {
+        display: flex;
+        gap: 15px;
+        margin: 10px 0;
+
+        p {
+          padding: 10px 20px;
+          border: 1px solid rgba(241, 241, 241, 1);
+          border-radius: 8px;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          font-family: "Libre Franklin";
+          font-weight: 100;
+          font-size: 18px;
+
+          &:hover {
+            background-color: rgba(193, 147, 114, 1);
+            color: #fff;
+            border-color: rgba(193, 147, 114, 1);
+          }
+        }
+      }
+
+      .formGroup {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 15px;
+        margin-top: -60px;
+
+        label {
+          font-weight: 100;
+          font-family: "Libre Franklin";
+          font-size: 14px;
+          color: rgba(102, 77, 60, 1);
+        }
+
+        input {
+          padding: 10px;
+          border: 1px solid rgba(136, 103, 80, 1);
+          border-radius: 5px;
+          margin-top: 80px;
+          margin-left: -80px;
+          width: 100%;
+        }
+
+        .arrow {
+          border-left: 8px solid transparent;
+          border-right: 8px solid transparent;
+          border-top: 10px solid black;
+          margin: 8px auto;
+          display: block;
+          transition: transform 0.3s ease;
+          margin-top: 93px;
+          position: absolute;
+          margin-left: 30%;
+        }
+      }
+
+      .dropdownMenu {
+        position: absolute;
+        top: 61%;
+        left: 0;
+        width: 32%;
+        background: white;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        z-index: 100;
+        list-style: none;
+        padding: 0;
+        margin: 5px 0;
+        margin-left: 850px;
+        text-align: left;
+
+        li {
+          padding: 10px;
+          cursor: pointer;
+          transition: background 0.2s;
+
+          &:hover {
+            background: rgba(193, 147, 114, 1);
+          }
+        }
+      }
+
+      .formGroup1 {
+        gap: 15px;
+        margin-bottom: 15px;
+        width: 100%;
+
+        label {
+          font-weight: 100;
+          font-family: "Libre Franklin";
+          font-size: 14px;
+          color: rgba(102, 77, 60, 1);
+        }
+
+        input {
+          padding: 10px;
+          border: 1px solid rgba(0, 0, 0, 1);
+          border-radius: 5px;
+          margin-top: 10px;
+          width: 100%;
+        }
+      }
+
+      button {
+        background-color: rgba(199, 77, 47, 1);
+        color: rgba(255, 255, 255, 1);
+        padding: 12px 20px;
+        border: none;
+        border-radius: 30px;
+        font-size: 18px;
+        margin-left: 185px;
+        gap: 5px;
+        width: 300px;
+        font-weight: 800;
+        font-family: "Libre Franklin";
+
+        &:hover {
+          background-color: #c0392b;
+        }
+      }
+
+      .arrow {
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        border-top: 10px solid rgba(255, 255, 255, 1);
+        margin: 8px auto;
+        display: block;
+        margin-top: 22px;
+        position: absolute;
+        margin-left: 410px;
+      }
+    }
+  }
+
+  .content {
+    margin-left: 174px;
+
+    p {
+      font-family: "Raleway";
+      font-weight: 600;
+      font-size: 44px;
+      color: rgba(0, 0, 0, 1);
+      width: 30%;
+    }
+
+    .findmatching {
+      margin-top: -275px;
+      margin-left: 550px;
+
+      img {
+        width: 80px;
+      }
+
+      .searchmatching {
+        font-family: "Raleway";
+        font-weight: 700;
+        font-size: 32px;
+        color: rgba(0, 0, 0, 1);
+        margin-left: 100px;
+        margin-top: -80px;
+        width: 80%;
+      }
+
+      .matchingaccess {
+        font-family: "Libre Franklin";
+        font-weight: 400;
+        font-size: 24px;
+        color: rgba(0, 0, 0, 1);
+        margin-left: 100px;
+        width: 70%;
+        margin-top: -15px;
+      }
+    }
+
+    .findmatching1 {
+      margin-top: 15px;
+      margin-left: 550px;
+
+      img {
+        width: 80px;
+      }
+
+      .searchmatching {
+        font-family: "Raleway";
+        font-weight: 700;
+        font-size: 32px;
+        color: rgba(0, 0, 0, 1);
+        margin-left: 100px;
+        margin-top: -80px;
+        width: 80%;
+      }
+
+      .matchingaccess {
+        font-family: "Libre Franklin";
+        font-weight: 400;
+        font-size: 24px;
+        color: rgba(0, 0, 0, 1);
+        margin-left: 100px;
+        width: 72%;
+        margin-top: -15px;
+      }
+    }
+
+    .findmatching2 {
+      margin-top: 15px;
+      margin-left: 550px;
+
+      img {
+        width: 80px;
+      }
+
+      .searchmatching {
+        font-family: "Raleway";
+        font-weight: 700;
+        font-size: 32px;
+        color: rgba(0, 0, 0, 1);
+        margin-left: 100px;
+        margin-top: -80px;
+        width: 80%;
+      }
+
+      .matchingaccess {
+        font-family: "Libre Franklin";
+        font-weight: 400;
+        font-size: 24px;
+        color: rgba(0, 0, 0, 1);
+        margin-left: 100px;
+        width: 74%;
+        margin-top: -15px;
+      }
+    }
+
+    .ghepdoi {
+      margin-left: 580px;
+      width: 309px;
+      height: 36px;
+      border-radius: 30px;
+      padding: 7px 32px 7px 32px;
+      margin-top: -10px;
+      background-color: rgba(199, 77, 47, 1);
+      color: rgba(255, 255, 255, 1);
+      font-family: "Libre Franklin";
+      font-weight: 100;
+      font-size: 18px;
+      text-align: center;
+      line-height: 22px;
+    }
+  }
+
+  .formmatching {
+    margin-top: 90px;
+    margin-left: 15px;
+
+    img {
+      width: 310px;
+      height: 254px;
+      border-radius: 17px;
+      border: 5px solid rgba(255, 231, 186, 1);
+    }
+  }
+
+  .formmatching1 {
+    margin-top: 30px;
+    margin-left: 96px;
+
+    img {
+      width: 226px;
+      height: 310px;
+      border-radius: 14px;
+      border: 5px solid rgba(255, 231, 186, 1);
+    }
+  }
+
+  .titleghepdoi {
+    text-align: center;
+    margin-top: -40%;
+    margin-left: 10px;
+    font-family: "Baloo Tamma";
+    font-weight: 400;
+    font-size: 96px;
+    color: rgba(136, 103, 80, 1);
+  }
+
+  .formmatching2 {
+    margin-left: 350px;
+    margin-top: -110px;
+    background: rgba(252, 238, 213, 1);
+    width: 55%;
+    border-radius: 40px;
+    height: 85vh;
+
+    label {
+      margin-top: 130px;
+      margin-left: 50px;
+      font-family: "Noto Sans", sans-serif;
+      font-weight: 600;
+      font-size: 24px;
+      line-height: 18px;
+      color: rgba(102, 102, 102, 1);
+    }
+
+    input {
+      margin-top: 10px;
+      margin-left: 50px;
+      border-radius: 8px 8px;
+      border: 2px solid rgba(193, 147, 114, 1);
+      padding: 16px;
+      gap: 10px;
+      width: 38%;
+    }
+
+    .arrow {
+      border-left: 8px solid transparent;
+      border-right: 8px solid transparent;
+      border-top: 10px solid black;
+      margin: 8px auto;
+      display: block;
+      position: absolute;
+      margin-left: 330px;
+      margin-top: 36px;
+    }
+
+    .dropdownMenu {
+      top: 0;
+      margin-left: 50px;
+      width: 38%;
+      background: rgba(255, 255, 255, 1);
+      border: 1px solid rgba(204, 204, 204, 1);
+      border-radius: 5px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      z-index: 100;
+      list-style: none;
+      padding: 0;
+
+      li {
+        padding: 10px;
+        cursor: pointer;
+        transition: background 0.2s;
+
+        &:hover {
+          background: rgba(193, 147, 114, 1);
+        }
+      }
+    }
+  }
+
+  .formmatching3 {
+    margin-top: -42%;
+    border-radius: 40px;
+    margin-left: 48%;
+
+    label {
+      margin-top: 130px;
+      margin-left: 50px;
+      font-family: "Noto Sans", sans-serif;
+      font-weight: 600;
+      font-size: 24px;
+      line-height: 18px;
+      color: rgba(102, 102, 102, 1);
+    }
+
+    input {
+      margin-top: 10px;
+      margin-left: 50px;
+      border-radius: 8px 8px;
+      border: 2px solid rgba(193, 147, 114, 1);
+      padding: 16px;
+      gap: 10px;
+      width: 40%;
+    }
+
+    .arrow {
+      border-left: 8px solid transparent;
+      border-right: 8px solid transparent;
+      border-top: 10px solid black;
+      margin: 8px auto;
+      display: block;
+      position: absolute;
+      margin-left: 330px;
+      margin-top: 36px;
+    }
+
+    .dropdownMenu {
+      top: 1569px;
+      margin-left: 50px;
+      width: 20.5%;
+      background: white;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      z-index: 100;
+      list-style: none;
+      padding: 0;
+      position: absolute;
+
+      li {
+        padding: 10px;
+        cursor: pointer;
+
+        &:hover {
+          background: rgba(193, 147, 114, 1);
+        }
+      }
+    }
+  }
+
+  .container {
+    padding: 15px;
+    border-radius: 8px;
+    width: fit-content;
+    position: relative;
+    margin-left: 610px;
+    margin-top: 120px;
+
+    .title {
+      font-size: 18px;
+      font-weight: bold;
+      text-align: center;
+      color: #5d4a3d;
+      margin-bottom: 10px;
+    }
+
+    .radioGrid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px 30px;
+      justify-content: center;
+    }
+
+    .radioGrid div {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+
+      input[type="radio"] {
+        accent-color: #c08963;
+        width: 16px;
+        height: 16px;
+      }
+
+      label {
+        color: rgba(102, 102, 102, 1);
+        font-family: "Noto Sans", sans-serif;
+        font-weight: 400;
+        font-size: 16px;
+      }
+    }
+
+  }
+
+  .buttontotal {
+    margin-left: 580px;
+    margin-top: 30px;
+
+    .buttondelete {
+      width: 172px;
+      height: 56px;
+      border-radius: 8px;
+      border: 1px solid rgba(193, 147, 114, 1);
+      background-color: rgba(255, 255, 255, 1);
+      padding: 16px;
+      color: rgba(193, 147, 114, 1);
+      font-family: "Noto Sans", sans-serif;
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 24px;
+      text-align: center;
+    }
+
+    .buttonmatching {
+      width: 172px;
+      height: 56px;
+      border-radius: 8px;
+      border: 1px solid rgba(193, 147, 114, 1);
+      background-color: rgba(193, 147, 114, 1);
+      padding: 16px;
+      margin-left: 10px;
+      color: rgba(255, 255, 255, 1);
+      font-family: "Noto Sans", sans-serif;
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 24px;
+      text-align: center;
+    }
+  }
+
+  .formmatching4 {
+    margin-top: -613px;
+    margin-left: 80%;
+
+
+    img {
+      width: 310px;
+      height: 70vh;
+      border-radius: 17px;
+      border: 5px solid rgba(255, 231, 186, 1);
+    }
+  }
+
+  .adoptablepet {
+    margin-top: 160px;
+    margin-left: 250px;
+
+    p {
+      font-family: "Raleway";
+      font-weight: 600;
+      font-size: 31px;
+      line-height: 31.75px;
+      color: rgba(102, 77, 60, 1);
+    }
+
+    .cardContainer {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 20px;
+      margin-left: -10px;
+
+      .card {
+        width: 300px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        background-color: #fff;
+        position: relative;
+
+        .cardImage {
+          width: 100%;
+          height: 200px;
+          object-fit: cover;
+        }
+
+        .cardContent {
+          padding: 15px;
+        }
+
+        .cardTitle {
+          font-size: 22px;
+          font-weight: 800;
+          color: rgba(0, 0, 0, 1);
+          margin-bottom: 10px;
+          font-family: "Raleway", sans-serif;
+        }
+
+        .cardDescription {
+          font-size: 16px;
+          color: rgba(0, 0, 0, 1);
+          margin-bottom: 15px;
+          font-weight: 400;
+          font-family: "Libre Franklin", sans-serif;
+        }
+
+        .location {
+          font-size: 14px;
+          color: #000;
+          margin-top: 3px;
+        }
+
+        .heartIcon {
+          position: absolute;
+          top: 10px;
+          right: 10px;
+          cursor: pointer;
+          transition: transform 0.2s ease;
+
+          svg {
+            fill: gray;
+            stroke: gray;
+            transition: fill 0.3s ease, stroke 0.3s ease;
+          }
+
+          &:hover {
+            transform: scale(1.1);
+          }
+
+          &.liked {
+            svg {
+              fill: red !important;
+              stroke: red !important;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .meetplace {
+    margin-left: 210px;
+    width: 45%;
+    margin-top: 100px;
+
+    .placeonly {
+      font-family: "Raleway";
+      font-weight: 600;
+      font-size: 49.5px;
+      line-height: 58px;
+      color: rgba(102, 77, 60, 1);
+    }
+
+    .placeonly1 {
+      font-family: "Libre Franklin";
+      font-weight: 500;
+      font-size: 18px;
+      line-height: 27px;
+      color: rgba(102, 77, 60, 1);
+      width: 91%;
+    }
+
+    .findus {
+      width: 333px;
+      height: 55px;
+      border-radius: 30px;
+      padding: 14px 31px 14px 31px;
+      gap: 20px;
+      color: rgba(34, 34, 34, 1);
+      font-family: "Libre Franklin";
+      font-weight: 800;
+      font-size: 18px;
+      line-height: 27px;
+      text-align: center;
+      background: rgba(255, 255, 255, 1);
+    }
+  }
+
+  .imagefamily {
+    margin-left: 58%;
+    margin-top: -22%;
+
+    img {
+      width: 80%;
+      height: 50vh;
+      border-radius: 20px;
+    }
+  }
+}
