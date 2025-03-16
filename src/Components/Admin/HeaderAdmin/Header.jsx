@@ -1,13 +1,18 @@
 import { useState } from "react";
 import styles from "./Header.module.scss";
+import { useNavigate } from "react-router-dom";
 
 export default function Header() {
+  const navigate = useNavigate();
   const [isDropdownVisible, setDropdownVisible] = useState(false);
 
   const toggleDropdown = () => {
     setDropdownVisible(!isDropdownVisible);
   };
-
+  const handleLogout = () => {
+    localStorage.removeItem("token"); // Xóa token
+    navigate("/login"); // Chuyển hướng về trang login
+  };
   return (
     <div className={styles.container}>
       <input type="text" placeholder="Search" className={styles.searchInput} />
@@ -25,7 +30,7 @@ export default function Header() {
           }`}
         >
           <a href="/profile">Manage Profile</a>
-          <a href="/login">Logout</a>
+          <button onClick={handleLogout}>Logout</button>
         </div>
       </div>
     </div>
