@@ -10,8 +10,8 @@ export default function Header() {
     setDropdownVisible(!isDropdownVisible);
   };
   const handleLogout = () => {
-    localStorage.removeItem("token"); // Xóa token
-    navigate("/login"); // Chuyển hướng về trang login
+    localStorage.removeItem("jwt");
+    navigate("/login");
   };
   return (
     <div className={styles.container}>
@@ -30,7 +30,7 @@ export default function Header() {
           }`}
         >
           <a href="/profile">Manage Profile</a>
-          <button onClick={handleLogout}>Logout</button>
+          <a onClick={handleLogout}>Logout</a>
         </div>
       </div>
     </div>
