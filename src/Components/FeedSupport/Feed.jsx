@@ -437,6 +437,7 @@ export default function Feed() {
         if (response.status >= 200 && response.status < 300) {
           setData(response.data.data);
         }
+        console.log("API Response:", response.data.data);
       } catch (error) {
         console.error("Lỗi tải dữ liệu:", error);
       }
@@ -447,6 +448,7 @@ export default function Feed() {
     } else {
       console.warn("JWT token không tồn tại!");
     }
+    console.log("JWT Token:", token);
   }, [token]);
   const formData = new FormData();
   formData.append("petName", petName);
