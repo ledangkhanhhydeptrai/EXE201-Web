@@ -40,7 +40,7 @@ export default function Header() {
           <li onClick={() => navigate("/introduce")}>Giới thiệu</li>
           <li onClick={() => navigate("/service")}>Dịch vụ</li>
           <li onClick={() => navigate("/matching")}>Ghép đôi</li>
-          <li onClick={() => navigate("/feed")}>Danh sách</li>
+          <li onClick={() => navigate("/feed")}>Nhận nuôi</li>
           <li onClick={() => navigate("/booking")}>Đặt lịch</li>
         </ul>
       </nav>
@@ -62,6 +62,10 @@ export default function Header() {
             <span>{user.username}</span>
             {isDropdownOpen && (
               <ul className={styles.dropdown}>
+                <li onClick={() => navigate("/userpet")}>Quản lí Pet</li>
+                <li onClick={() => navigate("/managebookinguser")}>
+                  Quản lí booking
+                </li>
                 <li onClick={() => navigate("/profile")}>Hồ sơ</li>
                 <li onClick={handleLogout}>Đăng xuất</li>
               </ul>

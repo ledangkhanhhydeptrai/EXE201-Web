@@ -17,7 +17,6 @@ import FormTest from "./Components/FormTest/FormTest";
 import Login from "./Components/Login/Login";
 import Register from "./Components/Register/Register";
 import Blog from "./Components/Blog/Blog";
-import Detail from "./Components/DetailBlog/Detail";
 import Detail1 from "./Components/DetailBlog/Detail1";
 import Detail2 from "./Components/DetailBlog/Detail2";
 import Detail3 from "./Components/DetailBlog/Detail3";
@@ -28,6 +27,9 @@ import ManageBooking from "./Components/Admin/ManageBooking/ManageBooking";
 import Booking from "./Components/BookingUser/Booking";
 import ManageService from "./Components/Admin/ManageService/ManageService";
 import BookingSuccess from "./Components/BookingSuccess/Bookingsuccess";
+import ManagePetUser from "./Components/ManagePet/ManagePetUser";
+import ManageBookingUser from "./Components/ManageBooking/ManageBookingUser";
+import Detail from "./Components/PetDetail/Detail";
 function App() {
   //1
   return (
@@ -66,6 +68,9 @@ function App() {
         <Route path="/profile" element={<Profile />} />
         <Route path="/managebooking" element={<ManageBooking />} />
         <Route path="/bookinguser" element={<Booking />} />
+        <Route path="/userpet" element={<ManagePetUser />} />
+        <Route path="/managebookinguser" element={<ManageBookingUser />} />
+        <Route path="/pet/:petId" element={<Detail />} />
       </Routes>
     </>
   );

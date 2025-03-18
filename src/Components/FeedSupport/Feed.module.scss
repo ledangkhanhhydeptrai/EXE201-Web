@@ -783,7 +783,7 @@
 .container {
   text-align: center;
   padding: 20px;
-  
+
 }
 
 .title {
@@ -850,6 +850,7 @@
     background: #c0392b;
   }
 }
+
 .overlay {
   position: fixed;
   top: 0;
@@ -869,7 +870,8 @@
   width: 400px;
   text-align: center;
 
-  input, select {
+  input,
+  select {
     width: 100%;
     margin: 10px 0;
     padding: 8px;
@@ -881,6 +883,7 @@
     cursor: pointer;
   }
 }
+
 .group {
   display: flex;
   flex-direction: column;
@@ -941,4 +944,53 @@ button:last-of-type {
   color: white;
 }
 
- 
+.popup-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 400px;
+  padding: 20px;
+
+  input,
+  textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+  }
+
+  textarea {
+    min-height: 80px;
+    resize: none;
+  }
+
+  .file-input {
+    background: #f8f9fa;
+    border: none;
+  }
+}
+
+.dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  padding: 10px 20px;
+  gap: 10px;
+}
+
+.create-button {
+  background: #ff4d4f;
+  color: white;
+
+  &:hover {
+    background: #d9363e;
+  }
+}
+
+.cancel-button {
+  background: #ccc;
+
+  &:hover {
+    background: #a6a6a6;
+  }
+}
