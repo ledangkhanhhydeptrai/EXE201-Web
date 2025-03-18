@@ -17,10 +17,6 @@ import FormTest from "./Components/FormTest/FormTest";
 import Login from "./Components/Login/Login";
 import Register from "./Components/Register/Register";
 import Blog from "./Components/Blog/Blog";
-import Detail1 from "./Components/DetailBlog/Detail1";
-import Detail2 from "./Components/DetailBlog/Detail2";
-import Detail3 from "./Components/DetailBlog/Detail3";
-import Detail4 from "./Components/DetailBlog/Detail4";
 import Post from "./Components/BlogPost/Post";
 import Profile from "./Components/Profile/Profile";
 import ManageBooking from "./Components/Admin/ManageBooking/ManageBooking";
@@ -55,10 +51,6 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/blog" element={<Blog />} />
-        <Route path="/detailblog/1" element={<Detail1 />} />
-        <Route path="/detailblog/2" element={<Detail2 />} />
-        <Route path="/detailblog/3" element={<Detail3 />} />
-        <Route path="/detailblog/4" element={<Detail4 />} />
         <Route path="/post" element={<Post />} />
         <Route path="/pet1" element={<ManagePet />} />
         <Route path="/user1" element={<ManageUser />} />

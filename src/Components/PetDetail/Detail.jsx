@@ -176,9 +176,6 @@ const Detail = () => {
           <strong>Tuổi:</strong> {petDetail.age} tháng
         </Typography>
         <div className={styles.buttonContainer}>
-          <Button variant="contained" className={styles.adoptButton}>
-            Nhận Nuôi
-          </Button>
           <Button
             variant="contained"
             className={styles.updateButton}
@@ -262,32 +259,7 @@ const Detail = () => {
           </Button>
         </DialogActions>
       </Dialog>
-      {/* {selectedPet && (
-        <div className={styles.petDetail}>
-          <h2>Thông tin chi tiết</h2>
-          <p>
-            <strong>Tên:</strong> {selectedPet?.petName}
-          </p>
-          <p>
-            <strong>Loại:</strong> {selectedPet?.petTypeEnum}
-          </p>
-          <p>
-            <strong>Giới tính:</strong> {selectedPet?.petGenderEnum}
-          </p>
-          <p>
-            <strong>Tuổi:</strong> {selectedPet?.age} tháng
-          </p>
-          <button className={styles.adoptButton}>Nhận Nuôi</button>
-          <button
-            className={styles.updateButton}
-            onClick={() => UpdateFeed(selectedPet)}
-          >
-            Cập Nhật
-          </button>
-          
-        </div>
-      )} */}
-      <Footer/>
+      <Footer />
     </>
   );
 };
