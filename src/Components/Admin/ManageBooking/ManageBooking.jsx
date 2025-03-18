@@ -29,7 +29,7 @@ export default function ManageBooking() {
         );
 
         if (response.status >= 200 && response.status < 300) {
-          console.log("API Response:", response.data);
+          console.log("API Response:", response.data.data);
           setData(response.data.data);
         }
       } catch (error) {
@@ -39,7 +39,7 @@ export default function ManageBooking() {
 
     fetchData();
   });
-
+  /* Làm nút detail */
   return (
     <>
       <Sidebar />
@@ -90,9 +90,6 @@ export default function ManageBooking() {
                   petTypeEnum
                 </TableCell>
                 <TableCell className={styles.tableCell} align="center">
-                  petTypeEnum
-                </TableCell>
-                <TableCell className={styles.tableCell} align="center">
                   petGenderEnum
                 </TableCell>
                 <TableCell className={styles.tableCell} align="center">
@@ -116,7 +113,7 @@ export default function ManageBooking() {
               {data.map((row) => (
                 <TableRow key={row.userName} className={styles.tableRow}>
                   <TableCell component="th" scope="row" align="center">
-                    {row.bookingId}
+                    {row.bookinId}
                   </TableCell>
                   <TableCell align="center">{row.bookingDate}</TableCell>
                   <TableCell align="center">{row.bookingStatus}</TableCell>
@@ -128,23 +125,28 @@ export default function ManageBooking() {
                   <TableCell align="center">{row.serviceName}</TableCell>
                   <TableCell align="center">{row.price}</TableCell>
                   <TableCell align="center">{row.serviceDescription}</TableCell>
-                  <TableCell align="center">{row.imageService}</TableCell>
+                  <TableCell align="center">
+                    <img
+                      src={row.imageService}
+                      alt=""
+                      style={{ width: "90%" }}
+                    />
+                  </TableCell>
                   <TableCell align="center">{row.petName}</TableCell>
                   <TableCell align="center">{row.petTypeEnum}</TableCell>
                   <TableCell align="center">{row.petGenderEnum}</TableCell>
                   <TableCell align="center">
-                    <img src={row.petImage} alt="" />
+                    <img src={row.petImage} alt="" style={{ width: "90%" }} />
                   </TableCell>
                   <TableCell align="center">{row.age}</TableCell>
                   <TableCell align="center">{row.notes}</TableCell>
                   <TableCell align="center">{row.paymentMethodEnum}</TableCell>
-                  <TableCell align="center">{row.createdAt}</TableCell>
+                  <TableCell align="center">{row.createAt}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
           </Table>
         </TableContainer>
-        Làm nút detail 
       </div>
     </>
   );

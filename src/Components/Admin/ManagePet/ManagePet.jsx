@@ -10,81 +10,92 @@ import {
   TableHead,
   TableRow
 } from "@mui/material";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 export default function ManagePet() {
-  function createData(name, calories, fat, carbs, protein) {
-    return { name, calories, fat, carbs, protein };
-  }
+  const [data, setData] = useState([]);
+  const token = localStorage.getItem("jwt");
 
-  const rows = [
-    createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
-    createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
-    createData("Eclair", 262, 16.0, 24, 6.0),
-    createData("Cupcake", 305, 3.7, 67, 4.3),
-    createData("Gingerbread", 356, 16.0, 49, 3.9)
-  ];
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          `https://bookingpetservice.onrender.com/api/pets/v1/getPetListOfUser`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          }
+        );
+        if (response.status >= 200 && response.status < 300) {
+          setData(response.data.data);
+        } else {
+          throw new Error("Failed to fetch data");
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchData();
+  }, [token]);
 
   return (
     <>
       <Sidebar />
       <Header />
       <div className={styles.container}>
-        <TableContainer
-          component={Paper}
-          sx={{
-            borderRadius: "12px",
-            boxShadow: "0 4px 10px rgba(0,0,0,0.1)",
-            overflow: "hidden"
-          }}
-        >
-          <Table sx={{ minWidth: 650 }} aria-label="simple table">
+        <TableContainer component={Paper} className={styles.tableContainer}>
+          <Table className={styles.table} aria-label="pet table">
             <TableHead>
-              <TableRow sx={{ backgroundColor: "#f50057" }}>
-                <TableCell sx={{ color: "#fff", fontWeight: "bold" }}>
-                  Dessert (100g serving)
+              <TableRow className={styles.tableHeader}>
+                <TableCell className={styles.headerCell}>Pet Id</TableCell>
+                <TableCell className={styles.headerCell} align="center">
+                  Pet Name
                 </TableCell>
-                <TableCell
-                  sx={{ color: "#fff", fontWeight: "bold" }}
-                  align="right"
-                >
-                  Calories
+                <TableCell className={styles.headerCell} align="center">
+                  Pet Type Enum
                 </TableCell>
-                <TableCell
-                  sx={{ color: "#fff", fontWeight: "bold" }}
-                  align="right"
-                >
-                  Fat&nbsp;(g)
+                <TableCell className={styles.headerCell} align="center">
+                  Pet Gender Enum
                 </TableCell>
-                <TableCell
-                  sx={{ color: "#fff", fontWeight: "bold" }}
-                  align="right"
-                >
-                  Carbs&nbsp;(g)
+                <TableCell className={styles.headerCell} align="center">
+                  Image
                 </TableCell>
-                <TableCell
-                  sx={{ color: "#fff", fontWeight: "bold" }}
-                  align="right"
-                >
-                  Protein&nbsp;(g)
+                <TableCell className={styles.headerCell} align="center">
+                  Notes
+                </TableCell>
+                <TableCell className={styles.headerCell} align="center">
+                  Age
                 </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows.map((row) => (
-                <TableRow
-                  key={row.name}
-                  sx={{
-                    "&:last-child td, &:last-child th": { border: 0 },
-                    "&:hover": { backgroundColor: "#ffe6ea", cursor: "pointer" }
-                  }}
-                >
-                  <TableCell component="th" scope="row">
-                    {row.name}
+              {data.map((row, index) => (
+                <TableRow key={index} className={styles.tableRow}>
+                  <TableCell className={styles.cell}>{row.petId}</TableCell>
+                  <TableCell className={styles.cell} align="center">
+                    {row.petName}
                   </TableCell>
-                  <TableCell align="right">{row.calories}</TableCell>
-                  <TableCell align="right">{row.fat}</TableCell>
-                  <TableCell align="right">{row.carbs}</TableCell>
-                  <TableCell align="right">{row.protein}</TableCell>
+                  <TableCell className={styles.cell} align="center">
+                    {row.petTypeEnum}
+                  </TableCell>
+                  <TableCell className={styles.cell} align="center">
+                    {row.petGenderEnum}
+                  </TableCell>
+                  <TableCell className={styles.cell} align="center">
+                    <img
+                      className={styles.petImage}
+                      src={row.imagePetBase64}
+                      alt="Pet"
+                    />
+                  </TableCell>
+                  <TableCell className={styles.cell} align="center">
+                    {row.notes}
+                  </TableCell>
+                  <TableCell className={styles.cell} align="center">
+                    {row.age}
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
