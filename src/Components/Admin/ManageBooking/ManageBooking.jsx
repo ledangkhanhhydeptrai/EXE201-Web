@@ -144,6 +144,7 @@ export default function ManageBooking() {
             </TableBody>
           </Table>
         </TableContainer>
+        Làm nút detail 
       </div>
     </>
   );

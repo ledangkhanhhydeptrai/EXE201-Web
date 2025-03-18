@@ -10,7 +10,8 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  Modal
+  Modal,
+  Button
 } from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -106,6 +107,7 @@ const handleDelete = async (serviceId) => {
     <>
       <Sidebar />
       <Header />
+      <Button variant="contained" color="primary" >Create</Button>
       <div className={styles.container}>
         <TableContainer
           component={Paper}
@@ -160,6 +162,7 @@ const handleDelete = async (serviceId) => {
                     <button onClick={() => handleOpen(row)}>Edit</button>
                     <button onClick={() => handleDelete(row.serviceId)}>Delete</button>
                   </TableCell>
+                  nút bấm detail để hiển thị ra trang detail
                 </TableRow>
               ))}
             </TableBody>

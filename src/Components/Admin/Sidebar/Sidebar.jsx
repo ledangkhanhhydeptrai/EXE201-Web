@@ -39,6 +39,12 @@ export default function Sidebar() {
               Booking
             </Link>
           </li>
+          <li>
+            <Link to="/manage-service" className={styles.navLink}>
+              <FontAwesomeIcon icon={faPaw} className={styles.icon} /> Manage
+              Service
+            </Link>
+          </li>
           <li />
         </ul>
       </div>
