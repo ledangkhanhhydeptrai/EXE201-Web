@@ -86,6 +86,7 @@ export default function Register() {
                   type="text"
                   placeholder="userName"
                   onChange={formik.handleChange}
+                  name="name"
                   onBlur={formik.handleBlur}
                   value={formik.values.name}
                 />
@@ -107,6 +108,7 @@ export default function Register() {
                   type="password"
                   placeholder="Password"
                   onChange={formik.handleChange}
+                  name="password"
                   onBlur={formik.handleBlur}
                   value={formik.values.password}
                 />
