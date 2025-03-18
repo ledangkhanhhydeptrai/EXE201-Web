@@ -1,45 +1,50 @@
 .container {
+  padding: 20px;
   display: flex;
   justify-content: center;
-  margin-left: 270px;
-  margin-top: 1px;
+  margin-left: 230px;
 }
 
 .tableContainer {
+  max-width: 95%;
   border-radius: 12px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   overflow: hidden;
-  width: 100%;
 }
 
 .table {
-  min-width: 800px;
-  border-collapse: collapse;
+  min-width: 1200px;
+  background-color: #fff;
 }
 
 .tableHead {
-  background-color: #f50057;
+  background-color: #f44336;
 }
 
 .tableCell {
   font-weight: bold;
-  color: white;
-  text-align: center !important;
+  color: white !important;
+  text-align: center;
+  padding: 10px;
 }
 
 .tableRow {
+  transition: all 0.3s ease-in-out;
+
   &:nth-child(even) {
-    background-color: #f8f8f8;
+    background-color: #f9f9f9;
   }
 
   &:hover {
-    background-color: #ffe0e6;
+    background-color: #ffebee;
   }
 }
 
-.avatar {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
+.tableCell img {
+  width: 50px;
+  height: 50px;
+  border-radius: 8px;
   object-fit: cover;
+  display: block;
+  margin: auto;
 }
