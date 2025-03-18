@@ -1,68 +1,90 @@
 .container {
-  width: 100%;
-  margin: 100px auto;
-  padding: 30px;
-  background-color: #fff;
+  max-width: 800px;
+  margin: 50px auto;
+  background: #ffffff;
+  padding: 20px;
   border-radius: 12px;
-  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-  text-align: center;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease-in-out;
+
+  &:hover {
+    box-shadow: 0px 6px 14px rgba(0, 0, 0, 0.15);
+  }
 }
 
 .header {
-  font-size: 28px;
+  text-align: center;
+  font-size: 1.8rem;
   font-weight: bold;
+  color: #333;
   margin-bottom: 20px;
-  color: #ff6b6b;
 }
 
 .petImage {
   width: 100%;
-  max-width: 300px;
-  height: auto;
-  border-radius: 10px;
-  margin-bottom: 20px;
+  max-height: 450px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin: 0 auto 15px;
 }
 
 .petInfo {
-  font-size: 18px;
-  color: #444;
+  font-size: 1.1rem;
+  color: #555;
   margin-bottom: 10px;
+  text-align: center;
+
+  strong {
+    color: #222;
+  }
 }
 
 .buttonContainer {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
   margin-top: 20px;
 }
 
-.adoptButton {
-  background-color: #ff6b6b !important;
-  color: white !important;
-  font-weight: bold !important;
-  border-radius: 8px !important;
-  padding: 10px 20px !important;
-  transition: 0.3s;
-}
+.updateButton {
+  background-color: #ff5722;
+  color: white;
+  font-weight: bold;
+  padding: 10px 15px;
+  border-radius: 8px;
+  transition: all 0.3s;
 
-.adoptButton:hover {
-  background-color: #ff4f4f !important;
+  &:hover {
+    background-color: #e64a19;
+  }
 }
 
 .backButton {
-  margin-left: 10px;
-  font-weight: bold !important;
-  border-radius: 8px !important;
-  padding: 10px 20px !important;
-  transition: 0.3s;
-}
-
-.backButton:hover {
-  background-color: #ffe0e0 !important;
-}
-
-.updateButton {
-  background-color: #ff9800;
-  color: white;
+  border: 2px solid #ff5722;
+  color: #ff5722;
+  font-weight: bold;
+  padding: 10px 15px;
+  border-radius: 8px;
+  transition: all 0.3s;
 
   &:hover {
-    background-color: #e68900;
+    background-color: #ff5722;
+    color: white;
   }
+}
+
+.dialog {
+  .MuiDialog-paper {
+    padding: 20px;
+    border-radius: 12px;
+  }
+}
+
+.inputField {
+  margin-bottom: 15px;
+}
+
+.fileInput {
+  display: block;
+  margin-top: 10px;
 }
