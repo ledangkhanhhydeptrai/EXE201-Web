@@ -2,6 +2,7 @@ import styles from "./ManageBooking.module.scss";
 import Sidebar from "../Sidebar/Sidebar";
 import Header from "../HeaderAdmin/Header";
 import {
+  Button,
   Paper,
   Table,
   TableBody,
@@ -12,7 +13,6 @@ import {
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import axios from "axios";
-
 export default function ManageBooking() {
   const [data, setData] = useState([]);
   const token = localStorage.getItem("jwt");
@@ -36,7 +36,6 @@ export default function ManageBooking() {
         console.error("Error fetching data:", error);
       }
     };
-
     fetchData();
   });
   /* Làm nút detail */
@@ -44,6 +43,23 @@ export default function ManageBooking() {
     <>
       <Sidebar />
       <Header />
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          marginTop: "50px",
+          marginBottom: "50px"
+        }}
+      >
+        <Button
+          variant="contained"
+          color="primary"
+        >
+          Create
+        </Button>
+      </div>
+
       <div className={styles.container}>
         <TableContainer component={Paper} className={styles.tableContainer}>
           <Table className={styles.table} aria-label="user table">
@@ -107,6 +123,12 @@ export default function ManageBooking() {
                 <TableCell className={styles.tableCell} align="center">
                   createAt
                 </TableCell>
+                <TableCell className={styles.tableCell} align="center">
+                  Update
+                </TableCell>
+                <TableCell className={styles.tableCell} align="center">
+                  Delete
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -142,6 +164,16 @@ export default function ManageBooking() {
                   <TableCell align="center">{row.notes}</TableCell>
                   <TableCell align="center">{row.paymentMethodEnum}</TableCell>
                   <TableCell align="center">{row.createAt}</TableCell>
+                  <TableCell align="center">
+                    <Button variant="contained" color="primary">
+                      Update
+                    </Button>
+                  </TableCell>
+                  <TableCell align="center">
+                    <Button variant="contained" color="primary">
+                      Delete
+                    </Button>
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>

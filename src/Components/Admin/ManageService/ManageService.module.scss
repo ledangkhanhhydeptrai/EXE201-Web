@@ -1,19 +1,10 @@
-// ManageService.module.scss
-
 .container {
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-left: 260px;
+    margin-top: -13px;
+    margin-left: 250px;
 }
 
 .tableContainer {
-    border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
     width: 100%;
-    max-width: 1200px;
 }
 
 .tableHeader {
@@ -117,5 +108,54 @@
                 background-color: #c51162;
             }
         }
+    }
+}
+
+.createButtonContainer {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+.dialogTitle {
+    text-align: center;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.formContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 10px;
+    width: 320px;
+
+    label {
+        font-weight: bold;
+        font-size: 14px;
+        color: #444;
+    }
+
+    input {
+        width: 100%;
+        padding: 10px;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        font-size: 16px;
+        transition: all 0.3s ease-in-out;
+
+        &:focus {
+            border-color: #007bff;
+            outline: none;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        }
+    }
+
+    button {
+        margin-top: 15px;
+        padding: 10px;
+        font-size: 16px;
+        font-weight: bold;
+        text-transform: uppercase;
     }
 }

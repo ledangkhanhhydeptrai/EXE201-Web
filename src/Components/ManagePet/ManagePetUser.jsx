@@ -15,7 +15,7 @@ import Footer from "../../Footer/Footer";
 /* Danh sách thú cưng của bạn copy trang feed qua trang managepetUser
    Trang danh sách thú cưng đổi thành cái nhận nuôi
 */
-export default function Feed() {
+export default function ManagepetUser() {
   const [selectedPet] = useState(null);
   const [data, setData] = useState([]);
   const token = localStorage.getItem("jwt");

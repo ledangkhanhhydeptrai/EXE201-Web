@@ -10,6 +10,7 @@ const ManageBookingUser = () => {
     <div className="container-fluid">
       <div className={styles.app}>
         <Header />
+        
       </div>
     </div>
   );
