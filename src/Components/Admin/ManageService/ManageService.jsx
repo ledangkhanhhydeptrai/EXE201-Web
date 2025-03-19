@@ -125,7 +125,7 @@ export default function ManageService() {
           }
         }
       );
-      setServiceRows(response.data.data);
+      setServiceRows(response.data.data.sort((a, b) => a.id - b.id));
     };
     fetchService();
   }, []);
