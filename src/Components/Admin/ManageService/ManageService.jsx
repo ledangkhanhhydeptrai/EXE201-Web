@@ -1,4 +1,3 @@
-// import React from "react";
 import styles from "./ManageService.module.scss";
 import Sidebar from "../Sidebar/Sidebar";
 import Header from "../HeaderAdmin/Header";
@@ -11,7 +10,10 @@ import {
   TableHead,
   TableRow,
   Modal,
-  Button
+  Button,
+  Dialog,
+  DialogTitle,
+  DialogContent
 } from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -19,6 +21,17 @@ export default function ManageService() {
   const [serviceRows, setServiceRows] = useState([]);
   const [open, setOpen] = useState(false);
   const [currentService, setCurrentService] = useState(null);
+  const [serviceNAme, setServiceNAme] = useState("");
+  const [description, setDescription] = useState("");
+  const [price, setPrice] = useState(0);
+  const [openCreate, setOpenCreate] = useState(false);
+  const handleOpenCreate = () => {
+    setOpenCreate(true);
+  };
+
+  const handleCloseCreate = () => {
+    setOpenCreate(false);
+  };
   const handleOpen = (service) => {
     setCurrentService(service);
     setOpen(true);
@@ -116,19 +129,83 @@ export default function ManageService() {
     };
     fetchService();
   }, []);
-
+  const handleCreate = async () => {
+    const formData = new FormData();
+    formData.append("serviceName", serviceNAme);
+    formData.append("description", description);
+    formData.append("price", price);
+    try {
+      const response = await axios.post(
+        `https://bookingpetservice.onrender.com/api/service/v1/createService`,
+        {
+          formData
+        },
+        {
+          headers: {
+            "Content-Type": "multipart/form-data"
+          }
+        }
+      );
+      if (response.status >= 200 && response.status < 300) {
+        setServiceRows([...serviceRows, response.data.data]);
+        alert("Create service successfully");
+      } else {
+        throw new Error(`HTTP Status:${response.status}`);
+      }
+    } catch (error) {
+      console.error("Error creating service:", error);
+    }
+  };
   return (
     <>
       <Sidebar />
       <Header />
-      <div
-        style={{ display: "flex", justifyContent: "center", margin: "20px 0" }}
-      >
-        <Button variant="contained" color="primary">
+      <div className={styles.createButtonContainer}>
+        <Button variant="contained" color="primary" onClick={handleOpenCreate}>
           Create
         </Button>
-      </div>
 
+        <Dialog open={openCreate} onClose={handleCloseCreate}>
+          <DialogTitle className={styles.dialogTitle}>
+            Tạo dịch vụ cho thú cưng
+          </DialogTitle>
+          <DialogContent>
+            <div className={styles.formContainer}>
+              <label htmlFor="serviceName">Service Name</label>
+              <input
+                type="text"
+                placeholder="Enter a service name"
+                value={serviceNAme}
+                onChange={(e) => setServiceNAme(e.target.value)}
+              />
+
+              <label htmlFor="description">Description</label>
+              <input
+                type="text"
+                placeholder="Enter a description"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+              />
+
+              <label htmlFor="price">Price</label>
+              <input
+                type="number"
+                placeholder="Enter a price"
+                value={price}
+                onChange={(e) => setPrice(e.target.value)}
+              />
+
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleCreate}
+              >
+                Submit
+              </Button>
+            </div>
+          </DialogContent>
+        </Dialog>
+      </div>
       <div className={styles.container}>
         <TableContainer
           component={Paper}
