@@ -61,6 +61,9 @@ export default function ManageUser() {
             <TableHead>
               <TableRow className={styles.tableHead}>
                 <TableCell className={styles.tableCell} align="center">
+                  userId
+                </TableCell>
+                <TableCell className={styles.tableCell} align="center">
                   Username
                 </TableCell>
                 <TableCell className={styles.tableCell} align="center">
@@ -87,8 +90,9 @@ export default function ManageUser() {
               {data.map((row, index) => (
                 <TableRow key={index} className={styles.tableRow}>
                   <TableCell component="th" scope="row" align="center">
-                    {row.userName}
+                    {row.userId}
                   </TableCell>
+                  <TableCell align="center">{row.userName}</TableCell>
                   <TableCell align="center">{row.email}</TableCell>
                   <TableCell align="center">{row.phone}</TableCell>
                   <TableCell align="center">{row.address}</TableCell>
