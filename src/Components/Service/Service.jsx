@@ -49,14 +49,14 @@ const Service = () => {
                   <div className={styles.serviceInfo}>
                     <h3>{service.serviceName}</h3>
                     <p>{service.description}</p>
-                    <button
+                    {/* <button
                       className={`${styles.bookNow} ${
                         styles[service.buttonColor]
                       }`}
                       onClick={() => navigate("/booking")}
                     >
                       Book now
-                    </button>
+                    </button> */}
                   </div>
                 </div>
               ))}
