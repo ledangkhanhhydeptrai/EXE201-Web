@@ -74,7 +74,7 @@ const Blog = () => {
                   style={{
                     marginTop: "-24px",
                     marginLeft: "73px",
-                    color: "#886750",
+                    color: "#886750"
                   }}
                 >
                   Himi
@@ -109,7 +109,7 @@ const Blog = () => {
                   style={{
                     marginTop: "-24px",
                     marginLeft: "73px",
-                    color: "#886750",
+                    color: "#886750"
                   }}
                 >
                   Bao Khanh
@@ -119,7 +119,7 @@ const Blog = () => {
                 </p>
               </p>
               <a href="/detailBlog/1" className={styles.mainDay}>
-                Nên Nuôi Mèo Đực Hay Mèo Cái: Tư Vấn Cho Người Mới Nuôi Mèo
+                Vì Sao Chúng Tôi Thành Lập Dịch Vụ Chăm Sóc Thú Cưng Này?
               </a>
             </div>
             <div className={styles.titles}>
@@ -129,17 +129,17 @@ const Blog = () => {
                   style={{
                     marginTop: "-24px",
                     marginLeft: "73px",
-                    color: "#886750",
+                    color: "#886750"
                   }}
                 >
                   Phuc Hung
                 </p>
-                <p style={{ marginTop: "-41px", marginLeft: "160px" }}>
+                <p style={{ marginTop: "-41px", marginLeft: "160px" }}>+
                   | ngày 4 tháng 2 năm 2025
                 </p>
               </p>
               <a href="/detailBlog/2" className={styles.mainDay}>
-                Dấu Hiệu Bệnh Tiểu Đường Ở Chó
+                Khách Hàng Nói Gì Về Chúng Tôi? – Những Lời Chia Sẻ Đáng Yêu
               </a>
             </div>
             <div className={styles.titles1}>
@@ -149,7 +149,7 @@ const Blog = () => {
                   style={{
                     marginTop: "-24px",
                     marginLeft: "73px",
-                    color: "#886750",
+                    color: "#886750"
                   }}
                 >
                   Bao Khanh
@@ -159,7 +159,7 @@ const Blog = () => {
                 </p>
               </p>
               <a href="/detailBlog/3" className={styles.mainDay}>
-                Những Cách Khắc Phục Chó Lười Ăn
+                Dấu Hiệu Nhận Biết Thú Cưng Đang Bị Căng Thẳng{" "}
               </a>
             </div>
             <div className={styles.titles1}>
@@ -169,7 +169,7 @@ const Blog = () => {
                   style={{
                     marginTop: "-24px",
                     marginLeft: "73px",
-                    color: "#886750",
+                    color: "#886750"
                   }}
                 >
                   Khanh Hung
@@ -179,8 +179,7 @@ const Blog = () => {
                 </p>
               </p>
               <a href="/detailBlog/4" className={styles.mainDay}>
-                So sánh mèo Anh lông ngắn và mèo Anh lông dài: Bạn nên chọn nuôi
-                giống nào?
+                Thực Đơn Ăn Uống Khoa Học Cho Chó Mèo
               </a>
             </div>
           </div>
