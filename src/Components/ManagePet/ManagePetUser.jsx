@@ -84,7 +84,7 @@ export default function ManagepetUser() {
         }
       );
 
-      if (response.status >= 200 && response.status < 300) {
+      if (response.status === 201) {
         setData([...data, response.data.data]);
         setShowForm(false);
       }
@@ -168,18 +168,19 @@ export default function ManagepetUser() {
             value={petName}
             onChange={(e) => setPetName(e.target.value)}
           />
-          <input
-            type="text"
-            placeholder="Loại thú cưng"
-            value={petType}
-            onChange={(e) => setPetType(e.target.value)}
-          />
-          <input
-            type="text"
-            placeholder="Giới tính"
+          <select value={petType} onChange={(e) => setPetType(e.target.value)}>
+            <option value="">Chọn loại thú cưng</option>
+            <option value="CAT">CAT</option>
+            <option value="DOG">DOG</option>
+          </select>
+          <select
             value={petGender}
             onChange={(e) => setPetGender(e.target.value)}
-          />
+          >
+            <option value="">Chọn Giới Tính</option>
+            <option value="MALE">MALE</option>
+            <option value="FEMALE">FEMALE</option>
+          </select>
           <input
             type="number"
             placeholder="Tuổi"

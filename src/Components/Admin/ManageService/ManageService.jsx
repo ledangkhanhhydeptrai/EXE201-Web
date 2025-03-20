@@ -25,6 +25,7 @@ export default function ManageService() {
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState(0);
   const [openCreate, setOpenCreate] = useState(false);
+  const [file, setFile] = useState(null);
   const handleOpenCreate = () => {
     setOpenCreate(true);
   };
@@ -125,7 +126,9 @@ export default function ManageService() {
           }
         }
       );
-      setServiceRows(response.data.data.sort((a, b) => a.id - b.id));
+      setServiceRows(
+        response.data.data.sort((a, b) => a.serviceId - b.serviceId)
+      );
     };
     fetchService();
   }, []);
@@ -134,14 +137,16 @@ export default function ManageService() {
     formData.append("serviceName", serviceNAme);
     formData.append("description", description);
     formData.append("price", price);
+    if (file) {
+      formData.append("file", file);
+    }
     try {
       const response = await axios.post(
         `https://bookingpetservice.onrender.com/api/service/v1/createService`,
-        {
-          formData
-        },
+        formData,
         {
           headers: {
+            Authorization: `Bearer ${localStorage.getItem("jwt")}`,
             "Content-Type": "multipart/form-data"
           }
         }
@@ -194,7 +199,12 @@ export default function ManageService() {
                 value={price}
                 onChange={(e) => setPrice(e.target.value)}
               />
-
+              <label htmlFor="price">File</label>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={(e) => setFile(e.target.files[0])}
+              />
               <Button
                 variant="contained"
                 color="primary"
@@ -266,9 +276,9 @@ export default function ManageService() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {serviceRows.map((row) => (
+              {serviceRows.map((row, index) => (
                 <TableRow
-                  key={row.serviceId}
+                  key={index}
                   sx={{
                     "&:last-child td, &:last-child th": { border: 0 },
                     "&:hover": { backgroundColor: "#ffe6ea", cursor: "pointer" }
