@@ -27,7 +27,7 @@ const BookingDetail = () => {
     const fetchDataById = async () => {
       try {
         const response = await axios.get(
-          `https://bookingpetservice.onrender.com/api/booking/v1/getBookingByIdByAdmin/${bookinId}`,
+          `https://bookingpetservice.onrender.com/api/booking/v1/getBookingDetailByIdByAdmin/${bookinId}`,
           {
             headers: { Authorization: `Bearer ${localStorage.getItem("jwt")}` }
           }
