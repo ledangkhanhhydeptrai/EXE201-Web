@@ -2,72 +2,77 @@ import styles from "./Register.module.scss";
 import img1 from "../../assets/z6314227807368_af67c8d227cb6907dc0782d924a25272.jpg";
 import img2 from "../../assets/z6313248080550_e24e0e2ac08e0ca8b0601d6979fe26c2.jpg";
 import { Link, useNavigate } from "react-router-dom";
-import * as Yup from "yup";
-import { useFormik } from "formik";
 import { useState } from "react";
 import axios from "axios";
 import { Button, Dialog, DialogContent, DialogTitle } from "@mui/material";
 export default function Register() {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
-  const validationSchema = Yup.object({
-    name: Yup.string().required("Required"),
-    email: Yup.string().email("Wrong email format").required("Required"),
-    phone: Yup.string()
-      .matches(/^\d{10,11}$/, "Phone Number is required")
-      .required("Required"),
-    password: Yup.string()
-      .min(6, "Password must be at least 6 characters")
-      .required("Required"),
-    confirmPassword: Yup.string().oneOf(
-      [Yup.ref("password"), null],
-      "Passwords must match"
-    ),
-    address: Yup.string().required("Required")
-  });
-  const formik = useFormik({
-    initialValues: {
-      name: "",
-      email: "",
-      password: "",
-      confirmPassword: "",
-      phone: "",
-      address: "",
-      imageUserfile: null
-    },
-    validationSchema,
-    onSubmit: async (values) => {
-      const formData = new FormData();
-      formData.append("name", values.name);
-      formData.append("userName", values.name);
-      formData.append("email", values.email);
-      formData.append("phone", values.phone);
-      formData.append("password", values.password);
-      formData.append("address", values.address);
-      if (values.imageUserfile) {
-        formData.append("imageUserfile", values.imageUserfile);
-      }
-      try {
-        const response = await axios.post(
-          `https://bookingpetservice.onrender.com/api/user/v1/signup`,
-          formData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data"
-            },
-            timeout: 10000
+  const [user_name_account, setUser_name_account] = useState("");
+  const [fullname, setFullname] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [address, setAddress] = useState("");
+  const [file, setFile] = useState(null);
+  const [errors, setErrors] = useState({});
+  const handleCreate = async (e) => {
+    e.preventDefault();
+    setErrors({});
+    if (password !== confirmPassword) {
+      setErrors((prev) => ({
+        ...prev,
+        confirmPassword: "Passwords do not match"
+      }));
+      return;
+    }
+    const formData = new FormData();
+    formData.append("user_name_account", user_name_account);
+    formData.append("fullname", fullname);
+    formData.append("email", email);
+    formData.append("phone", phone);
+    formData.append("password", password);
+    formData.append("address", address);
+    if (file) {
+      formData.append("file", file);
+    }
+    try {
+      const response = await axios.post(
+        `https://bookingpetservice.onrender.com/api/user/v1/signup`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data"
           }
-        );
-        console.log("Response data", response.data);
-        if (response.status >= 200 && response.status < 300) {
-          setOpen(true);
         }
-      } catch (error) {
-        console.error("Registration failed", error);
-        alert("Registration failed. Please try again.");
+      );
+      console.log("API Response:", response.data.data);
+      if (response.status >= 200 && response.status < 300) {
+        setOpen(true);
+      } else {
+        throw new Error(`HTTP Status:${response.status}`);
+      }
+    } catch (error) {
+      if (error.response) {
+        const { data } = error.response;
+        if (data.errors) {
+          const newErrors = {};
+          data.errors.forEach((err) => {
+            newErrors[err.field] = err.msg;
+          });
+        } else if (data.message) {
+          alert(`Error: ${data.message}`);
+        } else {
+          alert(`Error: ${JSON.stringify(data)}`);
+        }
+      } else if (error.request) {
+        alert("Server không phản hồi, vui lòng thử lại sau");
+      } else {
+        alert(`Unexpected Error:${error.message}`);
       }
     }
-  });
+  };
   return (
     <div className="container-fluid">
       <div className={styles.app}>
@@ -80,94 +85,74 @@ export default function Register() {
           </div>
           <div className={styles.mainTitle}>
             <p>Create Account</p>
-            <form className={styles.inputall} onSubmit={formik.handleSubmit}>
+            <form className={styles.inputall} onSubmit={handleCreate}>
               <div className={styles.column}>
                 <input
                   type="text"
-                  placeholder="userName"
-                  onChange={formik.handleChange}
-                  name="name"
-                  onBlur={formik.handleBlur}
-                  value={formik.values.name}
+                  placeholder="usernameaccount"
+                  onChange={(e) => setUser_name_account(e.target.value)}
+                  value={user_name_account}
                 />
-                {formik.touched.name && formik.errors.name && (
-                  <div className={styles.error}>{formik.errors.name}</div>
+                {errors.user_name_account && (
+                  <p className="error">{errors.user_name_account}</p>
                 )}
+                <input
+                  type="text"
+                  placeholder="Full Name"
+                  onChange={(e) => setFullname(e.target.value)}
+                  value={fullname}
+                />
+                {errors.fullname && <p className="error">{errors.fullname}</p>}
                 <input
                   type="email"
                   placeholder="Email"
-                  name="email"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  value={email}
                 />
-                {formik.touched.email && formik.errors.email && (
-                  <div className={styles.error}>{formik.errors.email}</div>
-                )}
+                {errors.email && <p className="error">{errors.email}</p>}
                 <input
                   type="password"
                   placeholder="Password"
-                  onChange={formik.handleChange}
-                  name="password"
-                  onBlur={formik.handleBlur}
-                  value={formik.values.password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  value={password}
                 />
-                {formik.touched.password && formik.errors.password && (
-                  <div className={styles.error}>{formik.errors.password}</div>
-                )}
+                {errors.password && <p className="error">{errors.password}</p>}
                 <input
                   type="file"
                   accept="image/*"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.imageUserfile}
+                  onChange={(e) => setFile(e.target.files[0])}
                 />
-                {formik.touched.imageUserfile &&
-                  formik.errors.imageUserfile && (
-                    <div className={styles.error}>
-                      {formik.errors.imageUserfile}
-                    </div>
-                  )}
+                {errors.file && <p className={styles.error}>{errors.file}</p>}
               </div>
               <div className={styles.column}>
                 <input
                   type="tel"
                   placeholder="Phone Number"
                   name="phone"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  value={phone}
                 />
-                {formik.touched.phone && formik.errors.phone && (
-                  <div className={styles.error}>{formik.errors.phone}</div>
-                )}
-
+                {errors.phone && <p className={styles.error}>{errors.phone}</p>}
                 <input
                   type="text"
                   placeholder="Address"
                   name="address"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.address}
+                  onChange={(e) => setAddress(e.target.value)}
+                  value={address}
                 />
-                {formik.touched.address && formik.errors.address && (
-                  <div className={styles.error}>{formik.errors.address}</div>
+                {errors.address && (
+                  <p className={styles.error}>{errors.address}</p>
                 )}
-
                 <input
                   type="password"
                   placeholder="Confirm Password"
                   name="confirmpassword"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.confirmpassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  value={confirmPassword}
                 />
-                {formik.touched.confirmpassword &&
-                  formik.errors.confirmpassword && (
-                    <div className={styles.error}>
-                      {formik.errors.confirmpassword}
-                    </div>
-                  )}
+                {errors.confirmPassword && (
+                  <p className={styles.error}>{errors.confirmPassword}</p>
+                )}
               </div>
               <div className={styles.buttonall}>
                 <button>Create Account</button>
