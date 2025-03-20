@@ -13,32 +13,33 @@ import {
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 export default function ManageBooking() {
   const [data, setData] = useState([]);
   const token = localStorage.getItem("jwt");
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          `https://bookingpetservice.onrender.com/api/booking/v1/getAllBookingByAmind`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`
-            }
+  const navigate = useNavigate();
+  const fetchData = async () => {
+    try {
+      const response = await axios.get(
+        `https://bookingpetservice.onrender.com/api/booking/v1/getAllBookingByAmind`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
           }
-        );
-
-        if (response.status >= 200 && response.status < 300) {
-          console.log("API Response:", response.data.data);
-          setData(response.data.data);
         }
-      } catch (error) {
-        console.error("Error fetching data:", error);
+      );
+
+      if (response.status >= 200 && response.status < 300) {
+        console.log("API Response:", response.data.data);
+        setData(response.data.data);
       }
-    };
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+  useEffect(() => {
     fetchData();
   });
-  /* Làm nút detail */
   return (
     <>
       <Sidebar />
@@ -87,11 +88,14 @@ export default function ManageBooking() {
                 <TableCell className={styles.tableCell} align="center">
                   Delete
                 </TableCell>
+                <TableCell align="center" className={styles.tableCell}>
+                  Detail
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {data.map((row) => (
-                <TableRow key={row.userName} className={styles.tableRow}>
+              {data.map((row, index) => (
+                <TableRow key={index} className={styles.tableRow}>
                   <TableCell component="th" scope="row" align="center">
                     {row.bookinId}
                   </TableCell>
@@ -109,6 +113,15 @@ export default function ManageBooking() {
                   <TableCell align="center">
                     <Button variant="contained" color="primary">
                       Delete
+                    </Button>
+                  </TableCell>
+                  <TableCell align="center">
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={() => navigate(`/managebooking/${row.bookinId}`)} // ✅ Thay thế đúng ID
+                    >
+                      Detail
                     </Button>
                   </TableCell>
                 </TableRow>

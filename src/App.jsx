@@ -26,6 +26,7 @@ import BookingSuccess from "./Components/BookingSuccess/Bookingsuccess";
 import ManagePetUser from "./Components/ManagePet/ManagePetUser";
 import ManageBookingUser from "./Components/ManageBooking/ManageBookingUser";
 import Detail from "./Components/PetDetail/Detail";
+import BookingDetail from "./Components/Admin/ManageBookingDetail/BookingDetail";
 function App() {
   //1
   return (
@@ -63,6 +64,7 @@ function App() {
         <Route path="/userpet" element={<ManagePetUser />} />
         <Route path="/managebookinguser" element={<ManageBookingUser />} />
         <Route path="/pet/:petId" element={<Detail />} />
+        <Route path="/managebooking/:bookinId" element={<BookingDetail />} />
       </Routes>
     </>
   );
