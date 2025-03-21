@@ -14,7 +14,7 @@ import img11 from "../../../public/statistics.svg";
 import img12 from "../../../public/sale.svg";
 import { useNavigate } from "react-router-dom";
 import Footer from "../../Footer/Footer";
-export default function Detail() {
+export default function BlogDetail() {
   const navigate = useNavigate();
   return (
     <div className="container-fluid">
@@ -32,7 +32,9 @@ export default function Detail() {
             Chuyển đến một môi trường mới có thể khiến thú cưng lo lắng. Hãy
             giúp bé thích nghi dễ dàng hơn!
           </p>
-          <button className={styles.readmore}>Đọc thêm {">"}</button>
+          <button className={styles.readmore}>
+            Đọc thêm <span className={styles.arrow}>&gt;</span>
+          </button>
           <img src={img1} alt="" />
         </div>
         <div className={styles.posts}>
@@ -167,10 +169,7 @@ export default function Detail() {
             các sen có thể chia sẻ kinh nghiệm, học hỏi mẹo chăm sóc thú cưng và
             kết nối với những người yêu động vật khác!
           </p>
-          <button
-            className={styles.joinnow}
-            onClick={() => navigate("/blog")}
-          >
+          <button className={styles.joinnow} onClick={() => navigate("/blog")}>
             Tham gia ngay
           </button>
         </div>
