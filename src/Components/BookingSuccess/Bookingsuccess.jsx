@@ -53,7 +53,7 @@ const BookingSuccess = () => {
       <p><strong>Dịch vụ:</strong> {bookingData?.serviceName}</p>
       <p><strong>Ngày đặt:</strong> {bookingData?.bookingDate}</p>
       <p><strong>Trạng thái:</strong> {bookingData?.bookingStatus}</p>
-      <p><strong>Giá:</strong> {bookingData?.price.toLocaleString()} VND</p>
+      {/* <p><strong>Giá:</strong> {bookingData?.price?.toLocaleString()} VND</p> */}
       <img src={bookingData?.imageService} alt="Dịch vụ" className={styles.image} />
 
       <div className={styles.buttonGroup}>

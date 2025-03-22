@@ -1,4 +1,5 @@
 import {
+  Button,
   Paper,
   Table,
   TableBody,
@@ -15,26 +16,41 @@ import axios from "axios";
 
 export default function ManageUser() {
   const [data, setData] = useState([]);
+  const fetchData = async () => {
+    try {
+      const response = await axios.get(
+        `https://bookingpetservice.onrender.com/api/user/getAllAccount`
+      );
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          `https://bookingpetservice.onrender.com/api/user/getAllAccount`
+      if (response.status >= 200 && response.status < 300) {
+        const sortedData = response.data.data.sort(
+          (a, b) => a.userId - b.userId
         );
-
-        if (response.status >= 200 && response.status < 300) {
-          console.log("API Response:", response.data); 
-          setData(response.data.data);
-        }
-      } catch (error) {
-        console.error("Error fetching data:", error);
+        console.log("API Response:", response.data);
+        setData(sortedData);
       }
-    };
-
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+  useEffect(() => {
     fetchData();
   }, []);
-
+  const handleToggleStatus = async (userId, isActive) => {
+    try {
+      const url = isActive
+        ? `https://bookingpetservice.onrender.com/api/user/v1/banAccountById/${userId}
+`
+        : `https://bookingpetservice.onrender.com/api/user/v1/unBanAccountById/${userId}
+`;
+      const response = await axios.put(url);
+      if (response.status >= 200 && response.status < 300) {
+        fetchData();
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
   return (
     <>
       <Sidebar />
@@ -44,7 +60,12 @@ export default function ManageUser() {
           <Table className={styles.table} aria-label="user table">
             <TableHead>
               <TableRow className={styles.tableHead}>
-                <TableCell className={styles.tableCell}>Username</TableCell>
+                <TableCell className={styles.tableCell} align="center">
+                  userId
+                </TableCell>
+                <TableCell className={styles.tableCell} align="center">
+                  Username
+                </TableCell>
                 <TableCell className={styles.tableCell} align="center">
                   Email
                 </TableCell>
@@ -60,14 +81,18 @@ export default function ManageUser() {
                 <TableCell className={styles.tableCell} align="center">
                   Avatar
                 </TableCell>
+                <TableCell className={styles.tableCell} align="center">
+                  Actions
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {data.map((row) => (
-                <TableRow key={row.userName} className={styles.tableRow}>
+              {data.map((row, index) => (
+                <TableRow key={index} className={styles.tableRow}>
                   <TableCell component="th" scope="row" align="center">
-                    {row.userName}
+                    {row.userId}
                   </TableCell>
+                  <TableCell align="center">{row.userName}</TableCell>
                   <TableCell align="center">{row.email}</TableCell>
                   <TableCell align="center">{row.phone}</TableCell>
                   <TableCell align="center">{row.address}</TableCell>
@@ -86,6 +111,15 @@ export default function ManageUser() {
                       alt="Avatar"
                       className={styles.avatar}
                     />
+                  </TableCell>
+                  <TableCell align="center">
+                    <Button
+                      variant="contained"
+                      color={row.active ? "error" : "success"}
+                      onClick={() => handleToggleStatus(row.userId, row.active)}
+                    >
+                      {row.active ? "Ban" : "Unban"}
+                    </Button>
                   </TableCell>
                 </TableRow>
               ))}

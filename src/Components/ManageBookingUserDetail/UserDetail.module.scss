@@ -1,0 +1,73 @@
+.app {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #f8f9fa;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.container {
+  max-width: 800px;
+  margin-top: 20px;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 20px;
+  font-weight: bold;
+  color: #333;
+}
+
+.card {
+  padding: 20px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  background-color: #fff;
+}
+
+.imageContainer {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 15px;
+}
+
+.avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.infoGrid {
+  margin-top: 15px;
+}
+
+.petImageContainer {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.petImage {
+  width: 100%;
+  max-width: 300px;
+  border-radius: 10px;
+}
+
+.petHeader {
+  text-align: center;
+  font-weight: bold;
+  color: #555;
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.backButton {
+  font-size: 16px;
+  font-weight: bold;
+  text-transform: none;
+}

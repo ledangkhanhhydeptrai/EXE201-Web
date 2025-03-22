@@ -23,30 +23,46 @@ import img22 from "../assets/z6286238817714_22b773654830b930a1172bcee85aa526.jpg
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import axios from "axios";
-import { useLocation, useParams } from "react-router-dom";
+import { Navigate, useLocation, useNavigate, useParams } from "react-router-dom";
 import { useEffect } from "react";
 export default function Homepage() {
 
-  const params = useParams()
   const location = useLocation();
+  const navigate = useNavigate();
+  const queryParams = new URLSearchParams(location.search);
+
+  // Extract parameters
+  const params = {
+    code: queryParams.get("code"),
+    id: queryParams.get("id"),
+    cancel: queryParams.get("cancel"),
+    status: queryParams.get("status"),
+    orderCode: queryParams.get("orderCode"),
+  };
+
+  let isPaymentProccessed = false;
 
   useEffect(() => {
+    console.log("useEffec  t");
+    if(isPaymentProccessed === true ) return;
+    isPaymentProccessed = true;
     const handlePayment = async () => {
+      console.log(params?.status)
       if (params?.status !== null && params?.status !== undefined) {
         if (params.status == "PAID") {
-          alert("Thanh toán thành công")
-          const data = await axios.get(`https://bookingpetservice.onrender.com/api/payment/order?${location.search}`);
+          // alert("Thanh toán thành công")
+          const data = await axios.get(`https://bookingpetservice.onrender.com/api/payment/order${location.search}`);
           console.log("gui be thanh cong", data.data);
-
+          navigate("/success")
         } else {
           alert("Thanh toán không thành công")
-          const data = await axios.get(`https://bookingpetservice.onrender.com/api/payment/cancel?${location.search}`);
+          const data = await axios.get(`https://bookingpetservice.onrender.com/api/payment/cancel${location.search}`);
           console.log("gui be thanh cong", data.data);
         }
       }
     }
     handlePayment();
-  })
+  },[])
   return (
     <div className="container">
       <div className={styles.app}>

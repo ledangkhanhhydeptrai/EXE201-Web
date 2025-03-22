@@ -1,4 +1,55 @@
 .container {
-  width: 81%;
-  margin-left: 280px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-left: 250px;
+}
+
+.tableContainer {
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.table {
+  width: 100%;
+}
+
+.tableHeader {
+  background-color: #f50057 !important;
+}
+
+.headerCell {
+  color: white !important;
+  font-weight: bold !important;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.tableRow {
+  transition: background-color 0.3s ease-in-out;
+
+  &:nth-child(even) {
+    background-color: #fce4ec;
+  }
+
+  &:hover {
+    background-color: #ffebee;
+    cursor: pointer;
+  }
+}
+
+.cell {
+  padding: 12px;
+  text-align: center;
+  font-size: 14px;
+  color: #333;
+}
+
+.petImage {
+  width: 60px;
+  height: 60px;
+  border-radius: 8px;
+  object-fit: cover;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
