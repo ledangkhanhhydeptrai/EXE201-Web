@@ -54,7 +54,6 @@ export default function BlogDetail() {
                 bé cưng cảm thấy an toàn hơn.
               </p>
             </div>
-
             <div className={styles.imageSection}>
               <img src={img3} alt="Dog and Cat" className={styles.image} />
             </div>
@@ -69,7 +68,6 @@ export default function BlogDetail() {
                 mái hơn.
               </p>
             </div>
-
             <div className={styles.imageSection}>
               <img src={img4} alt="Dog and Cat" className={styles.image} />
             </div>
