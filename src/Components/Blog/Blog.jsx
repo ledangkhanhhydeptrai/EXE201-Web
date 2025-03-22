@@ -27,8 +27,14 @@ import img24 from "../../../public/arrowleft.svg";
 import img25 from "../../../public/arrowright.svg";
 import { Link, useNavigate } from "react-router-dom";
 import Footer from "../../Footer/Footer";
+import { useRef } from "react";
 const Blog = () => {
   const navigate = useNavigate();
+  const sectionRef = useRef(null);
+
+  const scrollToSection = () => {
+    sectionRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
   return (
     <div className="container-fluid">
       <div className={styles.app}>
@@ -46,16 +52,16 @@ const Blog = () => {
             <p className={styles.post}>
               Đăng bởi Tony | ngày 23 tháng 2 năm 2025
             </p>
-            <p className={styles.ours}>
+            {/* <p className={styles.ours}>
               Chúng tôi luôn tin rằng mỗi bé thú cưng khi đến với dịch vụ của
               mình không chỉ là khách hàng, mà còn là những người bạn nhỏ đáng
               yêu mà chúng tôi có cơ hội được chăm sóc. Và không gì hạnh phúc
               hơn khi nhận được những phản hồi tích cực từ các sen sau mỗi lần
               trải nghiệm dịch vụ tại đây!
-            </p>
+            </p> */}
             <button
               className={styles.dochieu}
-              onClick={() => navigate("/detailblog")}
+              onClick={() => scrollToSection()}
             >
               Đọc Thêm {">"}
             </button>
@@ -357,7 +363,7 @@ const Blog = () => {
               style={{ marginLeft: "80px", marginTop: "-10px" }}
             />
           </div>
-          <div className={styles.testimonials}>
+          <div className={styles.testimonials} ref={sectionRef}>
             <p className={styles.testimonials1}>TESTIMONIALs</p>
             <p className={styles.aboutus1}>
               Mọi Người Nói Gì Về Chúng Tôi? 🐾💬
@@ -399,7 +405,7 @@ const Blog = () => {
           </p>
           <button
             className={styles.joinnow}
-            onClick={() => navigate("/detailblog")}
+            onClick={() => navigate("/login")}
           >
             Tham gia ngay
           </button>

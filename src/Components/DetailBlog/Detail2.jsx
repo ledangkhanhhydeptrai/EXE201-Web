@@ -16,7 +16,7 @@ import { useNavigate } from "react-router-dom";
 import Footer from "../../Footer/Footer";
 import { useState, useEffect } from "react";
 import axios from "axios";
-// import * as cheerio from "cheerio";
+import * as cheerio from "cheerio";
 
 export default function Detail() {
   const navigate = useNavigate();
