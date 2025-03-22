@@ -262,9 +262,9 @@ const Book = () => {
 
       console.log("Response từ server:", response.data);
 
-      const data = response.data;
-      if (data.data.length > 0) {
-        setPets(data.data);
+      const data = response.data.data;
+      if (data.length > 0) {
+        setPets(data);
         setIsSelectPetPopupOpen(true);
       } else {
         setIsCreatePetPopupOpen(true);
