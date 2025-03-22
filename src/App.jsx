@@ -29,6 +29,10 @@ import Detail from "./Components/PetDetail/Detail";
 import BookingDetail from "./Components/Admin/ManageBookingDetail/BookingDetail";
 import UserDetail from "./Components/ManageBookingUserDetail/UserDetail";
 import BlogDetail from "./Components/DetailBlog/Detail";
+import Detail1 from "./Components/DetailBlog/Detail1";
+import Detail2 from "./Components/DetailBlog/Detail2";
+import Detail3 from "./Components/DetailBlog/Detail3";
+import Detail4 from "./Components/DetailBlog/Detail4";
 function App() {
   //1
   return (
@@ -69,6 +73,10 @@ function App() {
         <Route path="/managebooking/:bookinId" element={<BookingDetail />} />
         <Route path="/managebookinguser/:bookinId" element={<UserDetail />} />
         <Route path="/detailblog" element={<BlogDetail />} />
+        <Route path="/detailblog/1" element={<Detail1 />} />
+        <Route path="/detailblog/2" element={<Detail2 />} />
+        <Route path="/detailblog/3" element={<Detail3 />} />
+        <Route path="/detailblog/4" element={<Detail4 />} />
       </Routes>
     </>
   );

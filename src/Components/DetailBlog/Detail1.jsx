@@ -18,7 +18,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import * as cheerio from "cheerio";
 
-export default function Detail() {
+export default function Detail1() {
   const navigate = useNavigate();
   const [content, setContent] = useState("");
   useEffect(() => {
