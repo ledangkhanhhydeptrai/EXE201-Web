@@ -29,6 +29,7 @@ export default function ManagepetUser() {
   const isLoggedIn = Boolean(localStorage.getItem("jwt"));
   const [openPopUp, setOpenPopUp] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
+  const [isCreatePetApiFetching, setCreatePetApiFetching] = useState(false);
   const navigate = useNavigate();
   const handleClick = async () => {
     if (isLoggedIn) {
@@ -53,7 +54,7 @@ export default function ManagepetUser() {
         }
         console.log("API Response:", response.data.data);
       } catch (error) {
-        console.error("Lỗi tải dữ liệu:", error);
+        console.error("Lỗi tải dữ liệu:", error);     
       }
     };
 
@@ -73,6 +74,7 @@ export default function ManagepetUser() {
   formData.append("petAge", petAge);
   const handleCreate = async () => {
     try {
+      setCreatePetApiFetching(true);
       const response = await axios.post(
         "https://bookingpetservice.onrender.com/api/pets/v1/createPet",
         formData,
@@ -91,6 +93,7 @@ export default function ManagepetUser() {
     } catch (error) {
       console.error("Lỗi tạo thú cưng:", error);
     }
+    setCreatePetApiFetching(false);
   };
   const date = new Date().toDateString();
   return (
@@ -205,8 +208,8 @@ export default function ManagepetUser() {
           >
             Hủy
           </Button>
-          <Button className={styles["create-button"]} onClick={handleCreate}>
-            Xác nhận
+          <Button disabled={isCreatePetApiFetching} className={styles["create-button"]} onClick={handleCreate}>
+           {isCreatePetApiFetching? "Đang tạo" : "Xác nhận"} 
           </Button>
         </DialogActions>
       </Dialog>
