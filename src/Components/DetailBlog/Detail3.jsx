@@ -14,8 +14,37 @@ import img11 from "../../../public/statistics.svg";
 import img12 from "../../../public/sale.svg";
 import { useNavigate } from "react-router-dom";
 import Footer from "../../Footer/Footer";
-export default function BlogDetail() {
+import { useState, useEffect } from "react";
+import axios from "axios";
+import * as cheerio from "cheerio";
+
+export default function Detail3() {
   const navigate = useNavigate();
+  const [content, setContent] = useState("");
+  useEffect(() => {
+    const fetchContent = async () => {
+      try {
+        // Fetch full page HTML
+        const response = await axios.get(
+          "https://nongtraithucung.com/blogs/kien-thuc-the-gioi-pet/nhung-cach-khac-phuc-cho-luoi-an"
+        );
+        const htmlContent = response.data;
+
+        // Load HTML into cheerio
+        const $ = cheerio.load(htmlContent);
+
+        const articleContent = $(".box-article-detail").html(); // Change selector if needed
+
+        setContent(articleContent || "Không tìm thấy nội dung bài viết.");
+      } catch (error) {
+        console.error("Lỗi khi lấy nội dung:", error);
+        setContent("Lỗi khi tải nội dung bài viết.");
+      }
+    };
+
+    fetchContent();
+  }, []);
+
   return (
     <div className="container-fluid">
       <div className={styles.app}>
@@ -32,90 +61,26 @@ export default function BlogDetail() {
             Chuyển đến một môi trường mới có thể khiến thú cưng lo lắng. Hãy
             giúp bé thích nghi dễ dàng hơn!
           </p>
-          <button className={styles.readmore}>
-            Đọc thêm <span className={styles.arrow}>&gt;</span>
-          </button>
+          <button className={styles.readmore}>Đọc thêm {">"}</button>
           <img src={img1} alt="" />
         </div>
-        <div className={styles.posts}>
-          <p className={styles.post}>All posts</p>
-          <div className={styles.dividers} />
-          <div className={styles.container} onClick={() => navigate("/post")}>
-            <div className={styles.imageSection}>
-              <img src={img2} alt="Dog and Cat" className={styles.image} />
-            </div>
-            <div className={styles.textSection}>
-              <p className={styles.category}>STARTUP</p>
-              <h2 className={styles.title}>
-                Dấu Hiệu Nhận Biết Thú Cưng Đang Bị Căng Thẳng
-              </h2>
-              <p className={styles.description}>
-                Thú cưng cũng có thể bị stress! Hãy nhận diện dấu hiệu và giúp
-                bé cưng cảm thấy an toàn hơn.
-              </p>
-            </div>
-            <div className={styles.imageSection}>
-              <img src={img3} alt="Dog and Cat" className={styles.image} />
-            </div>
-            <div className={styles.textSection}>
-              <p className={styles.category}>Chăm Sóc Thú Cưng</p>
-              <h2 className={styles.title}>
-                Làm Sao Để Thú Cưng Không Bị Căng Thẳng Khi Đi Grooming?
-              </h2>
-              <p className={styles.description}>
-                Nhiều bé thú cưng cảm thấy lo lắng khi đi grooming. Dưới đây là
-                một số mẹo giúp các sen chuẩn bị tốt hơn để bé cảm thấy thoải
-                mái hơn.
-              </p>
-            </div>
-            <div className={styles.imageSection}>
-              <img src={img4} alt="Dog and Cat" className={styles.image} />
-            </div>
-            <div className={styles.textSection}>
-              <p className={styles.category}>Trải Nghiệm Khách Hàng</p>
-              <h2 className={styles.title}>Chuyện Của Bố Cún Đậu</h2>
-              <p className={styles.description}>
-                Chia sẻ của anh Hoàng – chủ bé Đậu “Từ Một Bé Cún Lông Xù Đến
-                Soái Ca Gọn Gàng”, một chú cún nghịch ngợm nhưng cực đáng yêu,
-                về trải nghiệm lần đầu tiên đi grooming.
-              </p>
-            </div>
-            <div className={styles.imageSection}>
-              <img src={img5} alt="Dog and Cat" className={styles.image} />
-            </div>
-            <div className={styles.textSection}>
-              <p className={styles.category}>Góc Thú Vị</p>
-              <h2 className={styles.title}>
-                Top 5 Giống Chó Phù Hợp Cho Người Ở Căn Hộ Chung Cư
-              </h2>
-              <p className={styles.description}>
-                Nếu bạn đang sống trong căn hộ nhưng vẫn muốn nuôi một bé cún,
-                hãy tham khảo 5 giống chó dưới đây!
-              </p>
-            </div>
-            <div className={styles.imageSection}>
-              <img src={img6} alt="Dog and Cat" className={styles.image} />
-            </div>
-            <div className={styles.textSection}>
-              <p className={styles.category}>Tin Tức & Khuyến Mãi</p>
-              <h2 className={styles.title}>
-                Tưng Bừng Ưu Đãi: Giảm 20% Cho Dịch Vụ Grooming Trong Tháng Này!
-              </h2>
-              <p className={styles.description}>
-                Tin vui cho các sen! Hãy tận dụng ngay chương trình giảm giá cực
-                hấp dẫn dành cho tất cả dịch vụ grooming trong tháng này.
-              </p>
-            </div>
-            <div className={styles.arrow1}>
-              <img src={img7} alt="" />
-              <img
-                src={img8}
-                alt=""
-                style={{ marginLeft: "110px", marginTop: "-60px" }}
-              />
-            </div>
-          </div>
-        </div>
+
+        <h1
+          style={{
+            marginTop: "40px",
+            paddingLeft: "20px",
+          }}
+        >
+          Những Cách Khắc Phục Chó Lười Ăn
+        </h1>
+
+        <div
+          style={{
+            padding: "20px",
+          }}
+          dangerouslySetInnerHTML={{ __html: content }}
+        />
+
         <div className={styles.choose}>
           <h1>Chọn Một Danh Mục</h1>
           <div className={styles.cardContainer}>
