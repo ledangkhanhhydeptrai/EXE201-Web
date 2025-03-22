@@ -213,7 +213,9 @@ export default function ManagepetUser() {
           </Button>
         </DialogActions>
       </Dialog>
-      <Footer />
+      <div className={styles.footer}>
+        <Footer />
+      </div>
     </div>
   );
 }
