@@ -41,7 +41,7 @@ const Detail = () => {
     setPetName(pet?.petName);
     setPetType(pet?.petTypeEnum);
     setPetGender(pet?.petGenderEnum);
-    setFile(pet?.imageUrl || null); // Giữ ảnh cũ nếu có
+    setFile(pet?.imageUrl || null); 
     setNote(pet?.notes);
     setPetAge(pet?.age);
     setShowUpdateForm(true);
@@ -62,9 +62,9 @@ const Detail = () => {
     formData.append("petAge", Number(petAge));
 
     if (file && typeof file !== "string") {
-      formData.append("imagePet", file);
+      formData.append("file", file);
     } else if (selectedPet?.imageUrl) {
-      formData.append("imagePet", selectedPet.imageUrl);
+      formData.append("file", selectedPet.imageUrl);
     }
 
     console.log("📦 FormData trước khi gửi:");
@@ -84,7 +84,7 @@ const Detail = () => {
       if (response.status >= 200 && response.status < 300) {
         alert("✅ Cập nhật thú cưng thành công!");
         setShowUpdateForm(false);
-        fetchData(); // Load lại dữ liệu sau khi update
+        window.location.reload();
       }
     } catch (error) {
       console.error("🚨 Lỗi khi cập nhật:", error);
