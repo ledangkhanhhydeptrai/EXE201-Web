@@ -95,6 +95,27 @@ export default function ManagepetUser() {
     }
     setCreatePetApiFetching(false);
   };
+  const deletePetByUser = async (petId) => {
+    console.log("Deleting pet with ID:", petId);
+    try {
+      const response = await axios.delete(
+        `https://bookingpetservice.onrender.com/api/pets/deletePetOfUserById/${petId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }
+      );
+      if (response.status >= 200 && response.status < 300) {
+        setData((prevData) => prevData.filter((a) => a.petId !== petId));
+      } else {
+        throw new Error(`HTTP Status: ${response.status}`);
+      }
+    } catch (error) {
+      console.error("Error deleting pet", error.response?.data || error);
+    }
+  };
+
   const date = new Date().toDateString();
   return (
     <div className={styles.container}>
@@ -125,6 +146,16 @@ export default function ManagepetUser() {
             <p>
               {pet?.petType} - {pet?.age} tháng - {pet?.petGender}
             </p>
+            <Button
+              variant="outlined"
+              color="error"
+              onClick={(e) => {
+                e.stopPropagation(); // Ngăn chặn click vào card khi xóa
+                deletePetByUser(pet.petId);
+              }}
+            >
+              Delete
+            </Button>
           </div>
         ))}
       </div>
