@@ -78,7 +78,7 @@ export default function ManageService() {
       if (response.status >= 200 && response.status < 300) {
         alert("Service updated successfully");
         handleClose();
-        // Refresh the service list or update the state
+        window.location.reload();
       } else {
         alert("Failed to update service");
       }
@@ -154,6 +154,7 @@ export default function ManageService() {
       if (response.status >= 200 && response.status < 300) {
         setServiceRows([...serviceRows, response.data.data]);
         alert("Create service successfully");
+        window.location.reload();
       } else {
         throw new Error(`HTTP Status:${response.status}`);
       }

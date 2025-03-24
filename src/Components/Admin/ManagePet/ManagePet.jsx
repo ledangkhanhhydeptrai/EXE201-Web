@@ -24,6 +24,7 @@ export default function ManagePet() {
           `https://bookingpetservice.onrender.com/api/pets/v1/getPetListOfUser`,
           {
             headers: {
+              "Content-Type": "application/json",
               Authorization: `Bearer ${token}`
             }
           }

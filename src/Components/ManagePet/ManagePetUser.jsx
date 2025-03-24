@@ -54,7 +54,7 @@ export default function ManagepetUser() {
         }
         console.log("API Response:", response.data.data);
       } catch (error) {
-        console.error("Lỗi tải dữ liệu:", error);     
+        console.error("Lỗi tải dữ liệu:", error);
       }
     };
 
@@ -208,8 +208,12 @@ export default function ManagepetUser() {
           >
             Hủy
           </Button>
-          <Button disabled={isCreatePetApiFetching} className={styles["create-button"]} onClick={handleCreate}>
-           {isCreatePetApiFetching? "Đang tạo" : "Xác nhận"} 
+          <Button
+            disabled={isCreatePetApiFetching}
+            className={styles["create-button"]}
+            onClick={handleCreate}
+          >
+            {isCreatePetApiFetching ? "Đang tạo" : "Xác nhận"}
           </Button>
         </DialogActions>
       </Dialog>

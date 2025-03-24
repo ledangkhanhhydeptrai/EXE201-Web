@@ -31,24 +31,19 @@ const Detail = () => {
   const [petAge, setPetAge] = useState(0);
   const [showUpdateForm, setShowUpdateForm] = useState(false);
   const token = localStorage.getItem("jwt");
-  const handleFileChange = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setFile(reader.result);
-      };
-      reader.readAsDataURL(file);
-    }
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    setFile(file);
   };
+
   const UpdateFeed = async (pet) => {
     setSelectedPet(pet);
     setPetName(pet?.petName);
-    setPetType(pet?.petType);
-    setPetGender(pet?.petGender);
-    setFile(null);
+    setPetType(pet?.petTypeEnum);
+    setPetGender(pet?.petGenderEnum);
+    setFile(pet?.imageUrl || null); // Giữ ảnh cũ nếu có
     setNote(pet?.notes);
-    setPetAge(pet?.petAges);
+    setPetAge(pet?.age);
     setShowUpdateForm(true);
   };
   const handleUpdate = async (event) => {
@@ -60,81 +55,73 @@ const Detail = () => {
     }
 
     const formData = new FormData();
-    formData.append("petId", petId);
     formData.append("petName", petName);
-    formData.append("petTypeEnum", petType);
-    formData.append("petGenderEnum", petGender);
-    formData.append("notes", note);
-    formData.append("ages", petAge);
-    console.log("🆔 petId:", petId);
-    console.log("🆔 selectedPet?.petId:", selectedPet?.petId);
-    // 🛑 Kiểm tra nếu người dùng đã chọn file ảnh mới
-    if (file) {
+    formData.append("petType", petType || "DOG");
+    formData.append("petGender", petGender || "MALE");
+    formData.append("note", note);
+    formData.append("petAge", Number(petAge));
+
+    if (file && typeof file !== "string") {
       formData.append("imagePet", file);
-    } else {
-      console.warn("⚠️ Không có file ảnh, gửi request không có ảnh.");
+    } else if (selectedPet?.imageUrl) {
+      formData.append("imagePet", selectedPet.imageUrl);
     }
 
-    // 📝 Kiểm tra dữ liệu gửi đi
-    console.log("📤 FormData Gửi đi:");
-    for (let [key, value] of formData.entries()) {
-      console.log(`📝 ${key}:`, value);
+    console.log("📦 FormData trước khi gửi:");
+    for (let pair of formData.entries()) {
+      console.log(`${pair[0]}:`, pair[1]);
     }
 
     try {
-      console.log("📤 Sending Data:", Object.fromEntries(formData.entries()));
-
       const response = await axios.put(
         `https://bookingpetservice.onrender.com/api/pets/v1/updatePet/${selectedPet?.petId}`,
         formData,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "multipart/form-data"
-          }
-        }
+        { headers: { Authorization: `Bearer ${token}` } }
       );
+
+      console.log("🔍 API Response:", response.data);
 
       if (response.status >= 200 && response.status < 300) {
         alert("✅ Cập nhật thú cưng thành công!");
         setShowUpdateForm(false);
+        fetchData(); // Load lại dữ liệu sau khi update
       }
     } catch (error) {
-      console.error("🚨 Lỗi khi cập nhật dịch vụ:", error);
+      console.error("🚨 Lỗi khi cập nhật:", error);
       console.error("🔴 Response Data:", error.response?.data);
-
       alert(
         `❌ Lỗi cập nhật: ${error.response?.data?.message || "Có lỗi xảy ra!"}`
       );
     }
   };
-  useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      try {
-        console.log("Đang gọi API với petID:", petId);
-        const response = await axios.get(
-          `https://bookingpetservice.onrender.com/api/pets/getPetByIdOfUser/${petId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("jwt")}`
-            }
+
+  const fetchData = async () => {
+    setLoading(true);
+    try {
+      console.log("Đang gọi API với petID:", petId);
+      const response = await axios.get(
+        `https://bookingpetservice.onrender.com/api/pets/getPetByIdOfUser/${petId}?t=${new Date().getTime()}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("jwt")}`
           }
-        );
-        console.log("Dữ liệu nhận được:", response.data);
-        setPetDetail(response.data.data);
-      } catch (error) {
-        console.error(
-          "Lỗi khi gọi API:",
-          error.response?.status,
-          error.response?.data
-        );
-      } finally {
-        setLoading(false);
-      }
-    };
+        }
+      );
+      console.log("Dữ liệu nhận được:", response.data);
+      setPetDetail(response.data.data);
+    } catch (error) {
+      console.error(
+        "Lỗi khi gọi API:",
+        error.response?.status,
+        error.response?.data
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+  useEffect(() => {
     fetchData();
-  }, [petId]);
+  }, []);
 
   if (loading) {
     return (
