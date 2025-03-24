@@ -55,7 +55,7 @@ export default function ManageService() {
     // Append file if it exists
     const fileInput = event.target.imageService;
     if (fileInput.files.length > 0) {
-      formData.append("imageService", fileInput.files[0]);
+      formData.append("file", fileInput.files[0]);
     } else {
       alert("Please upload an image");
       return;
@@ -71,7 +71,6 @@ export default function ManageService() {
             Authorization: `Bearer ${localStorage.getItem("jwt")}`,
             "Content-Type": "multipart/form-data"
           },
-          timeout: 5000
         }
       );
 
