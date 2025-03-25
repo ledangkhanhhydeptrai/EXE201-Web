@@ -113,7 +113,17 @@ const ManageBookingUser = () => {
                               : "success.main"
                           }
                         >
-                          {booking.bookingStatus}
+                          {booking.bookingStatus === "NOTYET" ? (
+                            <span>Chưa diễn ra</span>
+                          ) : booking.bookingStatus === "PENDING" ? (
+                            <span>Đang diễn ra</span>
+                          ) : booking.bookingStatus === "COMPLETE" ? (
+                            <span>Hoàn thành</span>
+                          ) : booking.bookingStatus === "CANCELLED" ? (
+                            <span>Đã hủy</span>
+                          ) : (
+                            <span>Không xác định</span>
+                          )}
                         </Typography>
                       </TableCell>
                       <TableCell>
@@ -124,9 +134,17 @@ const ManageBookingUser = () => {
                               : "error.main"
                           }
                         >
-                          {booking.bookingStatusPaid
-                            ? "Đã thanh toán"
-                            : "Chưa thanh toán"}
+                          {booking.bookingStatusPaid === "DEPOSIT" ? (
+                            <span>Đặt cọc</span>
+                          ) : booking.bookingStatusPaid === "PAIDALL" ? (
+                            <span>Thanh toán toàn bộ</span>
+                          ) : booking.bookingStatusPaid === "FAILED" ? (
+                            <span>Thanh toán thất bại</span>
+                          ) : booking.bookingStatusPaid === "UNPAID" ? (
+                            <span>Chưa thanh toán</span>
+                          ) : (
+                            <span>Không xác định</span>
+                          )}
                         </Typography>
                       </TableCell>
                     </TableRow>

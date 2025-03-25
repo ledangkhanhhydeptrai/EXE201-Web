@@ -214,18 +214,17 @@ const Book = () => {
           }
         }
       );
-
+      console.log("Response từ server:", response);
       if (response.status >= 300) {
         throw new Error("Đặt lịch thất bại, vui lòng thử lại!");
       }
 
-      const data = response.data?.data;
-      if (!data || !data.bookingId) {
+      if (!response.data || !response.data.data) {
         throw new Error("Dữ liệu phản hồi không hợp lệ từ máy chủ.");
       }
 
-      console.log("Navigating with booking data:", data);
-      navigate("/booksuccess", { state: { bookingData: data } });
+      console.log("Navigating with booking data:", response.data.data);
+      navigate("/booksuccess", { state: { bookingData: response.data.data } });
     } catch (error) {
       console.error("Lỗi khi đặt lịch:", error);
       if (error.response) {

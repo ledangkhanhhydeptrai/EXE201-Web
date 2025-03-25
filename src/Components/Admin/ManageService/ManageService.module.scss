@@ -159,3 +159,30 @@
         text-transform: uppercase;
     }
 }
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+
+    .MuiPagination-root {
+        display: flex;
+        gap: 8px;
+
+        .MuiPaginationItem-root {
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+
+            &:hover {
+                background-color: rgba(255, 0, 0, 0.1); // Màu đỏ nhạt
+            }
+        }
+
+        .Mui-selected {
+            background-color: red !important;
+            color: white !important;
+        }
+    }
+}

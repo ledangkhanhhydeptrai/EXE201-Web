@@ -2,6 +2,7 @@ import styles from "./ManagePet.module.scss";
 import Sidebar from "../Sidebar/Sidebar";
 import Header from "../HeaderAdmin/Header";
 import {
+  Pagination,
   Paper,
   Table,
   TableBody,
@@ -16,7 +17,8 @@ import axios from "axios";
 export default function ManagePet() {
   const [data, setData] = useState([]);
   const token = localStorage.getItem("jwt");
-
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -40,7 +42,9 @@ export default function ManagePet() {
     };
     fetchData();
   }, [token]);
-
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentData = data.slice(startIndex, endIndex);
   return (
     <>
       <Sidebar />
@@ -72,7 +76,7 @@ export default function ManagePet() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {data.map((row, index) => (
+              {currentData.map((row, index) => (
                 <TableRow key={index} className={styles.tableRow}>
                   <TableCell className={styles.cell}>{row.petId}</TableCell>
                   <TableCell className={styles.cell} align="center">
@@ -102,6 +106,14 @@ export default function ManagePet() {
             </TableBody>
           </Table>
         </TableContainer>
+        <div className={styles.pagination}>
+          <Pagination
+            count={Math.ceil(data.length / itemsPerPage)} // Tổng số trang
+            page={currentPage}
+            onChange={(event, value) => setCurrentPage(value)}
+            color="primary"
+          />
+        </div>
       </div>
     </>
   );
