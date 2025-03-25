@@ -1,5 +1,6 @@
 import {
   Button,
+  Pagination,
   Paper,
   Table,
   TableBody,
@@ -16,6 +17,11 @@ import axios from "axios";
 
 export default function ManageUser() {
   const [data, setData] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentData = data.slice(startIndex, endIndex);
   const fetchData = async () => {
     try {
       const response = await axios.get(
@@ -87,7 +93,7 @@ export default function ManageUser() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {data.map((row, index) => (
+              {currentData.map((row, index) => (
                 <TableRow key={index} className={styles.tableRow}>
                   <TableCell component="th" scope="row" align="center">
                     {row.userId}
@@ -126,6 +132,14 @@ export default function ManageUser() {
             </TableBody>
           </Table>
         </TableContainer>
+        <div className={styles.pagination}>
+          <Pagination
+            count={Math.ceil(data.length / itemsPerPage)} // Tổng số trang
+            page={currentPage}
+            onChange={(event, value) => setCurrentPage(value)}
+            color="primary"
+          />
+        </div>
       </div>
     </>
   );

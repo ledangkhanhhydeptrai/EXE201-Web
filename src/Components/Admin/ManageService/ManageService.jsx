@@ -13,7 +13,8 @@ import {
   Button,
   Dialog,
   DialogTitle,
-  DialogContent
+  DialogContent,
+  Pagination
 } from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -26,6 +27,11 @@ export default function ManageService() {
   const [price, setPrice] = useState(0);
   const [openCreate, setOpenCreate] = useState(false);
   const [file, setFile] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentData = serviceRows.slice(startIndex, endIndex);
   const handleOpenCreate = () => {
     setOpenCreate(true);
   };
@@ -46,10 +52,7 @@ export default function ManageService() {
 
     // Append form fields
     formData.append("serviceName", event.target.serviceName.value);
-    formData.append(
-      "description",
-      event.target.serviceDescription.value
-    );
+    formData.append("description", event.target.serviceDescription.value);
     formData.append("price", event.target.servicePrice.value);
 
     // Append file if it exists
@@ -70,7 +73,7 @@ export default function ManageService() {
             accept: "*/*",
             Authorization: `Bearer ${localStorage.getItem("jwt")}`,
             "Content-Type": "multipart/form-data"
-          },
+          }
         }
       );
 
@@ -276,7 +279,7 @@ export default function ManageService() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {serviceRows.map((row, index) => (
+              {currentData.map((row, index) => (
                 <TableRow
                   key={index}
                   sx={{
@@ -365,6 +368,14 @@ export default function ManageService() {
             </form>
           </div>
         </Modal>
+        <div className={styles.pagination}>
+          <Pagination
+            count={Math.ceil(serviceRows.length / itemsPerPage)} // Tổng số trang
+            page={currentPage}
+            onChange={(event, value) => setCurrentPage(value)}
+            color="primary"
+          />
+        </div>
       </div>
     </>
   );

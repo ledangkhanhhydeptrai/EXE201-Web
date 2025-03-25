@@ -41,7 +41,7 @@ const Detail = () => {
     setPetName(pet?.petName);
     setPetType(pet?.petTypeEnum);
     setPetGender(pet?.petGenderEnum);
-    setFile(pet?.imageUrl || null); 
+    setFile(pet?.imageUrl || null);
     setNote(pet?.notes);
     setPetAge(pet?.age);
     setShowUpdateForm(true);
@@ -54,11 +54,33 @@ const Detail = () => {
       return;
     }
 
+    // ✅ Validation trước khi gửi API
+    if (!petName.trim()) {
+      alert("❌ Vui lòng nhập tên thú cưng!");
+      return;
+    }
+    if (!["DOG", "CAT"].includes(petType)) {
+      alert("❌ Loại thú cưng không hợp lệ!");
+      return;
+    }
+    if (!["MALE", "FEMALE"].includes(petGender)) {
+      alert("❌ Giới tính thú cưng không hợp lệ!");
+      return;
+    }
+    if (isNaN(petAge) || petAge < 0) {
+      alert("❌ Tuổi thú cưng không hợp lệ!");
+      return;
+    }
+    if (file && typeof file !== "string" && !file.type.startsWith("image/")) {
+      alert("❌ Chỉ chấp nhận file hình ảnh!");
+      return;
+    }
+
     const formData = new FormData();
-    formData.append("petName", petName);
+    formData.append("petName", petName.trim());
     formData.append("petType", petType || "DOG");
     formData.append("petGender", petGender || "MALE");
-    formData.append("note", note);
+    formData.append("note", note.trim());
     formData.append("petAge", Number(petAge));
 
     if (file && typeof file !== "string") {
@@ -76,7 +98,12 @@ const Detail = () => {
       const response = await axios.put(
         `https://bookingpetservice.onrender.com/api/pets/v1/updatePet/${selectedPet?.petId}`,
         formData,
-        { headers: { Authorization: `Bearer ${token}` } }
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data"
+          }
+        }
       );
 
       console.log("🔍 API Response:", response.data);
@@ -89,9 +116,13 @@ const Detail = () => {
     } catch (error) {
       console.error("🚨 Lỗi khi cập nhật:", error);
       console.error("🔴 Response Data:", error.response?.data);
-      alert(
-        `❌ Lỗi cập nhật: ${error.response?.data?.message || "Có lỗi xảy ra!"}`
-      );
+
+      let errorMessage = "❌ Có lỗi xảy ra!";
+      if (error.response) {
+        errorMessage = error.response.data?.message || errorMessage;
+      }
+
+      alert(`❌ Lỗi cập nhật: ${errorMessage}`);
     }
   };
 
