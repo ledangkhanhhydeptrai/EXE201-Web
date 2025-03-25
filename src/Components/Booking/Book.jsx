@@ -203,13 +203,6 @@ const Book = () => {
     bookingData.append("petId", selectedPet.petId);
     bookingData.append("localDate", formData.date);
 
-    console.log("petId", bookingData.get("petId"));
-
-
-    bookingData.forEach(e => {
-      console.log(e.toString())
-    });
-
     try {
       const response = await axios.post(
         "https://bookingpetservice.onrender.com/api/booking/v1/bookingByUser",
@@ -217,23 +210,31 @@ const Book = () => {
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("jwt")}`,
-            "Content-Type": "multipart/form-data" // Remove this if not necessary
-
-          },
+            "Content-Type": "multipart/form-data"
+          }
         }
       );
 
-      const data = await response.data.data
-
       if (response.status >= 300) {
-        throw new Error(data.message || "Đặt lịch thất bại, vui lòng thử lại!");
+        throw new Error("Đặt lịch thất bại, vui lòng thử lại!");
+      }
+
+      const data = response.data?.data;
+      if (!data || !data.bookingId) {
+        throw new Error("Dữ liệu phản hồi không hợp lệ từ máy chủ.");
       }
 
       console.log("Navigating with booking data:", data);
       navigate("/booksuccess", { state: { bookingData: data } });
     } catch (error) {
       console.error("Lỗi khi đặt lịch:", error);
-      alert(error.message || "Đặt lịch thất bại!");
+      if (error.response) {
+        const apiError =
+          error.response.data?.message || "Lỗi không xác định từ API.";
+        alert(apiError);
+      } else {
+        alert(error.message || "Đặt lịch thất bại!");
+      }
     }
   };
 
