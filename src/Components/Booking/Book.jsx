@@ -364,21 +364,51 @@ const Book = () => {
                       ))}
                     </ul>
                     {selectedPet && (
-                      <div className={styles.selectedPet}>
-                        <h3>Thú cưng đã chọn:</h3>
-                        <img
-                          src={selectedPet.imagePetBase64}
-                          alt={selectedPet.petName}
-                          style={{ width: "50%" }}
-                        />
-                        <p>Id: {selectedPet.petId}</p>
-                        <p>Tên: {selectedPet.petName}</p>
-                        <p>Tuổi: {selectedPet.age} năm</p>
-                        <p>Giới tính: {selectedPet.petGenderEnum}</p>
-                        <p>Loại: {selectedPet.petTypeEnum}</p>
-                        <button onClick={() => setSelectedPet(null)}>
-                          Hủy chọn
-                        </button>
+                      <div
+                        className={styles.overlay}
+                        onClick={() => setIsSelectPetPopupOpen(false)}
+                      >
+                        <div
+                          className={styles.popup}
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          <h3>Thú cưng đã chọn:</h3>
+                          <img
+                            src={selectedPet.imagePetBase64}
+                            alt={selectedPet.petName}
+                            className={styles.petImage}
+                          />
+                          <p>
+                            <strong>Id:</strong> {selectedPet.petId}
+                          </p>
+                          <p>
+                            <strong>Tên:</strong> {selectedPet.petName}
+                          </p>
+                          <p>
+                            <strong>Tuổi:</strong> {selectedPet.age} năm
+                          </p>
+                          <p>
+                            <strong>Giới tính:</strong>{" "}
+                            {selectedPet.petGenderEnum}
+                          </p>
+                          <p>
+                            <strong>Loại:</strong> {selectedPet.petTypeEnum}
+                          </p>
+                          <div className={styles.buttonGroup}>
+                            <button
+                              className={styles.cancelBtn}
+                              onClick={() => setSelectedPet(null)}
+                            >
+                              Hủy chọn
+                            </button>
+                            <button
+                              className={styles.closeBtn}
+                              onClick={() => setIsSelectPetPopupOpen(false)}
+                            >
+                              Đóng
+                            </button>
+                          </div>
+                        </div>
                       </div>
                     )}
 
