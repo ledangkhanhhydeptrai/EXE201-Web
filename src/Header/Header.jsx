@@ -64,7 +64,7 @@ export default function Header() {
               className={styles.avatar}
               onClick={toggleDropdown}
             />
-            <span style={{ marginTop: "-10px" }}>{user.userName}</span>
+            <span style={{ marginTop: "-10px" }}>Hello: {user.userName}</span>
             {isDropdownOpen && (
               <ul className={styles.dropdown}>
                 <li onClick={() => navigate("/userpet")}>Quản lí Pet</li>
