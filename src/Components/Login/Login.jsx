@@ -11,7 +11,7 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const handleLogin = async () => {
     if (!userName || !password) {
-      console.log("Please fill in the text field");
+      alert("Vui lòng nhập đầy đủ thông tin đăng nhập!");
       return;
     }
 
@@ -32,7 +32,7 @@ export default function Login() {
 
         const token = response.data.data;
         if (!token) {
-          console.error("Token is missing in response!");
+          alert("Không tìm thấy token trong phản hồi!");
           return;
         }
 
@@ -47,7 +47,7 @@ export default function Login() {
 
           localStorage.setItem("role", role);
           localStorage.setItem("jwt", token);
-          localStorage.setItem("username", username); 
+          localStorage.setItem("username", username);
 
           if (role === "ADMIN") {
             navigate("/dashboard");
@@ -58,10 +58,20 @@ export default function Login() {
           }
         } catch (error) {
           console.error("Error decoding token:", error.message);
+          alert("Lỗi khi giải mã token!");
         }
       }
     } catch (error) {
-      console.error("Error:", error.response?.data?.message || error.message);
+      const errorMessage = error.response?.data?.message || error.message;
+      console.error("Error:", errorMessage);
+
+      if (errorMessage.includes("Username doesn't exist")) {
+        alert("Tên người dùng không tồn tại!");
+      } else if (errorMessage.includes("Incorrect password")) {
+        alert("Mật khẩu không chính xác!");
+      } else {
+        alert("Đăng nhập thất bại! Vui lòng thử lại.");
+      }
     }
   };
 
