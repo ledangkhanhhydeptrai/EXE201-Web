@@ -47,10 +47,10 @@ export default function ManageService() {
     // Append form fields
     formData.append("serviceName", event.target.serviceName.value);
     formData.append(
-      "serviceDescription",
+      "description",
       event.target.serviceDescription.value
     );
-    formData.append("servicePrice", event.target.servicePrice.value);
+    formData.append("price", event.target.servicePrice.value);
 
     // Append file if it exists
     const fileInput = event.target.imageService;
