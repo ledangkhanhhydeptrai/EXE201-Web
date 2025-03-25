@@ -41,13 +41,13 @@ export default function Login() {
           console.log("Decoded Token:", decoded);
 
           const role = decoded.role || "ROLE_CUSTOMER";
-          const username = decoded.userName;
+          const username = decoded.userName || decoded.username || userName;
           console.log("User Role:", role);
           console.log("Username:", username);
 
           localStorage.setItem("role", role);
           localStorage.setItem("jwt", token);
-          localStorage.setItem("username", username);
+          localStorage.setItem("username", username); 
 
           if (role === "ADMIN") {
             navigate("/dashboard");
