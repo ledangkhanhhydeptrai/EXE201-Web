@@ -13,14 +13,19 @@ export default function Header() {
     setDropdownOpen((prevState) => !prevState);
   };
   useEffect(() => {
-    const storedUser = localStorage.getItem("jwt");
-    if (storedUser) {
-      setUser(storedUser);
+    const storedToken = localStorage.getItem("jwt");
+    const storedUsername = localStorage.getItem("username");
+
+    console.log("Stored Token:", storedToken);
+    console.log("Stored Username:", storedUsername);
+
+    if (storedToken && storedUsername) {
+      setUser({ token: storedToken, userName: storedUsername });
     }
   }, []);
-
   const handleLogout = () => {
     localStorage.removeItem("jwt");
+    localStorage.removeItem("username");
     setUser(null);
     navigate("/");
   };
@@ -52,14 +57,14 @@ export default function Header() {
           <span className={styles.language}>Tiếng Việt</span>
         </div>
 
-        {user ? (
+        {user && user.userName ? (
           <div className={styles.userMenu}>
             <FaUserCircle
               size={30}
               className={styles.avatar}
               onClick={toggleDropdown}
             />
-            <span>{user.username}</span>
+            <span style={{ marginTop: "-10px" }}>{user.userName}</span>
             {isDropdownOpen && (
               <ul className={styles.dropdown}>
                 <li onClick={() => navigate("/userpet")}>Quản lí Pet</li>
