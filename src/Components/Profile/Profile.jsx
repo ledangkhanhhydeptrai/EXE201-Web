@@ -1,79 +1,110 @@
-import React, { useEffect, useState } from "react";
-import styles from "./Profille.module.scss";
+import { useEffect, useState } from "react";
+import styles from "./Profile.module.scss";
 import Header from "../../Header/Header";
 import axios from "axios";
-import Box from "@mui/material/Box";
-import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
-import CardContent from "@mui/material/CardContent";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import { Avatar } from "@mui/material";
+import {
+  Card,
+  CardContent,
+  CardActions,
+  Button,
+  Typography,
+  Avatar,
+  CircularProgress
+} from "@mui/material";
 import { useNavigate } from "react-router-dom";
+
 const Profile = () => {
   const navigate = useNavigate();
-  const [profile, setProfile] = useState({});
+  const [profile, setProfile] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const response = await axios(
+        const response = await axios.get(
           "https://bookingpetservice.onrender.com/api/user/getUserProfile",
           {
-            method: "GET",
             headers: {
               "Content-Type": "application/json",
-              Authorization: `Bearer ${localStorage.getItem("token")}`
+              Authorization: `Bearer ${localStorage.getItem("jwt")}`
             }
           }
         );
 
-        setProfile(response.data.data);
+        if (response.data.status === "200 OK") {
+          setProfile(response.data.data);
+        } else {
+          setError("Không thể tải thông tin hồ sơ!");
+        }
       } catch (error) {
-        console.log(error);
+        setError("Lỗi kết nối đến server!");
+        console.error(error);
+      } finally {
+        setLoading(false);
       }
     };
+
+    fetchProfile();
   }, []);
+
   return (
-    <div className="">
+    <div className={styles.profilePage}>
       <Header />
       <div className={styles.container}>
-        <Card sx={{ minWidth: 275 }}>
+        <Card className={styles.profileCard}>
           <CardContent>
-            <Typography
-              gutterBottom
-              sx={{ color: "text.secondary", fontSize: 14 }}
-            >
-              Personal Profile
+            <Typography className={styles.title} variant="h5">
+              Hồ Sơ Cá Nhân
             </Typography>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                marginTop: "20px",
-                marginBottom: "10px"
-              }}
-            >
-              <Avatar
-                sx={{ width: 100, height: 100 }}
-                alt="Remy Sharp"
-                src="https://mui.com/static/images/avatar/1.jpg"
-              />
-            </div>
-            <Typography variant="h5" component="div">
-              John Doe
-            </Typography>
-            <Typography variant="body2">
-              456 Phan Xích Long, Phường 2, Quận Phú Nhuận
-              <br />
-              0962532184
-            </Typography>
+
+            {loading ? (
+              <div className={styles.loading}>
+                <CircularProgress size={40} />
+                <Typography>Đang tải...</Typography>
+              </div>
+            ) : error ? (
+              <Typography color="error">{error}</Typography>
+            ) : (
+              <div className={styles.profileInfo}>
+                <Avatar
+                  className={styles.avatar}
+                  alt={profile?.fulName || "User Avatar"}
+                  src={
+                    profile?.avatarBase64 ||
+                    "https://mui.com/static/images/avatar/1.jpg"
+                  }
+                />
+                <Typography className={styles.name}>
+                  {profile?.fulName || "Chưa có tên"}
+                </Typography>
+                <Typography className={styles.details}>
+                  <strong>Email:</strong> {profile?.email || "Chưa có email"}{" "}
+                  <br />
+                  <strong>Địa chỉ:</strong>{" "}
+                  {profile?.address || "Chưa có địa chỉ"} <br />
+                  <strong>Điện thoại:</strong>{" "}
+                  {profile?.phone || "Chưa có số điện thoại"}
+                </Typography>
+                <Typography
+                  className={styles.status}
+                  style={{ color: profile?.active ? "green" : "red" }}
+                >
+                  Trạng thái:{" "}
+                  {profile?.active ? "Hoạt động" : "Không hoạt động"}
+                </Typography>
+              </div>
+            )}
           </CardContent>
-          <CardActions>
-            <Button size="small">Learn More</Button>
+          <CardActions className={styles.actions}>
+            <Button
+              className={styles.navigateButton}
+              onClick={() => navigate("/bookinguser")}
+            >
+              Chuyển trang
+            </Button>
           </CardActions>
         </Card>
-        <Button onClick={() => navigate("/bookinguser")}>Click</Button>
       </div>
     </div>
   );
