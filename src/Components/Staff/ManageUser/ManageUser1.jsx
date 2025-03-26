@@ -7,11 +7,11 @@ import {
   TableHead,
   TableRow
 } from "@mui/material";
-import Header from "../HeaderAdmin/Header1";
 import styles from "./ManageUser1.module.scss";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Sidebar1 from "../Sidebar/Sidebar1";
+import Header1 from "../HeaderAdmin/Header1";
 
 export default function ManageUser1() {
   const [data, setData] = useState([]);
@@ -24,7 +24,7 @@ export default function ManageUser1() {
         );
 
         if (response.status >= 200 && response.status < 300) {
-          console.log("API Response:", response.data); 
+          console.log("API Response:", response.data);
           setData(response.data.data);
         }
       } catch (error) {
@@ -38,7 +38,7 @@ export default function ManageUser1() {
   return (
     <>
       <Sidebar1 />
-      <Header />
+      <Header1 />
       <div className={styles.container}>
         <TableContainer component={Paper} className={styles.tableContainer}>
           <Table className={styles.table} aria-label="user table">
