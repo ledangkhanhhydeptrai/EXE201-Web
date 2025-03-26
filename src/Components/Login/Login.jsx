@@ -6,15 +6,24 @@ import { Link, useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import { useState } from "react";
 import axios from "axios";
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle
+} from "@mui/material";
 export default function Login() {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
   const handleLogin = async () => {
     if (!userName || !password) {
       alert("Vui lòng nhập đầy đủ thông tin đăng nhập!");
       return;
     }
-
     try {
       const response = await axios.post(
         `https://bookingpetservice.onrender.com/api/user/v1/login`,
@@ -74,7 +83,38 @@ export default function Login() {
       }
     }
   };
-
+  const handleForgotPassword = async () => {
+    if (!userName || !newPassword) {
+      alert("Vui lòng nhập đầy đủ thông tin!");
+      return;
+    }
+    setLoading(true);
+    try {
+      const response = await axios.post(
+        `https://bookingpetservice.onrender.com/api/user/v1/forGotPassword`,
+        {
+          userName,
+          newPassword
+        },
+        {
+          headers: {
+            "Content-Type": "application/json"
+          }
+        }
+      );
+      if (response.status >= 200 && response.status < 300) {
+        alert(response.data.message); // Hiển thị "Update password successfully"
+        setOpen(false);
+      }
+    } catch (error) {
+      console.error(
+        "Forgot Password Error:",
+        error.response?.data || error.message
+      );
+      alert("Không thể đặt lại mật khẩu. Vui lòng thử lại!");
+    }
+    setLoading(false);
+  };
   const navigate = useNavigate();
   return (
     <div className="container-fluid">
@@ -125,9 +165,49 @@ export default function Login() {
               </button>
             </div>
             <div className={styles.passwordfinal}>
-              <Link to="/">
-                <p>Forget Password?</p>
-              </Link>
+              <button
+                className={styles.forgotPassword}
+                onClick={() => setOpen(true)}
+              >
+                Quên mật khẩu?
+              </button>
+              <Dialog open={open} onClose={() => setOpen(false)}>
+                <DialogTitle className={styles.popupTitle}>
+                  Quên mật khẩu?
+                </DialogTitle>
+                <DialogContent>
+                  <p className={styles.popupText}>
+                    Nhập email và password của bạn để đặt lại mật khẩu.
+                  </p>
+                  <input
+                    type="text"
+                    placeholder="Nhập username mới"
+                    value={userName}
+                    onChange={(e) => setUserName(e.target.value)}
+                  />
+                  <input
+                    type="password"
+                    placeholder="Nhập mật khẩu mới"
+                    value={newPassword}
+                    onChange={(e) => setNewPassword(e.target.value)}
+                  />
+                </DialogContent>
+                <DialogActions>
+                  <Button
+                    onClick={() => setOpen(false)}
+                    className={styles.cancelButton}
+                  >
+                    Hủy
+                  </Button>
+                  <Button
+                    onClick={handleForgotPassword}
+                    className={styles.submitButton}
+                    disabled={loading}
+                  >
+                    {loading ? "Đang cập nhật..." : "Cập nhật mật khẩu"}
+                  </Button>
+                </DialogActions>
+              </Dialog>
             </div>
           </div>
           <div className={styles.conditions}>
