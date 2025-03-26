@@ -1,5 +1,6 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+import { Pagination } from "@mui/material"; 
 import styles from "./ManageBooking.module.scss";
-
 import {
   Button,
   Paper,
@@ -15,18 +16,47 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Sidebar1 from "../Sidebar/Sidebar1";
 import Header1 from "../HeaderAdmin/Header1";
+
 export default function ManageBooking1() {
   const [data, setData] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
   const token = localStorage.getItem("jwt");
   const navigate = useNavigate();
+  const getBookingStatus = (status) => {
+    switch (status) {
+      case "NOTYET":
+        return "Chưa diễn ra";
+      case "PENDING":
+        return "Đang diễn ra";
+      case "COMPLETE":
+        return "Hoàn thành";
+      case "CANCELLED":
+        return "Đã hủy";
+      default:
+        return "Không xác định";
+    }
+  };
+  const getBookingStatusPaid = (status) => {
+    switch (status) {
+      case "DEPOSIT":
+        return "Đặt cọc";
+      case "FAILED":
+        return "Thanh toán thất bại";
+      case "UNPAID":
+        return "Chưa thanh toán";
+      case "PAIDALL":
+        return "Thanh toán toàn bộ";
+      default:
+        return "Chưa xác định";
+    }
+  };
   const fetchData = async () => {
     try {
       const response = await axios.get(
         `https://bookingpetservice.onrender.com/api/booking/v1/getAllBookingByAmind`,
         {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
+          headers: { Authorization: `Bearer ${token}` }
         }
       );
 
@@ -38,56 +68,42 @@ export default function ManageBooking1() {
       console.error("Error fetching data:", error);
     }
   };
+
   useEffect(() => {
     fetchData();
-  });
+  }, [fetchData]);
+
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentData = data.slice(startIndex, endIndex);
+
   return (
     <>
       <Sidebar1 />
       <Header1 />
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          marginTop: "50px",
-          marginBottom: "50px"
-        }}
-      >
-        <Button variant="contained" color="primary">
-          Create
-        </Button>
-      </div>
-
       <div className={styles.container}>
         <TableContainer component={Paper} className={styles.tableContainer}>
           <Table className={styles.table} aria-label="user table">
             <TableHead>
               <TableRow className={styles.tableHead}>
-                <TableCell className={styles.tableCell}>bookingId</TableCell>
+                <TableCell className={styles.tableCell}>Booking ID</TableCell>
                 <TableCell className={styles.tableCell} align="center">
-                  serviceName
+                  Service Name
                 </TableCell>
                 <TableCell className={styles.tableCell} align="center">
-                  petName
+                  Pet Name
                 </TableCell>
                 <TableCell className={styles.tableCell} align="center">
-                  fullName
+                  Full Name
                 </TableCell>
                 <TableCell className={styles.tableCell} align="center">
-                  bookingDate
+                  Booking Date
                 </TableCell>
                 <TableCell className={styles.tableCell} align="center">
-                  bookingStatus
+                  Booking Status
                 </TableCell>
                 <TableCell className={styles.tableCell} align="center">
-                  bookingStatusPaid
-                </TableCell>
-                <TableCell className={styles.tableCell} align="center">
-                  Update
-                </TableCell>
-                <TableCell className={styles.tableCell} align="center">
-                  Delete
+                  Payment Status
                 </TableCell>
                 <TableCell align="center" className={styles.tableCell}>
                   Detail
@@ -95,7 +111,7 @@ export default function ManageBooking1() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {data.map((row, index) => (
+              {currentData.map((row, index) => (
                 <TableRow key={index} className={styles.tableRow}>
                   <TableCell component="th" scope="row" align="center">
                     {row.bookinId}
@@ -104,17 +120,11 @@ export default function ManageBooking1() {
                   <TableCell align="center">{row.petName}</TableCell>
                   <TableCell align="center">{row.fullName}</TableCell>
                   <TableCell align="center">{row.bookingDate}</TableCell>
-                  <TableCell align="center">{row.bookingStatus}</TableCell>
-                  <TableCell align="center">{row.bookingStatusPaid}</TableCell>
                   <TableCell align="center">
-                    <Button variant="contained" color="primary">
-                      Update
-                    </Button>
+                    {getBookingStatus(row.bookingStatus)}
                   </TableCell>
                   <TableCell align="center">
-                    <Button variant="contained" color="primary">
-                      Delete
-                    </Button>
+                    {getBookingStatusPaid(row.bookingStatusPaid)}
                   </TableCell>
                   <TableCell align="center">
                     <Button
@@ -130,6 +140,16 @@ export default function ManageBooking1() {
             </TableBody>
           </Table>
         </TableContainer>
+
+        {/* Pagination */}
+        <div className={styles.pagination}>
+          <Pagination
+            count={Math.ceil(data.length / itemsPerPage)} // Tổng số trang
+            page={currentPage}
+            onChange={(event, value) => setCurrentPage(value)}
+            color="primary"
+          />
+        </div>
       </div>
     </>
   );

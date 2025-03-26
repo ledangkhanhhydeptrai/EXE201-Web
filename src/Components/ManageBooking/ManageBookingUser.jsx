@@ -20,7 +20,34 @@ const ManageBookingUser = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
-
+  const getBookingStatus = (status) => {
+    switch (status) {
+      case "NOTYET":
+        return "Chưa diễn ra";
+      case "PENDING":
+        return "Đang diễn ra";
+      case "COMPLETE":
+        return "Hoàn thành";
+      case "CANCELLED":
+        return "Đã hủy";
+      default:
+        return "Không xác định";
+    }
+  };
+  const getBookingStatusPaid = (status) => {
+    switch (status) {
+      case "DEPOSIT":
+        return "Đặt cọc";
+      case "FAILED":
+        return "Thanh toán thất bại";
+      case "UNPAID":
+        return "Chưa thanh toán";
+      case "PAIDALL":
+        return "Thanh toán toàn bộ";
+      default:
+        return "Chưa xác định";
+    }
+  };
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -113,17 +140,7 @@ const ManageBookingUser = () => {
                               : "success.main"
                           }
                         >
-                          {booking.bookingStatus === "NOTYET" ? (
-                            <span>Chưa diễn ra</span>
-                          ) : booking.bookingStatus === "PENDING" ? (
-                            <span>Đang diễn ra</span>
-                          ) : booking.bookingStatus === "COMPLETE" ? (
-                            <span>Hoàn thành</span>
-                          ) : booking.bookingStatus === "CANCELLED" ? (
-                            <span>Đã hủy</span>
-                          ) : (
-                            <span>Không xác định</span>
-                          )}
+                          {getBookingStatus(booking.bookingStatus)}
                         </Typography>
                       </TableCell>
                       <TableCell>
@@ -134,17 +151,7 @@ const ManageBookingUser = () => {
                               : "error.main"
                           }
                         >
-                          {booking.bookingStatusPaid === "DEPOSIT" ? (
-                            <span>Đặt cọc</span>
-                          ) : booking.bookingStatusPaid === "PAIDALL" ? (
-                            <span>Thanh toán toàn bộ</span>
-                          ) : booking.bookingStatusPaid === "FAILED" ? (
-                            <span>Thanh toán thất bại</span>
-                          ) : booking.bookingStatusPaid === "UNPAID" ? (
-                            <span>Chưa thanh toán</span>
-                          ) : (
-                            <span>Không xác định</span>
-                          )}
+                          {getBookingStatusPaid(booking.bookingStatusPaid)}
                         </Typography>
                       </TableCell>
                     </TableRow>

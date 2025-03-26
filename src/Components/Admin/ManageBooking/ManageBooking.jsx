@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Pagination } from "@mui/material"; // Import Pagination từ MUI
 import styles from "./ManageBooking.module.scss";
 import Sidebar from "../Sidebar/Sidebar";
@@ -19,10 +20,37 @@ import { useNavigate } from "react-router-dom";
 export default function ManageBooking() {
   const [data, setData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 5; 
+  const itemsPerPage = 5;
   const token = localStorage.getItem("jwt");
   const navigate = useNavigate();
-
+  const getBookingStatus = (status) => {
+    switch (status) {
+      case "NOTYET":
+        return "Chưa diễn ra";
+      case "PENDING":
+        return "Đang diễn ra";
+      case "COMPLETE":
+        return "Hoàn thành";
+      case "CANCELLED":
+        return "Đã hủy";
+      default:
+        return "Không xác định";
+    }
+  };
+  const getBookingStatusPaid = (status) => {
+    switch (status) {
+      case "DEPOSIT":
+        return "Đặt cọc";
+      case "FAILED":
+        return "Thanh toán thất bại";
+      case "UNPAID":
+        return "Chưa thanh toán";
+      case "PAIDALL":
+        return "Thanh toán toàn bộ";
+      default:
+        return "Chưa xác định";
+    }
+  };
   const fetchData = async () => {
     try {
       const response = await axios.get(
@@ -43,7 +71,7 @@ export default function ManageBooking() {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [fetchData]);
 
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
@@ -93,26 +121,10 @@ export default function ManageBooking() {
                   <TableCell align="center">{row.fullName}</TableCell>
                   <TableCell align="center">{row.bookingDate}</TableCell>
                   <TableCell align="center">
-                    {row.bookingStatus === "NOTYET"
-                      ? "Chưa diễn ra"
-                      : row.bookingStatus === "PENDING"
-                      ? "Đang diễn ra"
-                      : row.bookingStatus === "COMPLETE"
-                      ? "Hoàn thành"
-                      : row.bookingStatus === "CANCELLED"
-                      ? "Hủy"
-                      : "Không xác định"}
+                    {getBookingStatus(row.bookingStatus)}
                   </TableCell>
                   <TableCell align="center">
-                    {row.bookingStatusPaid === "DEPOSIT"
-                      ? "Đặt cọc"
-                      : row.bookingStatusPaid === "FAILED"
-                      ? "Thanh toán thất bại"
-                      : row.bookingStatusPaid === "UNPAID"
-                      ? "Chưa thanh toán"
-                      : row.bookingStatusPaid === "PAIDALL"
-                      ? "Thanh toán toàn bộ"
-                      : "Chưa xác định"}
+                    {getBookingStatusPaid(row.bookingStatusPaid)}
                   </TableCell>
                   <TableCell align="center">
                     <Button
