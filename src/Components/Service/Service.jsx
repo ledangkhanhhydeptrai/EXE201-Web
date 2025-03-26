@@ -7,19 +7,20 @@ import axios from "axios";
 const Service = () => {
   const navigate = useNavigate();
   const [data, setData] = useState([]);
+  const fetchData = async () => {
+    const response = await axios.get(
+      `https://bookingpetservice.onrender.com/api/service/v1/getAllServiceIsActive`
+    );
+    if (response.status >= 200 && response.status < 300) {
+      setData(response.data.data);
+    } else {
+      throw new Error(`HTTP Status:${response.status}`);
+    }
+  };
   useEffect(() => {
-    const fetchData = async () => {
-      const response = await axios.get(
-        `https://bookingpetservice.onrender.com/api/service/v1/getAllServiceIsActive`
-      );
-      if (response.status >= 200 && response.status < 300) {
-        setData(response.data.data);
-      } else {
-        throw new Error(`HTTP Status:${response.status}`);
-      }
-    };
     fetchData();
   }, []);
+  // thêm một cái dịch vụ phụ
   return (
     <div className="container-fluid">
       <div className={styles.app}>
@@ -43,20 +44,16 @@ const Service = () => {
           <section className={styles.services}>
             <h2>Dịch vụ của chúng tôi</h2>
             <div className={styles.servicesList}>
-              {data.map((service, index) => (
-                <div className={styles.serviceCard} key={index}>
+              {data.map((service) => (
+                <div
+                  className={styles.serviceCard}
+                  key={service.serviceId}
+                  onClick={() => navigate(`/service/${service.serviceId}`)}
+                >
                   <img src={service.imageServiceBase64} alt={service.title} />
                   <div className={styles.serviceInfo}>
                     <h3>{service.serviceName}</h3>
                     <p>{service.description}</p>
-                    {/* <button
-                      className={`${styles.bookNow} ${
-                        styles[service.buttonColor]
-                      }`}
-                      onClick={() => navigate("/booking")}
-                    >
-                      Book now
-                    </button> */}
                   </div>
                 </div>
               ))}
