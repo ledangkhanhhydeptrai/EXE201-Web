@@ -34,8 +34,10 @@ import Detail2 from "./Components/DetailBlog/Detail2";
 import Detail3 from "./Components/DetailBlog/Detail3";
 import Detail4 from "./Components/DetailBlog/Detail4";
 import ManageBooking1 from "./Components/Staff/ManageBooking/ManageBooking";
+import ServiceDetail from "./Components/ServiceDetail/ServiceDetail";
+import ServiceOptional from "./Components/Admin/ManageServiceOptional/ServiceOptional";
+import ManageServiceDetail from "./Components/Admin/ManageServiceDetail/ManageServiceDetail";
 function App() {
-  //1
   return (
     <>
       <Routes>
@@ -79,6 +81,12 @@ function App() {
         <Route path="/detailblog/3" element={<Detail3 />} />
         <Route path="/detailblog/4" element={<Detail4 />} />
         <Route path="/managebooking1" element={<ManageBooking1 />} />
+        <Route path="/service/:serviceId" element={<ServiceDetail />} />
+        <Route path="/serviceoptional" element={<ServiceOptional />} />
+        <Route
+          path="/manageservice/:serviceId"
+          element={<ManageServiceDetail />}
+        />
       </Routes>
     </>
   );

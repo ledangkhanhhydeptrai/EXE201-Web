@@ -18,6 +18,7 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 export default function ManageService() {
   const [serviceRows, setServiceRows] = useState([]);
   const [open, setOpen] = useState(false);
@@ -32,6 +33,7 @@ export default function ManageService() {
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const currentData = serviceRows.slice(startIndex, endIndex);
+  const navigate = useNavigate();
   const handleOpenCreate = () => {
     setOpenCreate(true);
   };
@@ -134,6 +136,7 @@ export default function ManageService() {
     };
     fetchService();
   }, []);
+
   const handleCreate = async () => {
     const formData = new FormData();
     formData.append("serviceName", serviceNAme);
@@ -276,6 +279,12 @@ export default function ManageService() {
                 >
                   Delete
                 </TableCell>
+                <TableCell
+                  sx={{ color: "#fff", fontWeight: "bold" }}
+                  align="center"
+                >
+                  Detail
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -324,6 +333,15 @@ export default function ManageService() {
                       Delete
                     </button>
                   </TableCell>
+                  <TableCell align="center">
+                    <Button
+                      onClick={() =>
+                        navigate(`/manageservice/${row.serviceId}`)
+                      }
+                    >
+                      Detail
+                    </Button>
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -370,7 +388,7 @@ export default function ManageService() {
         </Modal>
         <div className={styles.pagination}>
           <Pagination
-            count={Math.ceil(serviceRows.length / itemsPerPage)} // Tổng số trang
+            count={Math.ceil(serviceRows.length / itemsPerPage)}
             page={currentPage}
             onChange={(event, value) => setCurrentPage(value)}
             color="primary"
