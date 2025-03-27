@@ -1,49 +1,110 @@
+/* Popup container */
 .container {
+  background-color: #fff;
+  padding: 25px;
+  border-radius: 12px;
   text-align: center;
-  padding: 50px;
-  background-color: #f9f9f9;
-  border-radius: 10px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-  margin: 50px auto;
-  margin-top: 100px;
-  h2 {
-    color: #ff4d4d;
+  width: 800px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  margin-bottom: 100px;
+}
+
+/* Success icon */
+.icon-container {
+  width: 70px;
+  height: 70px;
+  background-color: #27ae60;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 10px;
+}
+
+.check-mark {
+  color: #fff;
+  font-size: 36px;
+}
+
+/* Title */
+.title {
+  color: #27ae60;
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 12px;
+}
+
+/* Booking details */
+p {
+  font-size: 14px;
+  color: #333;
+  margin: 8px 0;
+}
+
+strong {
+  color: #2c3e50;
+}
+
+/* Service image */
+.image {
+  width: 100%;
+  max-height: 200px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-top: 12px;
+}
+
+/* Button group */
+.buttonGroup {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+/* Payment button */
+.buttonPay {
+  background-color: #27ae60;
+  color: #fff;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.buttonPay:hover {
+  background-color: #219150;
+}
+
+/* Cancel button */
+.button {
+  background-color: #e74c3c;
+  color: #fff;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.button:hover {
+  background-color: #c0392b;
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
   }
-
-  p {
-    font-size: 16px;
-    margin-bottom: 20px;
-  }
-
-  .button {
-    background-color: #ff4d4d;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
-
-    &:hover {
-      background-color: #e03e3e;
-    }
-  }
-
-  .buttonPay {
-    background-color: #0670e8;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
-
-    &:hover {
-      background-color: #3212d2;
-    }
-  }
-
-  .buttonGap {
-    width: 50px;
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }

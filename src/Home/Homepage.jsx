@@ -67,7 +67,7 @@ export default function Homepage() {
     handlePayment();
   }, []);
   return (
-    <div className="container">
+    <div>
       <div className={styles.app}>
         <Header />
         <section className={styles.hero}>
