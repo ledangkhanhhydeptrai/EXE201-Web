@@ -19,6 +19,8 @@ const Book = () => {
     service: "",
     paymentMethod: "",
     date: "",
+    startTime: "08:30:00",
+    endTime: "10:30:00",
   });
   const fetchServices = async () => {
     try {
@@ -102,13 +104,13 @@ const Book = () => {
           petId: selectedPet.petId,
           serviceId: formData.service,
           optionalServiceId: formData.optionalService || null,
-          paymentId: formData.paymentMethod,
+          paymentId: formData.paymentMethod
         },
         {
           headers: {
             Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
+            "Content-Type": "application/json"
+          }
         }
       );
       console.log("Response từ server:", response);
@@ -152,9 +154,9 @@ const Book = () => {
         {
           headers: {
             Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
+            "Content-Type": "application/json"
           },
-          timeout: 5000,
+          timeout: 5000
         }
       );
 
@@ -223,7 +225,7 @@ const Book = () => {
                     </select>
                   </div>
                   <div className={styles.dateGroup}>
-                    Ngày:
+                    Ngày đặt lịch:
                     <input
                       type="date"
                       name="date"
