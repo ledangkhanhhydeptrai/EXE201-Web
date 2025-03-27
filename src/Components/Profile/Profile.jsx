@@ -12,6 +12,7 @@ import {
   CircularProgress
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import Footer from "../../Footer/Footer";
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -54,13 +55,13 @@ const Profile = () => {
       <div className={styles.container}>
         <Card className={styles.profileCard}>
           <CardContent>
-            <Typography className={styles.title} variant="h5">
+            <Typography style={{ textAlign: "center" }} variant="h4">
               Hồ Sơ Cá Nhân
             </Typography>
 
             {loading ? (
               <div className={styles.loading}>
-                <CircularProgress size={40} />
+                <CircularProgress size={50} />
                 <Typography>Đang tải...</Typography>
               </div>
             ) : error ? (
@@ -68,13 +69,14 @@ const Profile = () => {
             ) : (
               <div className={styles.profileInfo}>
                 <Avatar
-                  className={styles.avatar}
+                  sx={{ borderRadius: 0, width: 100, height: 100 }} // Bo góc vuông và kích thước lớn
                   alt={profile?.fulName || "User Avatar"}
                   src={
                     profile?.avatarBase64 ||
                     "https://mui.com/static/images/avatar/1.jpg"
                   }
                 />
+
                 <Typography className={styles.name}>
                   {profile?.fulName || "Chưa có tên"}
                 </Typography>
@@ -105,6 +107,9 @@ const Profile = () => {
             </Button>
           </CardActions>
         </Card>
+      </div>
+      <div style={{ width: "300px", marginRight: "1200px",marginTop: "-20px" }}>
+        <Footer />
       </div>
     </div>
   );

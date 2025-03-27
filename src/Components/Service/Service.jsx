@@ -7,6 +7,7 @@ import axios from "axios";
 const Service = () => {
   const navigate = useNavigate();
   const [data, setData] = useState([]);
+  const [data1, setData1] = useState([]);
   const fetchData = async () => {
     const response = await axios.get(
       `https://bookingpetservice.onrender.com/api/service/v1/getAllServiceIsActive`
@@ -17,8 +18,19 @@ const Service = () => {
       throw new Error(`HTTP Status:${response.status}`);
     }
   };
+  const fetchDataOptional = async () => {
+    const response = await axios.get(
+      "https://bookingpetservice.onrender.com/api/OptionalService/v1/getAllOptionalServiceIsActive"
+    );
+    if (response.status >= 200 && response.status < 300) {
+      setData1(response.data.data);
+    } else {
+      throw new Error(`HTTP Status:${response.status}`);
+    }
+  };
   useEffect(() => {
     fetchData();
+    fetchDataOptional();
   }, []);
   // thêm một cái dịch vụ phụ
   return (
@@ -52,6 +64,26 @@ const Service = () => {
                 >
                   <img src={service.imageServiceBase64} alt={service.title} />
                   <div className={styles.serviceInfo}>
+                    <h3>{service.serviceName}</h3>
+                    <p>{service.description}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+          <section className={styles.services1}>
+            <h2>Chúng tôi còn thêm những dịch vụ khác</h2>
+            <div className={styles.servicesList1}>
+              {data1.map((service) => (
+                <div
+                  className={styles.serviceCard1}
+                  key={service.serviceId1}
+                  onClick={() =>
+                    navigate(`/detailservice/${service.serviceId}`)
+                  }
+                >
+                  <img src={service.imageServiceBase64} alt={service.title} />
+                  <div className={styles.serviceInfo1}>
                     <h3>{service.serviceName}</h3>
                     <p>{service.description}</p>
                   </div>
