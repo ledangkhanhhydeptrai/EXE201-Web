@@ -1,35 +1,42 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import { Pagination } from "@mui/material"; // Import Pagination từ MUI
-import styles from "./ManageBooking.module.scss";
-import Sidebar from "../Sidebar/Sidebar";
-import Header from "../HeaderAdmin/Header";
+import { useState, useEffect, useCallback } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import {
-  Button,
-  Paper,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
-  TableRow
+  TableRow,
+  Paper,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  Button,
+  Pagination,
+  TextField
 } from "@mui/material";
-import { useEffect, useState } from "react";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import styles from "./ManageBooking.module.scss";
+import Sidebar from "../Sidebar/Sidebar";
+import Header from "../HeaderAdmin/Header";
 
-export default function ManageBooking() {
-  const [data, setData] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 5;
-  const token = localStorage.getItem("jwt");
+const ManageBooking = () => {
   const navigate = useNavigate();
+  const [data, setData] = useState([]);
+  const [currentData, setCurrentData] = useState([]);
+  const [bookingDate, setBookingDate] = useState("2025-03-28");
+  const [bookingStatus, setBookingStatus] = useState("");
+  const [bookingStatusPaid, setBookingStatusPaid] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
   const getBookingStatus = (status) => {
     switch (status) {
       case "NOTYET":
         return "Chưa diễn ra";
       case "PENDING":
         return "Đang diễn ra";
-      case "COMPLETE":
+      case "COMPLETED":
         return "Hoàn thành";
       case "CANCELLED":
         return "Đã hủy";
@@ -39,49 +46,104 @@ export default function ManageBooking() {
   };
   const getBookingStatusPaid = (status) => {
     switch (status) {
-      case "DEPOSIT":
-        return "Đặt cọc";
-      case "FAILED":
-        return "Thanh toán thất bại";
-      case "UNPAID":
-        return "Chưa thanh toán";
       case "PAIDALL":
         return "Thanh toán toàn bộ";
+      case "DEPOSIT":
+        return "Đặt cọc";
+      case "UNPAID":
+        return "Chưa thanh toán";
+      case "FAILED":
+        return "Thanh toán thất bại";
       default:
-        return "Chưa xác định";
+        return "Không xác định";
     }
   };
-  const fetchData = async () => {
+  const fetchAllBookings = async () => {
     try {
       const response = await axios.get(
-        `https://bookingpetservice.onrender.com/api/booking/v1/getAllBookingByAmind`,
-        {
-          headers: { Authorization: `Bearer ${token}` }
-        }
+        "https://bookingpetservice.onrender.com/api/booking/v1/getAllBookingByAmind"
       );
-
-      if (response.status >= 200 && response.status < 300) {
-        console.log("API Response:", response.data.data);
-        setData(response.data.data);
-      }
+      setData(response.data.data);
+      setCurrentData(response.data.data.slice(0, itemsPerPage));
     } catch (error) {
-      console.error("Error fetching data:", error);
+      console.error("Lỗi khi lấy danh sách booking:", error);
     }
   };
+  const fetchFilteredBookings = useCallback(async () => {
+    if (!bookingDate && !bookingStatus && !bookingStatusPaid) {
+      fetchAllBookings();
+      return;
+    }
+
+    try {
+      const response = await axios.get(
+        `https://bookingpetservice.onrender.com/api/booking/v1/getBookingByAdmiByDropdown`,
+        {
+          params: {
+            bookDate: bookingDate,
+            bookingStatus,
+            bookingStatusPaid
+          }
+        }
+      );
+      setData(response.data.data);
+      setCurrentData(response.data.data.slice(0, itemsPerPage));
+    } catch (error) {
+      console.error("Lỗi khi lọc danh sách booking:", error);
+    }
+  }, [bookingDate, bookingStatus, bookingStatusPaid]);
 
   useEffect(() => {
-    fetchData();
-  }, [fetchData]);
-
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-  const currentData = data.slice(startIndex, endIndex);
+    fetchAllBookings();
+  }, []);
+  useEffect(() => {
+    fetchFilteredBookings();
+  }, [fetchFilteredBookings]);
+  useEffect(() => {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const paginatedData = data.slice(startIndex, startIndex + itemsPerPage);
+    setCurrentData(paginatedData);
+  }, [currentPage, data]);
 
   return (
     <>
       <Sidebar />
       <Header />
       <div className={styles.container}>
+        <div className={styles.filters}>
+          <TextField
+            label="Ngày đặt chỗ"
+            type="date"
+            value={bookingDate}
+            onChange={(e) => setBookingDate(e.target.value)}
+            className={styles.datePicker}
+            InputLabelProps={{ shrink: true }}
+          />
+          <FormControl className={styles.select}>
+            <InputLabel>Trạng thái đặt chỗ</InputLabel>
+            <Select
+              value={bookingStatus}
+              onChange={(e) => setBookingStatus(e.target.value)}
+            >
+              <MenuItem value="NOTYET">Chưa diễn ra</MenuItem>
+              <MenuItem value="PENDING">Đang diễn ra</MenuItem>
+              <MenuItem value="COMPLETED">Hoàn thành</MenuItem>
+              <MenuItem value="CANCELLED">Đã hủy</MenuItem>
+            </Select>
+          </FormControl>
+          <FormControl className={styles.select}>
+            <InputLabel>Trạng thái thanh toán</InputLabel>
+            <Select
+              value={bookingStatusPaid}
+              onChange={(e) => setBookingStatusPaid(e.target.value)}
+            >
+              <MenuItem value="PAIDALL">Thanh toán toàn bộ</MenuItem>
+              <MenuItem value="DEPOSIT">Đặt cọc</MenuItem>
+              <MenuItem value="UNPAID">Chưa thanh toán</MenuItem>
+              <MenuItem value="FAILED">Thanh toán thất bại</MenuItem>
+            </Select>
+          </FormControl>
+        </div>
         <TableContainer component={Paper} className={styles.tableContainer}>
           <Table className={styles.table} aria-label="user table">
             <TableHead>
@@ -89,6 +151,9 @@ export default function ManageBooking() {
                 <TableCell className={styles.tableCell}>Booking ID</TableCell>
                 <TableCell className={styles.tableCell} align="center">
                   Service Name
+                </TableCell>
+                <TableCell className={styles.tableCell} align="center">
+                  Optional Service Name
                 </TableCell>
                 <TableCell className={styles.tableCell} align="center">
                   Pet Name
@@ -100,10 +165,22 @@ export default function ManageBooking() {
                   Booking Date
                 </TableCell>
                 <TableCell className={styles.tableCell} align="center">
+                  Start Time
+                </TableCell>
+                <TableCell className={styles.tableCell} align="center">
+                  End Time
+                </TableCell>
+                <TableCell className={styles.tableCell} align="center">
+                  End Date
+                </TableCell>
+                <TableCell className={styles.tableCell} align="center">
+                  Total Amount
+                </TableCell>
+                <TableCell className={styles.tableCell} align="center">
                   Booking Status
                 </TableCell>
                 <TableCell className={styles.tableCell} align="center">
-                  Payment Status
+                  Booking Status Paid
                 </TableCell>
                 <TableCell align="center" className={styles.tableCell}>
                   Detail
@@ -113,13 +190,18 @@ export default function ManageBooking() {
             <TableBody>
               {currentData.map((row, index) => (
                 <TableRow key={index} className={styles.tableRow}>
-                  <TableCell component="th" scope="row" align="center">
-                    {row.bookinId}
-                  </TableCell>
+                  <TableCell align="center">{row.bookinId}</TableCell>
                   <TableCell align="center">{row.serviceName}</TableCell>
+                  <TableCell align="center">
+                    {row.optionalServiceName}
+                  </TableCell>
                   <TableCell align="center">{row.petName}</TableCell>
                   <TableCell align="center">{row.fullName}</TableCell>
                   <TableCell align="center">{row.bookingDate}</TableCell>
+                  <TableCell align="center">{row.startTime}</TableCell>
+                  <TableCell align="center">{row.endTime}</TableCell>
+                  <TableCell align="center">{row.endDate}</TableCell>
+                  <TableCell align="center">{row.totalAmount}</TableCell>
                   <TableCell align="center">
                     {getBookingStatus(row.bookingStatus)}
                   </TableCell>
@@ -140,11 +222,9 @@ export default function ManageBooking() {
             </TableBody>
           </Table>
         </TableContainer>
-
-        {/* Pagination */}
         <div className={styles.pagination}>
           <Pagination
-            count={Math.ceil(data.length / itemsPerPage)} // Tổng số trang
+            count={Math.ceil(data.length / itemsPerPage)}
             page={currentPage}
             onChange={(event, value) => setCurrentPage(value)}
             color="primary"
@@ -153,4 +233,6 @@ export default function ManageBooking() {
       </div>
     </>
   );
-}
+};
+
+export default ManageBooking;

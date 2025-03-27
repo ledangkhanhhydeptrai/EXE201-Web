@@ -16,7 +16,34 @@ const BookingDetail = () => {
   const { bookinId } = useParams();
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
-
+  const getBookingStatus = (status) => {
+    switch (status) {
+      case "NOTYET":
+        return "Chưa diễn ra";
+      case "PENDING":
+        return "Đang diễn ra";
+      case "COMPLETED":
+        return "Hoàn thành";
+      case "CANCELLED":
+        return "Đã hủy";
+      default:
+        return "Không xác định";
+    }
+  };
+  const getBookingStatusPaid = (status) => {
+    switch (status) {
+      case "PAIDALL":
+        return "Thanh toán toàn bộ";
+      case "DEPOSIT":
+        return "Đặt cọc";
+      case "UNPAID":
+        return "Chưa thanh toán";
+      case "FAILED":
+        return "Thanh toán thất bại";
+      default:
+        return "Không xác định";
+    }
+  };
   useEffect(() => {
     if (!bookinId || isNaN(Number(bookinId))) {
       console.error("❌ ID không hợp lệ:", bookinId);
@@ -73,13 +100,28 @@ const BookingDetail = () => {
                   <strong>Dịch vụ:</strong> {data.serviceName}
                 </Typography>
                 <Typography variant="body1">
+                  <strong>Dịch vụ chọn:</strong> {data.optinalServiceName}
+                </Typography>
+                <Typography variant="body1">
                   <strong>Thú cưng:</strong> {data.petName}
                 </Typography>
                 <Typography variant="body1">
-                  <strong>Khách hàng:</strong> {data.fullName}
+                  <strong>Họ tên đầy đủ:</strong> {data.fullName}
                 </Typography>
                 <Typography variant="body1">
                   <strong>Ngày đặt:</strong> {data.bookingDate}
+                </Typography>
+                <Typography variant="body1">
+                  <strong>Giờ bắt đầu:</strong> {data.startTime}
+                </Typography>
+                <Typography variant="body1">
+                  <strong>Giờ kết thúc:</strong> {data.endTime}
+                </Typography>
+                <Typography variant="body1">
+                  <strong>Ngày kết thúc:</strong> {data.endDate}
+                </Typography>
+                <Typography variant="body1">
+                  <strong>Tổng số lượng:</strong> {data.totalAmount}
                 </Typography>
                 <Typography
                   variant="body1"
@@ -89,14 +131,15 @@ const BookingDetail = () => {
                       : "success.main"
                   }
                 >
-                  <strong>Trạng thái:</strong> {data.bookingStatus}
+                  <strong>Trạng thái:</strong>{" "}
+                  {getBookingStatus(data.bookingStatus)}
                 </Typography>
                 <Typography
                   variant="body1"
                   color={data.bookingStatusPaid ? "success.main" : "error.main"}
                 >
                   <strong>Thanh toán:</strong>{" "}
-                  {data.bookingStatusPaid ?? "Chưa thanh toán"}
+                  {getBookingStatusPaid(data.bookingStatusPaid)}
                 </Typography>
               </CardContent>
             </Card>
