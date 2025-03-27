@@ -151,6 +151,31 @@ const ServiceOptional = () => {
       setIsLoading(false);
     }
   };
+  const handleDelete = async (serviceId) => {
+    if (window.confirm("Are you sure you want to delete this service?")) {
+      try {
+        const response = await axios.delete(
+          `https://bookingpetservice.onrender.com/api/OptionalService/v1/deleteOptionalService/${serviceId}`,
+          {
+            headers: {
+              accept: "*/*",
+            },
+            timeout: 5000
+          }
+        );
+
+        if (response.status >= 200 && response.status < 300) {
+          alert("Service deleted successfully");
+          setData(data.filter((service) => service.serviceId !== serviceId));
+        } else {
+          alert("Failed to delete service");
+        }
+      } catch (error) {
+        console.error("Error deleting service:", error);
+        alert("An error occurred while deleting the service");
+      }
+    }
+  };
 
   const navigate = useNavigate();
   return (
@@ -325,7 +350,9 @@ const ServiceOptional = () => {
                     <button onClick={() => handleOpen(row)}>Edit</button>
                   </TableCell>
                   <TableCell align="center">
-                    <button>Delete</button>
+                    <button onClick={() => handleDelete(row.serviceId)}>
+                      Delete
+                    </button>
                   </TableCell>
                   <TableCell align="center">
                     <Button
