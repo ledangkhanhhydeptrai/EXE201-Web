@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import {
@@ -11,13 +11,25 @@ import {
   Paper,
   Typography,
   CircularProgress,
-  Box
+  Box,
+  TextField,
+  InputLabel,
+  FormControl,
+  Select,
+  MenuItem,
+  Pagination
 } from "@mui/material";
 import Header from "../../Header/Header";
 import styles from "./ManageBooking.module.scss";
 
 const ManageBookingUser = () => {
   const [data, setData] = useState([]);
+  const [currentData, setCurrentData] = useState([]);
+  const [bookingDate, setBookingDate] = useState("2025-03-28");
+  const [bookingStatus, setBookingStatus] = useState("");
+  const [bookingStatusPaid, setBookingStatusPaid] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   const getBookingStatus = (status) => {
@@ -48,28 +60,62 @@ const ManageBookingUser = () => {
         return "Chưa xác định";
     }
   };
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          `https://bookingpetservice.onrender.com/api/booking/v1/getAllBookingByUser`,
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("jwt")}`
-            }
+  const fetchAllBookings = async () => {
+    try {
+      const response = await axios.get(
+        `https://bookingpetservice.onrender.com/api/booking/v1/getAllBookingByUser`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("jwt")}`
           }
-        );
-        if (response.status >= 200 && response.status < 300) {
-          setData(response.data.data);
         }
-      } catch (error) {
-        console.error("❌ Lỗi khi gọi API:", error);
-      } finally {
-        setLoading(false);
+      );
+      if (response.status >= 200 && response.status < 300) {
+        setData(response.data.data);
       }
-    };
-    fetchData();
+    } catch (error) {
+      console.error("❌ Lỗi khi gọi API:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+  const fetchFilteredBookings = useCallback(async () => {
+    if (!bookingDate && !bookingStatus && !bookingStatusPaid) {
+      fetchAllBookings();
+      return;
+    }
+
+    try {
+      const response = await axios.get(
+        `https://bookingpetservice.onrender.com/api/booking/v1/getBookingByUserByDropdown`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("jwt")}`
+          },
+          params: {
+            bookDate: bookingDate,
+            bookingStatus,
+            bookingStatusPaid
+          }
+        }
+      );
+      setData(response.data.data);
+      setCurrentData(response.data.data.slice(0, itemsPerPage));
+    } catch (error) {
+      console.error("Lỗi khi lọc danh sách booking:", error);
+    }
+  }, [bookingDate, bookingStatus, bookingStatusPaid]);
+  useEffect(() => {
+    fetchAllBookings();
   }, []);
+  useEffect(() => {
+    fetchFilteredBookings();
+  }, [fetchFilteredBookings]);
+  useEffect(() => {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const paginatedData = data.slice(startIndex, startIndex + itemsPerPage);
+    setCurrentData(paginatedData);
+  }, [currentPage, data]);
 
   return (
     <div className="container-fluid">
@@ -79,7 +125,40 @@ const ManageBookingUser = () => {
           <Typography variant="h5" fontWeight="bold" gutterBottom>
             Quản lý Đặt lịch
           </Typography>
-
+          <div className={styles.filters}>
+            <TextField
+              label="Ngày đặt chỗ"
+              type="date"
+              value={bookingDate}
+              onChange={(e) => setBookingDate(e.target.value)}
+              className={styles.datePicker}
+              InputLabelProps={{ shrink: true }}
+            />
+            <FormControl className={styles.select}>
+              <InputLabel>Trạng thái đặt chỗ</InputLabel>
+              <Select
+                value={bookingStatus}
+                onChange={(e) => setBookingStatus(e.target.value)}
+              >
+                <MenuItem value="NOTYET">Chưa diễn ra</MenuItem>
+                <MenuItem value="PENDING">Đang diễn ra</MenuItem>
+                <MenuItem value="COMPLETED">Hoàn thành</MenuItem>
+                <MenuItem value="CANCELLED">Đã hủy</MenuItem>
+              </Select>
+            </FormControl>
+            <FormControl className={styles.select}>
+              <InputLabel>Trạng thái thanh toán</InputLabel>
+              <Select
+                value={bookingStatusPaid}
+                onChange={(e) => setBookingStatusPaid(e.target.value)}
+              >
+                <MenuItem value="PAIDALL">Thanh toán toàn bộ</MenuItem>
+                <MenuItem value="DEPOSIT">Đặt cọc</MenuItem>
+                <MenuItem value="UNPAID">Chưa thanh toán</MenuItem>
+                <MenuItem value="FAILED">Thanh toán thất bại</MenuItem>
+              </Select>
+            </FormControl>
+          </div>
           {loading ? (
             <Box
               display="flex"
@@ -118,7 +197,7 @@ const ManageBookingUser = () => {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {data.map((booking, index) => (
+                  {currentData.map((booking, index) => (
                     <TableRow
                       key={index}
                       hover
@@ -161,6 +240,14 @@ const ManageBookingUser = () => {
             </TableContainer>
           )}
         </Box>
+        <div className={styles.pagination}>
+          <Pagination
+            count={Math.ceil(data.length / itemsPerPage)}
+            page={currentPage}
+            onChange={(event, value) => setCurrentPage(value)}
+            color="primary"
+          />
+        </div>
       </div>
     </div>
   );

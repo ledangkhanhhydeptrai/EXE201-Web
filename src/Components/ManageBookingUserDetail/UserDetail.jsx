@@ -13,6 +13,7 @@ import {
 } from "@mui/material";
 import Header from "../../Header/Header";
 import styles from "./UserDetail.module.scss";
+import Footer from "../../Footer/Footer";
 
 const UserDetail = () => {
   const { bookinId } = useParams();
@@ -139,6 +140,7 @@ const UserDetail = () => {
           </Card>
         </Container>
       </div>
+      <Footer />
     </div>
   );
 };

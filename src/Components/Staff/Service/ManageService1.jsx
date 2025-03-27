@@ -1,14 +1,5 @@
-import axios from "axios";
-import styles from "./MangeService1.module.scss";
-import { useEffect, useState } from "react";
-import Sidebar1 from "../Sidebar/Sidebar1";
-import Header1 from "../HeaderAdmin/Header1";
+import styles from "./ManageService1.module.scss";
 import {
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
   Paper,
   Table,
   TableBody,
@@ -16,398 +7,394 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  TextField
+  Modal,
+  Button,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  Pagination
 } from "@mui/material";
-const ManageService1 = () => {
-  const [data, setData] = useState([]);
-  const [serviceName, setServiceName] = useState("");
-  const [serviceDescription, setServiceDescription] = useState("");
-  const [servicePrice, setSerivePrice] = useState("");
-  const [imageService, setImageService] = useState(null);
-  const [showPopUp, setShowPopUp] = useState(false);
-  const [showUpdate, setShowUpdate] = useState(false);
-  const [selectedService, setSelectedService] = useState(null);
-  const handleOpenCreatePopUp = () => {
-    setShowPopUp(!showPopUp);
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Sidebar1 from "../Sidebar/Sidebar1";
+import Header1 from "../HeaderAdmin/Header1";
+export default function ManageService1() {
+  const [serviceRows, setServiceRows] = useState([]);
+  const [open, setOpen] = useState(false);
+  const [currentService, setCurrentService] = useState(null);
+  const [serviceNAme, setServiceNAme] = useState("");
+  const [description, setDescription] = useState("");
+  const [price, setPrice] = useState(0);
+  const [openCreate, setOpenCreate] = useState(false);
+  const [file, setFile] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentData = serviceRows.slice(startIndex, endIndex);
+  const navigate = useNavigate();
+  const handleOpenCreate = () => {
+    setOpenCreate(true);
   };
-  const handleCloseCreatePopUp = () => {
-    setShowPopUp(false);
+
+  const handleCloseCreate = () => {
+    setOpenCreate(false);
   };
-  const handleOpenUpdate = () => {
-    setShowUpdate(!showUpdate);
+  const handleOpen = (service) => {
+    setCurrentService(service);
+    setOpen(true);
   };
-  const handleCloseUpdate = () => {
-    setShowUpdate(false);
+  const handleClose = () => {
+    setOpen(false);
   };
-  const fetchData = async () => {
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const formData = new FormData();
+
+    // Append form fields
+    formData.append("serviceName", event.target.serviceName.value);
+    formData.append("description", event.target.serviceDescription.value);
+    formData.append("price", event.target.servicePrice.value);
+
+    // Append file if it exists
+    const fileInput = event.target.imageService;
+    if (fileInput.files.length > 0) {
+      formData.append("file", fileInput.files[0]);
+    } else {
+      alert("Please upload an image");
+      return;
+    }
+
     try {
-      const response = await axios.get(
-        `https://bookingpetservice.onrender.com/api/service/v1/getAllServiceIsActive`
+      const response = await axios.put(
+        `https://bookingpetservice.onrender.com/api/service/v1/update/${currentService.serviceId}`,
+        formData,
+        {
+          headers: {
+            accept: "*/*",
+            Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+            "Content-Type": "multipart/form-data"
+          }
+        }
       );
 
       if (response.status >= 200 && response.status < 300) {
-        console.log("API Response:", response.data);
-        setData(response.data.data);
+        alert("Service updated successfully");
+        handleClose();
+        window.location.reload();
+      } else {
+        alert("Failed to update service");
       }
     } catch (error) {
-      console.error("Error fetching data:", error);
+      console.error("Error updating service:", error);
     }
   };
+
+  const handleDelete = async (serviceId) => {
+    if (window.confirm("Are you sure you want to delete this service?")) {
+      try {
+        const response = await axios.delete(
+          `https://bookingpetservice.onrender.com/api/service/v1/deleteService/${serviceId}`,
+          {
+            headers: {
+              accept: "*/*",
+              Authorization: `Bearer ${localStorage.getItem("jwt")}`
+            },
+            timeout: 5000
+          }
+        );
+
+        if (response.status >= 200 && response.status < 300) {
+          alert("Service deleted successfully");
+          setServiceRows(
+            serviceRows.filter((service) => service.serviceId !== serviceId)
+          );
+        } else {
+          alert("Failed to delete service");
+        }
+      } catch (error) {
+        console.error("Error deleting service:", error);
+        alert("An error occurred while deleting the service");
+      }
+    }
+  };
+
   useEffect(() => {
-    fetchData();
+    const fetchService = async () => {
+      const response = await axios.get(
+        "https://bookingpetservice.onrender.com/api/service/v1/getAllServiceIsActive",
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("jwt")}`
+          }
+        }
+      );
+      setServiceRows(
+        response.data.data.sort((a, b) => a.serviceId - b.serviceId)
+      );
+    };
+    fetchService();
   }, []);
-  const handleCreate = async (event) => {
-    event.preventDefault();
-    if (!serviceName || !serviceDescription || !servicePrice || !imageService) {
-      alert("Vui lòng nhập đầy đủ thông tin!");
-      return;
-    }
 
-    if (isNaN(servicePrice) || Number(servicePrice) <= 0) {
-      alert("Giá dịch vụ phải là số hợp lệ và lớn hơn 0!");
-      return;
-    }
-
-    if (!(imageService instanceof File)) {
-      alert("Hình ảnh không hợp lệ! Vui lòng chọn lại.");
-      return;
-    }
-
+  const handleCreate = async () => {
     const formData = new FormData();
-    formData.append("serviceName", serviceName);
-    formData.append("serviceDescription", serviceDescription);
-    formData.append("servicePrice", servicePrice);
-    formData.append("imageService", imageService);
-
-    console.log("Dữ liệu FormData:", [...formData.entries()]);
-
-    const token = localStorage.getItem("jwt");
-    if (!token) {
-      alert("Bạn chưa đăng nhập!");
-      return;
+    formData.append("serviceName", serviceNAme);
+    formData.append("description", description);
+    formData.append("price", price);
+    if (file) {
+      formData.append("file", file);
     }
-
-    console.log("Token:", token);
-
     try {
       const response = await axios.post(
         `https://bookingpetservice.onrender.com/api/service/v1/createService`,
         formData,
         {
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${localStorage.getItem("jwt")}`,
             "Content-Type": "multipart/form-data"
           }
         }
       );
-      console.log("Dịch vụ đã được tạo:", response.data);
-      alert("Tạo dịch vụ thành công!");
-      setServiceName("");
-      setServiceDescription("");
-      setSerivePrice("");
-      setImageService(null);
-      setShowPopUp(false);
-    } catch (error) {
-      console.error("Lỗi khi tạo dịch vụ:", error);
-      console.log("Chi tiết lỗi:", error.response?.data || error.message);
-      alert(
-        `Lỗi: ${
-          error.response?.data?.message || "Có lỗi xảy ra, vui lòng thử lại!"
-        }`
-      );
-    }
-  };
-  const UpdateService = (service) => {
-    setSelectedService(service);
-    setServiceName(service.serviceName);
-    setServiceDescription(service.serviceDescription);
-    setSerivePrice(service.servicePrice);
-    setImageService(null);
-    handleOpenUpdate();
-  };
-
-  const handleUpdate = async (event) => {
-    event.preventDefault();
-    if (!selectedService) {
-      alert("Không có dịch vụ nào được chọn!");
-      return;
-    }
-
-    if (!serviceName || !serviceDescription || !servicePrice) {
-      alert("Vui lòng nhập đầy đủ thông tin!");
-      return;
-    }
-
-    if (isNaN(servicePrice) || Number(servicePrice) <= 0) {
-      alert("Giá dịch vụ phải là số hợp lệ!");
-      return;
-    }
-
-    const formData = new FormData();
-    formData.append("serviceName", serviceName);
-    formData.append("serviceDescription", serviceDescription);
-    formData.append("servicePrice", servicePrice);
-
-    if (imageService) {
-      formData.append("imageService", imageService);
-    }
-
-    const token = localStorage.getItem("jwt");
-    if (!token) {
-      alert("Bạn chưa đăng nhập!");
-      return;
-    }
-
-    try {
-      const response = await axios.put(
-        `https://bookingpetservice.onrender.com/api/service/v1/update/${selectedService.serviceId}`,
-        formData,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "multipart/form-data"
-          }
-        }
-      );
-
       if (response.status >= 200 && response.status < 300) {
-        alert("Cập nhật dịch vụ thành công!");
-        fetchData();
-        handleCloseUpdate();
+        setServiceRows([...serviceRows, response.data.data]);
+        alert("Create service successfully");
+        window.location.reload();
+      } else {
+        throw new Error(`HTTP Status:${response.status}`);
       }
     } catch (error) {
-      console.error("Lỗi khi cập nhật dịch vụ:", error);
-      alert(
-        `Lỗi cập nhật: ${error.response?.data?.message || "Có lỗi xảy ra!"}`
-      );
+      console.error("Error creating service:", error);
     }
   };
-
-  const handleDelete = async (serviceId) => {
-    try {
-      await axios.delete(
-        `https://bookingpetservice.onrender.com/api/service/v1/deleteService/${serviceId}`
-      );
-      setData(data.filter((service) => service.serviceId !== serviceId));
-    } catch (error) {
-      console.error("Error", error.message);
-    }
-  };
-
   return (
     <>
       <Sidebar1 />
       <Header1 />
+      <div className={styles.createButtonContainer}>
+        <Button variant="contained" color="primary" onClick={handleOpenCreate}>
+          Create
+        </Button>
+
+        <Dialog open={openCreate} onClose={handleCloseCreate}>
+          <DialogTitle className={styles.dialogTitle}>
+            Tạo dịch vụ cho thú cưng
+          </DialogTitle>
+          <DialogContent>
+            <div className={styles.formContainer}>
+              <label htmlFor="serviceName">Service Name</label>
+              <input
+                type="text"
+                placeholder="Enter a service name"
+                value={serviceNAme}
+                onChange={(e) => setServiceNAme(e.target.value)}
+              />
+
+              <label htmlFor="description">Description</label>
+              <input
+                type="text"
+                placeholder="Enter a description"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+              />
+
+              <label htmlFor="price">Price</label>
+              <input
+                type="number"
+                placeholder="Enter a price"
+                value={price}
+                onChange={(e) => setPrice(e.target.value)}
+              />
+              <label htmlFor="price">File</label>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={(e) => setFile(e.target.files[0])}
+              />
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleCreate}
+              >
+                Submit
+              </Button>
+            </div>
+          </DialogContent>
+        </Dialog>
+      </div>
       <div className={styles.container}>
-        <TableContainer component={Paper} className={styles.tableContainer}>
-          <Table className={styles.table} aria-label="user table">
+        <TableContainer
+          component={Paper}
+          sx={{
+            borderRadius: "12px",
+            boxShadow: "0 4px 10px rgba(0,0,0,0.1)",
+            overflow: "hidden"
+          }}
+        >
+          <Table sx={{ minWidth: 650 }} aria-label="service table">
             <TableHead>
-              <TableRow className={styles.tableHead}>
-                <TableCell className={styles.tableCell}>Service ID</TableCell>
-                <TableCell className={styles.tableCell}>Service Name</TableCell>
-                <TableCell className={styles.tableCell} align="center">
+              <TableRow sx={{ backgroundColor: "#f50057" }}>
+                <TableCell sx={{ color: "#fff", fontWeight: "bold" }}>
+                  Service ID
+                </TableCell>
+                <TableCell
+                  sx={{ color: "#fff", fontWeight: "bold" }}
+                  align="center"
+                >
+                  Service Name
+                </TableCell>
+                <TableCell
+                  sx={{ color: "#fff", fontWeight: "bold" }}
+                  align="center"
+                >
                   Description
                 </TableCell>
-                <TableCell className={styles.tableCell} align="center">
+                <TableCell
+                  sx={{ color: "#fff", fontWeight: "bold" }}
+                  align="center"
+                >
                   Price
                 </TableCell>
-                <TableCell className={styles.tableCell} align="center">
-                  Image
+                <TableCell
+                  sx={{ color: "#fff", fontWeight: "bold" }}
+                  align="center"
+                >
+                  ImageServiceBase64
                 </TableCell>
-                <TableCell className={styles.tableCell} align="center">
-                  Status
+                <TableCell
+                  sx={{ color: "#fff", fontWeight: "bold" }}
+                  align="center"
+                >
+                  Active
                 </TableCell>
-                <TableCell className={styles.tableCell} align="center">
+                <TableCell
+                  sx={{ color: "#fff", fontWeight: "bold" }}
+                  align="center"
+                >
                   Update
                 </TableCell>
-                <TableCell className={styles.tableCell} align="center">
+                <TableCell
+                  sx={{ color: "#fff", fontWeight: "bold" }}
+                  align="center"
+                >
                   Delete
+                </TableCell>
+                <TableCell
+                  sx={{ color: "#fff", fontWeight: "bold" }}
+                  align="center"
+                >
+                  Detail
                 </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {data.map((row) => (
-                <TableRow key={row.serviceId} className={styles.tableRow}>
-                  <TableCell component="th" scope="row" align="center">
+              {currentData.map((row, index) => (
+                <TableRow
+                  key={index}
+                  sx={{
+                    "&:last-child td, &:last-child th": { border: 0 },
+                    "&:hover": { backgroundColor: "#ffe6ea", cursor: "pointer" }
+                  }}
+                >
+                  <TableCell component="th" scope="row">
                     {row.serviceId}
                   </TableCell>
                   <TableCell align="center">{row.serviceName}</TableCell>
                   <TableCell align="center">{row.description}</TableCell>
                   <TableCell align="center">{row.price}</TableCell>
                   <TableCell align="center">
-                    <img
-                      src={row.imageServiceBase64}
-                      alt=""
-                      className={styles.avatar}
-                    />
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center"
+                      }}
+                    >
+                      <img
+                        src={row.imageServiceBase64}
+                        alt="Service"
+                        style={{
+                          width: "50px",
+                          height: "50px",
+                          objectFit: "cover",
+                          borderRadius: "8px"
+                        }}
+                      />
+                    </div>
                   </TableCell>
                   <TableCell align="center">
-                    <span
-                      className={
-                        row.active ? styles.activeStatus : styles.bannedStatus
+                    {row.active ? "True" : "False"}
+                  </TableCell>
+                  <TableCell align="center">
+                    <button onClick={() => handleOpen(row)}>Edit</button>
+                  </TableCell>
+                  <TableCell align="center">
+                    <button onClick={() => handleDelete(row.serviceId)}>
+                      Delete
+                    </button>
+                  </TableCell>
+                  <TableCell align="center">
+                    <Button
+                      onClick={() =>
+                        navigate(`/manageservice/${row.serviceId}`)
                       }
                     >
-                      {row.active ? "Đang hoạt động" : "Bị cấm"}
-                    </span>
-                  </TableCell>
-                  <TableCell>
-                    <Button
-                      onClick={() => {
-                        UpdateService(row);
-                        handleOpenUpdate();
-                      }}
-                      color="primary"
-                    >
-                      Cập nhật
+                      Detail
                     </Button>
-                  </TableCell>
-                  <TableCell
-                    align="center"
-                    onClick={() => handleDelete(row.serviceId)}
-                  >
-                    Delete
                   </TableCell>
                 </TableRow>
               ))}
             </TableBody>
           </Table>
         </TableContainer>
-        <div
+        <Modal
           style={{
-            position: "fixed",
-            bottom: "180px",
-            width: "100%",
-            textAlign: "center"
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            backgroundColor: "rgba(0, 0, 0, 0.5)"
           }}
+          open={open}
+          onClose={handleClose}
         >
-          <Button
-            sx={{ backgroundColor: "orange" }}
-            onClick={handleOpenCreatePopUp}
-            variant="contained"
-            className="hover:bg-blue-700"
-          >
-            Create
-          </Button>
+          <div className={styles.modalContent}>
+            <form onSubmit={handleSubmit}>
+              <label htmlFor="serviceName">Service Name</label>
+              <input
+                type="text"
+                name="serviceName"
+                defaultValue={currentService?.serviceName}
+                title="Service Name"
+              />
+              <label htmlFor="serviceDescription">Description</label>
+              <input
+                type="text"
+                name="serviceDescription"
+                defaultValue={currentService?.description}
+                title="Description"
+              />
+              <label htmlFor="servicePrice">Price</label>
+              <input
+                type="number"
+                name="servicePrice"
+                defaultValue={currentService?.price}
+                title="Price"
+              />
+              <label htmlFor="imageService">Image Service</label>
+              <input type="file" name="imageService" title="Image Service" />
+              <button type="submit">Update</button>
+            </form>
+          </div>
+        </Modal>
+        <div className={styles.pagination}>
+          <Pagination
+            count={Math.ceil(serviceRows.length / itemsPerPage)}
+            page={currentPage}
+            onChange={(event, value) => setCurrentPage(value)}
+            color="primary"
+          />
         </div>
-
-        <Dialog open={showPopUp} onClose={handleCloseCreatePopUp}>
-          <DialogTitle>Create New Service</DialogTitle>
-          <DialogContent>
-            <form onSubmit={handleCreate}>
-              <TextField
-                label="Service Name"
-                type="text"
-                value={serviceName}
-                onChange={(e) => setServiceName(e.target.value)}
-                fullWidth
-                variant="outlined"
-                sx={{ my: 1 }}
-              />
-              <TextField
-                label="Description"
-                type="text"
-                value={serviceDescription}
-                onChange={(e) => setServiceDescription(e.target.value)}
-                fullWidth
-                variant="outlined"
-                sx={{ my: 1 }}
-              />
-              <TextField
-                label="servicePrice"
-                type="number"
-                value={servicePrice}
-                onChange={(e) => setSerivePrice(e.target.value)}
-                fullWidth
-                variant="outlined"
-                sx={{ my: 1 }}
-              />
-              <TextField
-                type="file"
-                accept="image/*"
-                onChange={(e) => setImageService(e.target.files[0])}
-                fullWidth
-                variant="outlined"
-                sx={{ my: 1 }}
-              />
-              <DialogActions>
-                <Button onClick={handleCloseCreatePopUp} color="secondary">
-                  Cancel
-                </Button>
-                <Button type="submit" color="primary" variant="contained">
-                  Submit
-                </Button>
-              </DialogActions>
-            </form>
-          </DialogContent>
-        </Dialog>
-        {showUpdate && (
-          <Paper
-            sx={{
-              p: 4,
-              mt: 4,
-              display: "flex",
-              flexDirection: "column",
-              gap: 2,
-              maxWidth: 400,
-              mx: "auto",
-              boxShadow: 3
-            }}
-            elevation={3}
-          >
-            <form onSubmit={handleUpdate}>
-              <TextField
-                label="Service Name"
-                type="text"
-                value={serviceName}
-                onChange={(e) => setServiceName(e.target.value)}
-                placeholder="Enter a serviceName"
-                fullWidth
-                variant="outlined"
-              />
-              <TextField
-                label="Service Description"
-                type="text"
-                value={serviceDescription}
-                onChange={(e) => setServiceDescription(e.target.value)}
-                placeholder="Enter a Service Description"
-                fullWidth
-                variant="outlined"
-              />
-              <TextField
-                label="Service Price"
-                type="number"
-                value={servicePrice}
-                onChange={(e) => setSerivePrice(e.target.value)}
-                placeholder="Enter a Service Price"
-                fullWidth
-                variant="outlined"
-              />
-              <TextField
-                label="Image"
-                type="file"
-                accept="image/*"
-                onChange={(e) => setImageService(e.target.files[0])}
-                placeholder="Enter a place"
-                fullWidth
-                variant="outlined"
-              />
-              <Button
-                type="submit"
-                variant="contained"
-                color="primary"
-                fullWidth
-                sx={{ mt: 2 }}
-                onClick={(event) =>
-                  handleUpdate(selectedService.serviceId, event)
-                }
-              >
-                Update
-              </Button>
-            </form>
-          </Paper>
-        )}
       </div>
     </>
   );
-};
-export default ManageService1;
+}
