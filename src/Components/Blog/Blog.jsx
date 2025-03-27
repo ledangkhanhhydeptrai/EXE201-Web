@@ -52,13 +52,7 @@ const Blog = () => {
             <p className={styles.post}>
               Đăng bởi Tony | ngày 23 tháng 2 năm 2025
             </p>
-            {/* <p className={styles.ours}>
-              Chúng tôi luôn tin rằng mỗi bé thú cưng khi đến với dịch vụ của
-              mình không chỉ là khách hàng, mà còn là những người bạn nhỏ đáng
-              yêu mà chúng tôi có cơ hội được chăm sóc. Và không gì hạnh phúc
-              hơn khi nhận được những phản hồi tích cực từ các sen sau mỗi lần
-              trải nghiệm dịch vụ tại đây!
-            </p> */}
+
             <button
               className={styles.dochieu}
               onClick={() => scrollToSection()}
@@ -80,7 +74,7 @@ const Blog = () => {
                   style={{
                     marginTop: "-24px",
                     marginLeft: "73px",
-                    color: "#886750"
+                    color: "#886750",
                   }}
                 >
                   Himi
@@ -115,7 +109,7 @@ const Blog = () => {
                   style={{
                     marginTop: "-24px",
                     marginLeft: "73px",
-                    color: "#886750"
+                    color: "#886750",
                   }}
                 >
                   Bao Khanh
@@ -135,13 +129,13 @@ const Blog = () => {
                   style={{
                     marginTop: "-24px",
                     marginLeft: "73px",
-                    color: "#886750"
+                    color: "#886750",
                   }}
                 >
                   Phuc Hung
                 </p>
-                <p style={{ marginTop: "-41px", marginLeft: "160px" }}>+
-                  | ngày 4 tháng 2 năm 2025
+                <p style={{ marginTop: "-41px", marginLeft: "160px" }}>
+                  + | ngày 4 tháng 2 năm 2025
                 </p>
               </p>
               <a href="/detailBlog/2" className={styles.mainDay}>
@@ -155,7 +149,7 @@ const Blog = () => {
                   style={{
                     marginTop: "-24px",
                     marginLeft: "73px",
-                    color: "#886750"
+                    color: "#886750",
                   }}
                 >
                   Bao Khanh
@@ -175,7 +169,7 @@ const Blog = () => {
                   style={{
                     marginTop: "-24px",
                     marginLeft: "73px",
-                    color: "#886750"
+                    color: "#886750",
                   }}
                 >
                   Khanh Hung
@@ -402,10 +396,7 @@ const Blog = () => {
             các sen có thể chia sẻ kinh nghiệm, học hỏi mẹo chăm sóc thú cưng và
             kết nối với những người yêu động vật khác!
           </p>
-          <button
-            className={styles.joinnow}
-            onClick={() => navigate("/login")}
-          >
+          <button className={styles.joinnow} onClick={() => navigate("/login")}>
             Tham gia ngay
           </button>
         </div>

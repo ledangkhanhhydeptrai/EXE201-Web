@@ -9,7 +9,7 @@ import {
   Button,
   Typography,
   Avatar,
-  CircularProgress
+  CircularProgress,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import Footer from "../../Footer/Footer";
@@ -28,8 +28,8 @@ const Profile = () => {
           {
             headers: {
               "Content-Type": "application/json",
-              Authorization: `Bearer ${localStorage.getItem("jwt")}`
-            }
+              Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+            },
           }
         );
 
@@ -50,10 +50,24 @@ const Profile = () => {
   }, []);
 
   return (
-    <div className={styles.profilePage}>
+    <div
+      style={{
+        marginTop: 100,
+      }}
+    >
       <Header />
-      <div className={styles.container}>
-        <Card className={styles.profileCard}>
+      <div>
+        <Card
+          className={styles.profileCard}
+          style={{
+            margin: "0 auto",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            flexDirection: "column",
+            marginBottom: 100,
+          }}
+        >
           <CardContent>
             <Typography style={{ textAlign: "center" }} variant="h4">
               Hồ Sơ Cá Nhân
@@ -108,9 +122,7 @@ const Profile = () => {
           </CardActions>
         </Card>
       </div>
-      <div style={{ width: "300px", marginRight: "1200px",marginTop: "-20px" }}>
-        <Footer />
-      </div>
+      <Footer />
     </div>
   );
 };

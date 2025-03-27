@@ -3,15 +3,17 @@ import axios from "axios";
 import styles from "./ManagePet.module.scss";
 import Header from "../../Header/Header";
 import {
+  Alert,
   Box,
   Button,
   Dialog,
   DialogActions,
   DialogContent,
-  DialogTitle
+  DialogTitle,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import Footer from "../../Footer/Footer";
+import Loading from "../Loading/Loading";
 /* Danh sách thú cưng của bạn copy trang feed qua trang managepetUser
    Trang danh sách thú cưng đổi thành cái nhận nuôi
 */
@@ -30,6 +32,7 @@ export default function ManagepetUser() {
   const [openPopUp, setOpenPopUp] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
   const [isCreatePetApiFetching, setCreatePetApiFetching] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const handleClick = async () => {
     if (isLoggedIn) {
@@ -38,32 +41,32 @@ export default function ManagepetUser() {
       setOpenPopUp(true);
     }
   };
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          "https://bookingpetservice.onrender.com/api/pets/v1/getPetListOfUser",
-          {
-            headers: {
-              Authorization: `Bearer ${token}`
-            }
-          }
-        );
-        if (response.status >= 200 && response.status < 300) {
-          setData(response.data.data);
+  const fetchData = async () => {
+    try {
+      setIsLoading(true);
+      const response = await axios.get(
+        "https://bookingpetservice.onrender.com/api/pets/v1/getPetListOfUser",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
-        console.log("API Response:", response.data.data);
-      } catch (error) {
-        console.error("Lỗi tải dữ liệu:", error);
+      );
+      if (response.status >= 200 && response.status < 300) {
+        setData(response.data.data);
       }
-    };
-
+    } catch (error) {
+      console.error("Lỗi tải dữ liệu:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  useEffect(() => {
     if (token) {
       fetchData();
     } else {
       console.warn("JWT token không tồn tại!");
     }
-    console.log("JWT Token:", token);
   }, [token]);
   const formData = new FormData();
   formData.append("petName", petName);
@@ -72,6 +75,14 @@ export default function ManagepetUser() {
   formData.append("file", file);
   formData.append("note", note);
   formData.append("petAge", petAge);
+  const resetFormData = () => {
+    setPetName("");
+    setPetType("");
+    setPetGender("");
+    setFile("");
+    setNote("");
+    setPetAge("");
+  };
   const handleCreate = async () => {
     try {
       setCreatePetApiFetching(true);
@@ -81,29 +92,31 @@ export default function ManagepetUser() {
         {
           headers: {
             Authorization: `Bearer ${token}`,
-            "Content-Type": "multipart/form-data"
-          }
+            "Content-Type": "multipart/form-data",
+          },
         }
       );
 
       if (response.status === 201) {
         setData([...data, response.data.data]);
+        fetchData();
         setShowForm(false);
+        resetFormData();
       }
     } catch (error) {
-      console.error("Lỗi tạo thú cưng:", error);
+      alert("Vui lòng nhập đầy đủ thông tin");
+    } finally {
+      setCreatePetApiFetching(false);
     }
-    setCreatePetApiFetching(false);
   };
   const deletePetByUser = async (petId) => {
-    console.log("Deleting pet with ID:", petId);
     try {
       const response = await axios.delete(
         `https://bookingpetservice.onrender.com/api/pets/deletePetOfUserById/${petId}`,
         {
           headers: {
-            Authorization: `Bearer ${token}`
-          }
+            Authorization: `Bearer ${token}`,
+          },
         }
       );
       if (response.status >= 200 && response.status < 300) {
@@ -118,139 +131,154 @@ export default function ManagepetUser() {
 
   const date = new Date().toDateString();
   return (
-    <div className={styles.container}>
-      <Header />
-      <h1 className={styles.title}>Danh sách thú cưng của bạn</h1>
-      <Box
-        sx={{ display: "flex", justifyContent: "center", marginTop: "20px" }}
-      >
-        <Button variant="contained" onClick={handleClick}>
-          + Create
-        </Button>
-      </Box>
-      <div className={styles.petsList}>
-        {data?.map((pet, index) => (
-          <div
-            key={pet?.petId || index}
-            className={`${styles.petCard} ${
-              selectedPet?.petId === pet?.petId ? styles.selected : ""
-            }`}
-            onClick={() => navigate(`/pet/${pet.petId}`)}
+    <>
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <div className={styles.container}>
+          <Header />
+          <h1 className={styles.title}>Danh sách thú cưng của bạn</h1>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              marginTop: "20px",
+            }}
           >
-            <img
-              src={pet?.imagePetBase64}
-              alt={pet?.petName}
-              className={styles.petImage}
-            />
-            <h3>{pet?.petName}</h3>
-            <p>
-              {pet?.petType} - {pet?.age} tháng - {pet?.petGender}
-            </p>
-            <Button
-              variant="outlined"
-              color="error"
-              onClick={(e) => {
-                e.stopPropagation(); // Ngăn chặn click vào card khi xóa
-                deletePetByUser(pet.petId);
-              }}
-            >
-              Delete
+            <Button variant="contained" onClick={handleClick}>
+              + Create
             </Button>
+          </Box>
+          <div className={styles.petsList}>
+            {data?.map((pet, index) => (
+              <div
+                key={pet?.petId || index}
+                className={`${styles.petCard} ${
+                  selectedPet?.petId === pet?.petId ? styles.selected : ""
+                }`}
+                onClick={() => navigate(`/pet/${pet.petId}`)}
+              >
+                <img
+                  src={pet?.imagePetBase64}
+                  alt={pet?.petName}
+                  className={styles.petImage}
+                />
+                <h3>{pet?.petName}</h3>
+                <p>
+                  {pet?.petType} - {pet?.age} tháng - {pet?.petGender}
+                </p>
+                <Button
+                  variant="outlined"
+                  color="error"
+                  onClick={(e) => {
+                    e.stopPropagation(); // Ngăn chặn click vào card khi xóa
+                    deletePetByUser(pet.petId);
+                  }}
+                >
+                  Delete
+                </Button>
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
-      <Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
-        <DialogTitle>Thông tin chi tiết</DialogTitle>
-        <DialogContent>
-          <p>
-            <strong>Tên:</strong> {selectedPet?.petName}
-          </p>
-          <p>
-            <strong>Loại:</strong> {selectedPet?.petTypeEnum}
-          </p>
-          <p>
-            <strong>Giới tính:</strong> {selectedPet?.petGenderEnum}
-          </p>
-          <p>
-            <strong>Tuổi:</strong> {selectedPet?.age} tháng
-          </p>
-          <p>{date}</p>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setOpenDialog(false)}>Đóng</Button>
-          <Button variant="contained" color="primary">
-            Nhận Nuôi
-          </Button>
-        </DialogActions>
-      </Dialog>
+          <Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
+            <DialogTitle>Thông tin chi tiết</DialogTitle>
+            <DialogContent>
+              <p>
+                <strong>Tên:</strong> {selectedPet?.petName}
+              </p>
+              <p>
+                <strong>Loại:</strong> {selectedPet?.petTypeEnum}
+              </p>
+              <p>
+                <strong>Giới tính:</strong> {selectedPet?.petGenderEnum}
+              </p>
+              <p>
+                <strong>Tuổi:</strong> {selectedPet?.age} tháng
+              </p>
+              <p>{date}</p>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={() => setOpenDialog(false)}>Đóng</Button>
+              <Button variant="contained" color="primary">
+                Nhận Nuôi
+              </Button>
+            </DialogActions>
+          </Dialog>
 
-      <Dialog open={openPopUp} onClose={() => setOpenPopUp(false)}>
-        <DialogTitle>Thông báo</DialogTitle>
-        <DialogContent>Bạn cần đăng nhập mới tạo được thú cưng!</DialogContent>
-        <DialogActions>
-          <Button onClick={() => setOpenPopUp(false)} color="primary">
-            Đóng
-          </Button>
-        </DialogActions>
-      </Dialog>
-      <Dialog open={showForm} onClose={() => setShowForm(false)}>
-        <DialogTitle>Tạo Thú Cưng</DialogTitle>
-        <DialogContent className={styles["popup-container"]}>
-          <input
-            type="text"
-            placeholder="Tên thú cưng"
-            value={petName}
-            onChange={(e) => setPetName(e.target.value)}
-          />
-          <select value={petType} onChange={(e) => setPetType(e.target.value)}>
-            <option value="">Chọn loại thú cưng</option>
-            <option value="CAT">CAT</option>
-            <option value="DOG">DOG</option>
-          </select>
-          <select
-            value={petGender}
-            onChange={(e) => setPetGender(e.target.value)}
-          >
-            <option value="">Chọn Giới Tính</option>
-            <option value="MALE">MALE</option>
-            <option value="FEMALE">FEMALE</option>
-          </select>
-          <input
-            type="number"
-            placeholder="Tuổi"
-            value={petAge}
-            onChange={(e) => setPetAge(e.target.value)}
-          />
-          <input
-            type="file"
-            className={styles["file-input"]}
-            onChange={(e) => setFile(e.target.files[0])}
-          />
-          <textarea
-            placeholder="Ghi chú"
-            value={note}
-            onChange={(e) => setNote(e.target.value)}
-          />
-        </DialogContent>
-        <DialogActions className={styles["dialog-actions"]}>
-          <Button
-            className={styles["cancel-button"]}
-            onClick={() => setShowForm(false)}
-          >
-            Hủy
-          </Button>
-          <Button
-            disabled={isCreatePetApiFetching}
-            className={styles["create-button"]}
-            onClick={handleCreate}
-          >
-            {isCreatePetApiFetching ? "Đang tạo" : "Xác nhận"}
-          </Button>
-        </DialogActions>
-      </Dialog>
-      <div className={styles.footer}>
-        <Footer />
-      </div>
-    </div>
+          <Dialog open={openPopUp} onClose={() => setOpenPopUp(false)}>
+            <DialogTitle>Thông báo</DialogTitle>
+            <DialogContent>
+              Bạn cần đăng nhập mới tạo được thú cưng!
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={() => setOpenPopUp(false)} color="primary">
+                Đóng
+              </Button>
+            </DialogActions>
+          </Dialog>
+          <Dialog open={showForm} onClose={() => setShowForm(false)}>
+            <DialogTitle>Tạo Thú Cưng</DialogTitle>
+            <DialogContent className={styles["popup-container"]}>
+              <input
+                type="text"
+                placeholder="Tên thú cưng"
+                value={petName}
+                onChange={(e) => setPetName(e.target.value)}
+              />
+              <select
+                value={petType}
+                onChange={(e) => setPetType(e.target.value)}
+              >
+                <option value="">Chọn loại thú cưng</option>
+                <option value="CAT">CAT</option>
+                <option value="DOG">DOG</option>
+              </select>
+              <select
+                value={petGender}
+                onChange={(e) => setPetGender(e.target.value)}
+              >
+                <option value="">Chọn Giới Tính</option>
+                <option value="MALE">MALE</option>
+                <option value="FEMALE">FEMALE</option>
+              </select>
+              <input
+                type="number"
+                placeholder="Tuổi"
+                value={petAge}
+                onChange={(e) => setPetAge(e.target.value)}
+              />
+              <input
+                type="file"
+                className={styles["file-input"]}
+                onChange={(e) => setFile(e.target.files[0])}
+              />
+              <textarea
+                placeholder="Ghi chú"
+                value={note}
+                onChange={(e) => setNote(e.target.value)}
+              />
+            </DialogContent>
+            <DialogActions className={styles["dialog-actions"]}>
+              <Button
+                className={styles["cancel-button"]}
+                onClick={() => setShowForm(false)}
+              >
+                Hủy
+              </Button>
+              <Button
+                disabled={isCreatePetApiFetching}
+                className={styles["create-button"]}
+                onClick={handleCreate}
+              >
+                {isCreatePetApiFetching ? "Đang tạo" : "Xác nhận"}
+              </Button>
+            </DialogActions>
+          </Dialog>
+          <div className={styles.footer}>
+            <Footer />
+          </div>
+        </div>
+      )}
+    </>
   );
 }
