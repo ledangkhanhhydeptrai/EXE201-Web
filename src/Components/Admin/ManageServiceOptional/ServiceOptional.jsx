@@ -53,7 +53,7 @@ const ServiceOptional = () => {
       `https://bookingpetservice.onrender.com/api/OptionalService/v1/getAllOptionalServiceIsActive`
     );
     if (response.status >= 200 && response.status < 300) {
-      setData(response.data.data);
+      setData(response.data.data.sort((a, b) => a.serviceId - b.serviceId));
     } else {
       throw new Error(`HTTP Status:${response.status}`);
     }
@@ -158,7 +158,7 @@ const ServiceOptional = () => {
           `https://bookingpetservice.onrender.com/api/OptionalService/v1/deleteOptionalService/${serviceId}`,
           {
             headers: {
-              accept: "*/*",
+              accept: "*/*"
             },
             timeout: 5000
           }

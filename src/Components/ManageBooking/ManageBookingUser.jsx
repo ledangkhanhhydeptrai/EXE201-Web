@@ -46,20 +46,20 @@ const ManageBookingUser = () => {
         return "Không xác định";
     }
   };
-  const getBookingStatusPaid = (status) => {
-    switch (status) {
-      case "DEPOSIT":
-        return "Đặt cọc";
-      case "FAILED":
-        return "Thanh toán thất bại";
-      case "UNPAID":
-        return "Chưa thanh toán";
-      case "PAIDALL":
-        return "Thanh toán toàn bộ";
-      default:
-        return "Chưa xác định";
-    }
-  };
+  // const getBookingStatusPaid = (status) => {
+  //   switch (status) {
+  //     case "DEPOSIT":
+  //       return "Đặt cọc";
+  //     case "FAILED":
+  //       return "Thanh toán thất bại";
+  //     case "UNPAID":
+  //       return "Chưa thanh toán";
+  //     case "PAIDALL":
+  //       return "Thanh toán toàn bộ";
+  //     default:
+  //       return "Chưa xác định";
+  //   }
+  // };
   const fetchAllBookings = async () => {
     try {
       const response = await axios.get(
@@ -191,9 +191,9 @@ const ManageBookingUser = () => {
                     <TableCell>
                       <strong>Trạng thái</strong>
                     </TableCell>
-                    <TableCell>
+                    {/* <TableCell>
                       <strong>Thanh toán</strong>
-                    </TableCell>
+                    </TableCell> */}
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -222,7 +222,7 @@ const ManageBookingUser = () => {
                           {getBookingStatus(booking.bookingStatus)}
                         </Typography>
                       </TableCell>
-                      <TableCell>
+                      {/* <TableCell>
                         <Typography
                           color={
                             booking.bookingStatusPaid
@@ -232,7 +232,7 @@ const ManageBookingUser = () => {
                         >
                           {getBookingStatusPaid(booking.bookingStatusPaid)}
                         </Typography>
-                      </TableCell>
+                      </TableCell> */}
                     </TableRow>
                   ))}
                 </TableBody>
