@@ -16,7 +16,7 @@ import {
   FormControl,
   Select,
   MenuItem,
-  Pagination,
+  Pagination
 } from "@mui/material";
 import Header from "../../Header/Header";
 import styles from "./ManageBooking.module.scss";
@@ -54,8 +54,8 @@ const ManageBookingUser = () => {
         `https://bookingpetservice.onrender.com/api/booking/v1/getAllBookingByUser`,
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("jwt")}`,
-          },
+            Authorization: `Bearer ${localStorage.getItem("jwt")}`
+          }
         }
       );
       if (response.status >= 200 && response.status < 300) {
@@ -78,13 +78,13 @@ const ManageBookingUser = () => {
         `https://bookingpetservice.onrender.com/api/booking/v1/getBookingByUserByDropdown`,
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+            Authorization: `Bearer ${localStorage.getItem("jwt")}`
           },
           params: {
             bookDate: bookingDate,
             bookingStatus,
-            bookingStatusPaid,
-          },
+            bookingStatusPaid
+          }
         }
       );
       setData(response.data.data);
@@ -175,6 +175,12 @@ const ManageBookingUser = () => {
                       <TableCell>
                         <strong>Trạng thái</strong>
                       </TableCell>
+                      <TableCell>
+                        <strong>Thời gian bắt đầu</strong>
+                      </TableCell>
+                      <TableCell>
+                        <strong>Thời gian kết thúc</strong>
+                      </TableCell>
                       {/* <TableCell>
                       <strong>Thanh toán</strong>
                     </TableCell> */}
@@ -206,6 +212,8 @@ const ManageBookingUser = () => {
                             {getBookingStatus(booking.bookingStatus)}
                           </Typography>
                         </TableCell>
+                        <TableCell>{booking.startTime}</TableCell>
+                        <TableCell>{booking.endTime}</TableCell>
                       </TableRow>
                     ))}
                   </TableBody>
