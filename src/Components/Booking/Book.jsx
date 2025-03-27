@@ -197,20 +197,27 @@ const Book = () => {
       return;
     }
 
-    const bookingData = new FormData();
-    bookingData.append("serviceId", formData.service);
-    bookingData.append("paymentId", formData.paymentMethod);
-    bookingData.append("petId", selectedPet.petId);
-    bookingData.append("localDate", formData.date);
-
     try {
+      const token = localStorage.getItem("jwt");
+      if (!token) {
+        alert("Bạn chưa đăng nhập! Vui lòng đăng nhập lại");
+        return;
+      }
       const response = await axios.post(
         "https://bookingpetservice.onrender.com/api/booking/v1/bookingByUser",
-        bookingData,
+        {
+          localDate: formData.date,
+          startTime: formData.startTime || "08:30:00",
+          endTime: formData.endTime || "10:30:00",
+          petId: selectedPet.petId,
+          serviceId: formData.service,
+          optionalServiceId: formData.optionalService || null,
+          paymentId: formData.paymentMethod
+        },
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("jwt")}`,
-            "Content-Type": "multipart/form-data"
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json"
           }
         }
       );
