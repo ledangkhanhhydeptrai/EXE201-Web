@@ -37,6 +37,8 @@ import ManageBooking1 from "./Components/Staff/ManageBooking/ManageBooking";
 import ServiceDetail from "./Components/ServiceDetail/ServiceDetail";
 import ServiceOptional from "./Components/Admin/ManageServiceOptional/ServiceOptional";
 import ManageServiceDetail from "./Components/Admin/ManageServiceDetail/ManageServiceDetail";
+import OptionalDetail from "./Components/Admin/ManageServiceOptionalDetail/OptionalDetail";
+import ServiceDetailOptional from "./Components/ServiceDetailOptional/ServiceDetailOptional";
 function App() {
   return (
     <>
@@ -86,6 +88,14 @@ function App() {
         <Route
           path="/manageservice/:serviceId"
           element={<ManageServiceDetail />}
+        />
+        <Route
+          path="/serviceoptional/:serviceId"
+          element={<OptionalDetail />}
+        />
+        <Route
+          path="/detailservice/:serviceId"
+          element={<ServiceDetailOptional />}
         />
       </Routes>
     </>
