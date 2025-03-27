@@ -1,9 +1,15 @@
 .container {
-  width: 85%;
+  width: 82.9%;
   margin-left: 230px;
-  margin-top: -20px;
+  margin-top: 10px;
   padding-left: 20px;
+}
 
+.filters {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
 }
 
 .tableContainer {
@@ -12,6 +18,7 @@
   border-radius: 0;
   box-shadow: none;
   overflow: hidden;
+  margin-left: 30px;
 }
 
 .table {
@@ -101,5 +108,32 @@
 
   &:hover {
     background: #a6a6a6;
+  }
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+
+  .MuiPagination-root {
+    display: flex;
+    gap: 8px;
+
+    .MuiPaginationItem-root {
+      font-size: 16px;
+      font-weight: bold;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+
+      &:hover {
+        background-color: rgba(255, 0, 0, 0.1); // Màu đỏ nhạt
+      }
+    }
+
+    .Mui-selected {
+      background-color: red !important;
+      color: white !important;
+    }
   }
 }

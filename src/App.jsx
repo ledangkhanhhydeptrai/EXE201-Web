@@ -33,12 +33,16 @@ import Detail1 from "./Components/DetailBlog/Detail1";
 import Detail2 from "./Components/DetailBlog/Detail2";
 import Detail3 from "./Components/DetailBlog/Detail3";
 import Detail4 from "./Components/DetailBlog/Detail4";
-import ManageBooking1 from "./Components/Staff/ManageBooking/ManageBooking";
+import ManageBooking1 from "./Components/Staff/ManageBooking/ManageBooking1";
 import ServiceDetail from "./Components/ServiceDetail/ServiceDetail";
 import ServiceOptional from "./Components/Admin/ManageServiceOptional/ServiceOptional";
 import ManageServiceDetail from "./Components/Admin/ManageServiceDetail/ManageServiceDetail";
 import OptionalDetail from "./Components/Admin/ManageServiceOptionalDetail/OptionalDetail";
 import ServiceDetailOptional from "./Components/ServiceDetailOptional/ServiceDetailOptional";
+import ManagePet1 from "./Components/Staff/ManagePet/ManagePet1";
+import ManageUser1 from "./Components/Staff/ManageUser/ManageUser1";
+import Dashboard1 from "./Components/Staff/Dashboard/Dashboard1";
+import ManageService1 from "./Components/Staff/Service/ManageService1";
 function App() {
   return (
     <>
@@ -64,10 +68,10 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/blog" element={<Blog />} />
         <Route path="/post" element={<Post />} />
-        <Route path="/pet1" element={<ManagePet />} />
-        <Route path="/user1" element={<ManageUser />} />
-        <Route path="/dashboard1" element={<Dashboard />} />
-        <Route path="/service1" element={<ManageService />} />
+        <Route path="/pet1" element={<ManagePet1 />} />
+        <Route path="/user1" element={<ManageUser1 />} />
+        <Route path="/dashboard1" element={<Dashboard1 />} />
+        <Route path="/service1" element={<ManageService1 />} />
         <Route path="/booksuccess" element={<BookingSuccess />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/managebooking" element={<ManageBooking />} />
