@@ -44,26 +44,26 @@ const ManageBooking = () => {
         return "Không xác định";
     }
   };
-  const getBookingStatusPaid = (status) => {
-    switch (status) {
-      case "PAIDALL":
-        return "Thanh toán toàn bộ";
-      case "DEPOSIT":
-        return "Đặt cọc";
-      case "UNPAID":
-        return "Chưa thanh toán";
-      case "FAILED":
-        return "Thanh toán thất bại";
-      default:
-        return "Không xác định";
-    }
-  };
+  // const getBookingStatusPaid = (status) => {
+  //   switch (status) {
+  //     case "PAIDALL":
+  //       return "Thanh toán toàn bộ";
+  //     case "DEPOSIT":
+  //       return "Đặt cọc";
+  //     case "UNPAID":
+  //       return "Chưa thanh toán";
+  //     case "FAILED":
+  //       return "Thanh toán thất bại";
+  //     default:
+  //       return "Không xác định";
+  //   }
+  // };
   const fetchAllBookings = async () => {
     try {
       const response = await axios.get(
         "https://bookingpetservice.onrender.com/api/booking/v1/getAllBookingByAmind"
       );
-      setData(response.data.data);
+      setData(response.data.data.sort((a, b) => a.bookinId - b.bookinId));
       setCurrentData(response.data.data.slice(0, itemsPerPage));
     } catch (error) {
       console.error("Lỗi khi lấy danh sách booking:", error);
@@ -179,9 +179,9 @@ const ManageBooking = () => {
                 <TableCell className={styles.tableCell} align="center">
                   Booking Status
                 </TableCell>
-                <TableCell className={styles.tableCell} align="center">
+                {/* <TableCell className={styles.tableCell} align="center">
                   Booking Status Paid
-                </TableCell>
+                </TableCell> */}
                 <TableCell align="center" className={styles.tableCell}>
                   Detail
                 </TableCell>
@@ -205,9 +205,9 @@ const ManageBooking = () => {
                   <TableCell align="center">
                     {getBookingStatus(row.bookingStatus)}
                   </TableCell>
-                  <TableCell align="center">
+                  {/* <TableCell align="center">
                     {getBookingStatusPaid(row.bookingStatusPaid)}
-                  </TableCell>
+                  </TableCell> */}
                   <TableCell align="center">
                     <Button
                       variant="contained"
