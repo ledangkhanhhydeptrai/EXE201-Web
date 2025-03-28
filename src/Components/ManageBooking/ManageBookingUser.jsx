@@ -164,6 +164,9 @@ const ManageBookingUser = () => {
                         <strong>Dịch vụ</strong>
                       </TableCell>
                       <TableCell>
+                        <strong>Dịch vụ phụ</strong>
+                      </TableCell>
+                      <TableCell>
                         <strong>Thú cưng</strong>
                       </TableCell>
                       <TableCell>
@@ -192,6 +195,9 @@ const ManageBookingUser = () => {
                       >
                         <TableCell>{booking.bookinId}</TableCell>
                         <TableCell>{booking.serviceName}</TableCell>
+                        <TableCell>
+                          {booking.optinalServiceName ?? "không có"}
+                        </TableCell>
                         <TableCell>{booking.petName}</TableCell>
                         <TableCell>{booking.fullName}</TableCell>
                         <TableCell>{booking.bookingDate}</TableCell>
