@@ -125,6 +125,7 @@ import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
 import { useState } from "react";
 import Loading from "../Loading/Loading";
+import { Tag } from "antd";
 
 const BookingSuccess = () => {
   const location = useLocation();
@@ -202,16 +203,27 @@ const BookingSuccess = () => {
                   <strong>Mã đặt lịch:</strong> {bookingData?.bookinId}
                 </p>
                 <p>
-                  <strong>Người đặt:</strong> {bookingData?.serviceName}
+                  <strong>Tên dịch vụ:</strong> {bookingData?.serviceName}
                 </p>
                 <p>
-                  <strong>Dịch vụ:</strong> {bookingData?.optinalServiceName}
+                  <strong>Dịch vụ phụ:</strong>{" "}
+                  {bookingData?.optinalServiceName ?? "Không có"}
+                </p>
+                <p>
+                  <strong>Người đặt:</strong> {bookingData?.fullName}
                 </p>
                 <p>
                   <strong>Ngày đặt:</strong> {bookingData?.bookingDate}
                 </p>
                 <p>
-                  <strong>Trạng thái:</strong> {bookingData?.bookingStatus}
+                  <strong>Thời gian bắt đầu:</strong> {bookingData?.startTime}
+                </p>
+                <p>
+                  <strong>Thời gian kết thúc:</strong> {bookingData?.endTime}
+                </p>
+                <p>
+                  <strong style={{ marginRight: 6 }}>Trạng thái:</strong>
+                  <Tag color="warning">{bookingData?.bookingStatus}</Tag>
                 </p>
                 <p>
                   <strong>Thời gian bắt đầu:</strong> {bookingData?.startTime}
