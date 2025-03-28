@@ -239,21 +239,28 @@ const Book = () => {
                   </div>
                   <div>
                     <h3>Chọn dịch vụ phụ</h3>
-                    <Radio.Group
-                      style={{
-                        justifyContent: "start",
-                        display: "flex",
-                        flexDirection: "column",
-                      }}
+
+                    <select
+                      name="optionalServiceId"
                       value={formDataBooking.optionalServiceId}
+                      required
+                      style={{
+                        width: "100%",
+                      }}
                       onChange={(e) =>
                         setFormDataBooking((prev) => ({
                           ...prev,
                           optionalServiceId: e.target.value,
                         }))
                       }
-                      options={dataOptionService}
-                    />
+                    >
+                      <option value="">Chọn dịch vụ phụ</option>
+                      {dataOptionService.map((item) => (
+                        <option key={item.value} value={item.value}>
+                          {item.label}
+                        </option>
+                      ))}
+                    </select>
                   </div>
                   <div className={styles.paymentGroup}>
                     <h3>Phương thức thanh toán</h3>
