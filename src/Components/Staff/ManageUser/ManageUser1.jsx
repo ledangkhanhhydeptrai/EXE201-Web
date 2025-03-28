@@ -25,7 +25,7 @@ export default function ManageUser1() {
 
         if (response.status >= 200 && response.status < 300) {
           console.log("API Response:", response.data);
-          setData(response.data.data);
+          setData(response.data.data.sort((a, b) => a.userId - b.userId));
         }
       } catch (error) {
         console.error("Error fetching data:", error);
