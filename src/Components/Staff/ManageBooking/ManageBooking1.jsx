@@ -63,7 +63,7 @@ const ManageBooking1 = () => {
       const response = await axios.get(
         "https://bookingpetservice.onrender.com/api/booking/v1/getAllBookingByAmind"
       );
-      setData(response.data.data);
+      setData(response.data.data.sort((a, b) => a.serviceId - b.serviceId));
       setCurrentData(response.data.data.slice(0, itemsPerPage));
     } catch (error) {
       console.error("Lỗi khi lấy danh sách booking:", error);
