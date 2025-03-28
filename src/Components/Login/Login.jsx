@@ -177,7 +177,7 @@ export default function Login() {
                 </DialogTitle>
                 <DialogContent>
                   <p className={styles.popupText}>
-                    Nhập email và password của bạn để đặt lại mật khẩu.
+                    Nhập username và new password của bạn để đặt lại mật khẩu.
                   </p>
                   <input
                     type="text"
