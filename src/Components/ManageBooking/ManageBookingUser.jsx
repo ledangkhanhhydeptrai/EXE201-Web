@@ -176,6 +176,12 @@ const ManageBookingUser = () => {
                         <strong>Ngày đặt</strong>
                       </TableCell>
                       <TableCell>
+                        <strong>Thời gian bắt đầu</strong>
+                      </TableCell>
+                      <TableCell>
+                        <strong>Thời gian kết thúc</strong>
+                      </TableCell>
+                      <TableCell>
                         <strong>Trạng thái</strong>
                       </TableCell>
                       {/* <TableCell>
@@ -201,6 +207,8 @@ const ManageBookingUser = () => {
                         <TableCell>{booking.petName}</TableCell>
                         <TableCell>{booking.fullName}</TableCell>
                         <TableCell>{booking.bookingDate}</TableCell>
+                        <TableCell>{booking.startTime}</TableCell>
+                        <TableCell>{booking.endTime}</TableCell>
                         <TableCell>
                           <Typography
                             color={
