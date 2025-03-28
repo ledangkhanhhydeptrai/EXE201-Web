@@ -43,6 +43,8 @@ import ManagePet1 from "./Components/Staff/ManagePet/ManagePet1";
 import ManageUser1 from "./Components/Staff/ManageUser/ManageUser1";
 import Dashboard1 from "./Components/Staff/Dashboard/Dashboard1";
 import ManageService1 from "./Components/Staff/Service/ManageService1";
+import ManageServiceOptional1 from "./Components/Staff/ManageServiceOptional/ManageServiceOptional1";
+import OptionalDetail1 from "./Components/Staff/ManageServiceOptionalDetail/OptionalDetail1";
 function App() {
   return (
     <>
@@ -100,6 +102,11 @@ function App() {
         <Route
           path="/detailservice/:serviceId"
           element={<ServiceDetailOptional />}
+        />
+        <Route path="/serviceoptional1" element={<ManageServiceOptional1 />} />
+        <Route
+          path="/serviceoptional1/:serviceId"
+          element={<OptionalDetail1 />}
         />
       </Routes>
     </>

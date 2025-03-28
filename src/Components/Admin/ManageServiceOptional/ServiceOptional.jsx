@@ -62,25 +62,42 @@ const ServiceOptional = () => {
     fetchData();
   });
   const handleSubmit = async () => {
+    // 🔹 Kiểm tra dữ liệu đầu vào trước khi gửi API
+    if (!serviceName || serviceName.trim() === "") {
+      alert("❌ Vui lòng nhập tên dịch vụ!");
+      return;
+    }
+
+    if (!description || description.trim() === "") {
+      alert("❌ Vui lòng nhập mô tả dịch vụ!");
+      return;
+    }
+
+    if (!price || isNaN(price) || Number(price) <= 0) {
+      alert("❌ Giá dịch vụ không hợp lệ!");
+      return;
+    }
+
+    if (!file) {
+      alert("❌ Vui lòng tải lên hình ảnh dịch vụ!");
+      return;
+    }
+
     const formData = new FormData();
     formData.append("serviceName", serviceName);
     formData.append("description", description);
     formData.append("price", price);
-    if (file) {
-      formData.append("file", file);
-    } else {
-      alert("Please upload an image");
-      return;
-    }
-    console.log("FormData content:");
+    formData.append("file", file);
+
+    console.log("📦 FormData content:");
     for (let pair of formData.entries()) {
-      console.log(pair[0] + ": " + pair[1]);
+      console.log(`${pair[0]}: ${pair[1]}`);
     }
 
     try {
       const response = await axios.post(
         `https://bookingpetservice.onrender.com/api/OptionalService/v1/createService`,
-        formData, // 🟢 Gửi `formData` trực tiếp
+        formData,
         {
           headers: {
             "Content-Type": "multipart/form-data"
@@ -89,32 +106,74 @@ const ServiceOptional = () => {
       );
 
       if (response.status === 201) {
-        setData([...data, response.data.data]);
-        alert("Create successfully");
+        setData((prevData) => [...prevData, response.data.data]);
+        alert("✅ Dịch vụ đã được tạo thành công!");
         setOpenCreate(false);
         window.location.reload();
       } else {
-        throw new Error(`HTTP Status:${response.status}`);
+        throw new Error(`❌ HTTP Status: ${response.status}`);
       }
     } catch (error) {
-      console.error("Error creating service:", error);
+      console.error("🚨 Lỗi khi tạo dịch vụ:", error);
+
+      let errorMessage = "❌ Có lỗi xảy ra khi tạo dịch vụ!";
+      if (error.response) {
+        const { status, data } = error.response;
+
+        // Xử lý lỗi từ API
+        if (status === 400) {
+          errorMessage = "❌ Yêu cầu không hợp lệ!";
+        } else if (status === 401) {
+          errorMessage = "❌ Bạn chưa đăng nhập hoặc token không hợp lệ!";
+        } else if (status === 409) {
+          errorMessage = "❌ Dịch vụ này đã tồn tại!";
+        } else {
+          errorMessage = data?.message || errorMessage;
+        }
+      }
+
+      alert(errorMessage);
     }
   };
+
   const handleUpdate = async (event) => {
     event.preventDefault();
     setIsLoading(true);
 
-    const formData = new FormData();
-    formData.append("serviceName", event.target.serviceName.value);
-    formData.append("description", event.target.serviceDescription.value);
-    formData.append("price", event.target.servicePrice.value);
-
+    // 🔹 Kiểm tra dữ liệu đầu vào trước khi gửi API
+    const serviceName = event.target.serviceName.value.trim();
+    const description = event.target.serviceDescription.value.trim();
+    const price = event.target.servicePrice.value.trim();
     const fileInput = event.target.imageService;
+
+    if (!serviceName) {
+      alert("❌ Vui lòng nhập tên dịch vụ!");
+      setIsLoading(false);
+      return;
+    }
+
+    if (!description) {
+      alert("❌ Vui lòng nhập mô tả dịch vụ!");
+      setIsLoading(false);
+      return;
+    }
+
+    if (!price || isNaN(price) || Number(price) <= 0) {
+      alert("❌ Giá dịch vụ không hợp lệ!");
+      setIsLoading(false);
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("serviceName", serviceName);
+    formData.append("description", description);
+    formData.append("price", price);
+
     if (fileInput.files.length > 0) {
       console.log("✅ File uploaded:", fileInput.files[0].name);
       formData.append("file", fileInput.files[0]);
     } else {
-      console.warn("❌ Không có file nào được chọn!");
+      console.warn("⚠️ Không có file nào được chọn!");
     }
 
     // Kiểm tra dữ liệu trong FormData
@@ -135,45 +194,88 @@ const ServiceOptional = () => {
         }
       );
 
-      console.log("Response data:", response.data);
+      console.log("✅ Response data:", response.data);
 
       if (response.status >= 200 && response.status < 300) {
-        alert("Service updated successfully");
+        alert("✅ Cập nhật dịch vụ thành công!");
         window.location.reload();
         handleClose();
       } else {
-        alert("Failed to update service");
+        alert("❌ Cập nhật dịch vụ thất bại!");
       }
     } catch (error) {
-      console.error("Error updating service:", error);
-      alert("Error updating service. Please try again.");
+      console.error("🚨 Lỗi khi cập nhật dịch vụ:", error);
+
+      let errorMessage = "❌ Có lỗi xảy ra khi cập nhật dịch vụ!";
+      if (error.response) {
+        const { status, data } = error.response;
+
+        // Xử lý lỗi từ API
+        if (status === 400) {
+          errorMessage = "❌ Yêu cầu không hợp lệ!";
+        } else if (status === 401) {
+          errorMessage = "❌ Bạn chưa đăng nhập hoặc token không hợp lệ!";
+        } else if (status === 404) {
+          errorMessage = "❌ Dịch vụ không tồn tại!";
+        } else {
+          errorMessage = data?.message || errorMessage;
+        }
+      }
+
+      alert(errorMessage);
     } finally {
       setIsLoading(false);
     }
   };
-  const handleDelete = async (serviceId) => {
-    if (window.confirm("Are you sure you want to delete this service?")) {
-      try {
-        const response = await axios.delete(
-          `https://bookingpetservice.onrender.com/api/OptionalService/v1/deleteOptionalService/${serviceId}`,
-          {
-            headers: {
-              accept: "*/*"
-            },
-            timeout: 5000
-          }
-        );
 
-        if (response.status >= 200 && response.status < 300) {
-          alert("Service deleted successfully");
-          setData(data.filter((service) => service.serviceId !== serviceId));
-        } else {
-          alert("Failed to delete service");
+  const handleDelete = async (serviceId) => {
+    if (!window.confirm("❗ Bạn có chắc chắn muốn xóa dịch vụ này không?")) {
+      return;
+    }
+
+    try {
+      const response = await axios.delete(
+        `https://bookingpetservice.onrender.com/api/OptionalService/v1/deleteOptionalService/${serviceId}`,
+        {
+          headers: {
+            accept: "*/*"
+          },
+          timeout: 5000
         }
-      } catch (error) {
-        console.error("Error deleting service:", error);
-        alert("An error occurred while deleting the service");
+      );
+
+      if (response.status >= 200 && response.status < 300) {
+        alert("✅ Dịch vụ đã được xóa thành công!");
+        setData((prevData) =>
+          prevData.filter((service) => service.serviceId !== serviceId)
+        );
+      } else {
+        alert("❌ Xóa dịch vụ thất bại! Vui lòng thử lại.");
       }
+    } catch (error) {
+      console.error("🚨 Lỗi khi xóa dịch vụ:", error);
+
+      let errorMessage = "❌ Đã xảy ra lỗi khi xóa dịch vụ!";
+      if (error.response) {
+        const { status, data } = error.response;
+
+        // Xử lý lỗi từ API
+        if (status === 400) {
+          errorMessage = "❌ Yêu cầu không hợp lệ!";
+        } else if (status === 401) {
+          errorMessage = "❌ Bạn chưa đăng nhập hoặc token không hợp lệ!";
+        } else if (status === 403) {
+          errorMessage = "❌ Bạn không có quyền xóa dịch vụ này!";
+        } else if (status === 404) {
+          errorMessage = "❌ Dịch vụ không tồn tại hoặc đã bị xóa!";
+        } else {
+          errorMessage = data?.message || errorMessage;
+        }
+      } else if (error.code === "ECONNABORTED") {
+        errorMessage = "⏳ Yêu cầu xóa dịch vụ bị quá thời gian!";
+      }
+
+      alert(errorMessage);
     }
   };
 

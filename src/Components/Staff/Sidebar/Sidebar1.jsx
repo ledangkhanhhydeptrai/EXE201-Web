@@ -6,7 +6,8 @@ import {
   faChartBar,
   faUsers,
   faPaw,
-  faCalendarCheck
+  faCalendarCheck,
+  faCog
 } from "@fortawesome/free-solid-svg-icons";
 
 export default function Sidebar1() {
@@ -48,6 +49,12 @@ export default function Sidebar1() {
             <Link to="/managebooking1" className={styles.navLink}>
               <FontAwesomeIcon icon={faCalendarCheck} className={styles.icon} />{" "}
               Manage Booking
+            </Link>
+          </li>
+          <li>
+            <Link to="/serviceoptional1" className={styles.navLink}>
+              <FontAwesomeIcon icon={faCog} className={styles.icon} /> Manage
+              Service Optional
             </Link>
           </li>
           <li />
