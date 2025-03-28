@@ -109,8 +109,26 @@ export default function ManagepetUser() {
         resetFormData();
       }
     } catch (error) {
-      console.error("Error", error);
-      alert("Vui lòng nhập đầy đủ thông tin");
+      console.error("🚨 Lỗi khi tạo thú cưng:", error);
+      console.error("🔴 Response Data:", error.response?.data);
+
+      let errorMessage = "❌ Có lỗi xảy ra!";
+      if (error.response) {
+        const { data, status } = error.response;
+
+        // Xử lý lỗi trả về từ API
+        if (status === 400 && data?.errors) {
+          errorMessage = data.errors.map((err) => `- ${err.msg}`).join("\n");
+        } else if (status === 401) {
+          errorMessage = "❌ Bạn chưa đăng nhập hoặc token không hợp lệ!";
+        } else if (status === 409) {
+          errorMessage = "❌ Thú cưng đã tồn tại!";
+        } else {
+          errorMessage = data?.message || errorMessage;
+        }
+      }
+
+      alert(`❌ Lỗi khi thêm thú cưng:\n${errorMessage}`);
     } finally {
       setCreatePetApiFetching(false);
     }
