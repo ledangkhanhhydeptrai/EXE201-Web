@@ -117,6 +117,16 @@ export default function ManagepetUser() {
   };
 
   const deletePetByUser = async (petId) => {
+    if (!petId) {
+      alert("❌ Lỗi: Không tìm thấy thú cưng cần xóa!");
+      return;
+    }
+
+    const confirmDelete = window.confirm(
+      "⚠️ Bạn có chắc chắn muốn xóa thú cưng này?"
+    );
+    if (!confirmDelete) return;
+
     try {
       const response = await axios.delete(
         `https://bookingpetservice.onrender.com/api/pets/deletePetOfUserById/${petId}`,
@@ -126,13 +136,34 @@ export default function ManagepetUser() {
           }
         }
       );
+
       if (response.status >= 200 && response.status < 300) {
         setData((prevData) => prevData.filter((a) => a.petId !== petId));
+        alert("✅ Xóa thú cưng thành công!");
       } else {
         throw new Error(`HTTP Status: ${response.status}`);
       }
     } catch (error) {
-      console.error("Error deleting pet", error.response?.data || error);
+      console.error("🚨 Lỗi khi xóa thú cưng:", error);
+      console.error("🔴 Response Data:", error.response?.data);
+
+      let errorMessage = "❌ Có lỗi xảy ra!";
+      if (error.response) {
+        const { data, status } = error.response;
+
+        // Xử lý lỗi từ API
+        if (status === 400 && data?.errors) {
+          errorMessage = data.errors.map((err) => `- ${err.msg}`).join("\n");
+        } else if (status === 404) {
+          errorMessage = "❌ Không tìm thấy thú cưng hoặc đã bị xóa!";
+        } else if (status === 403) {
+          errorMessage = "❌ Bạn không có quyền xóa thú cưng này!";
+        } else {
+          errorMessage = data?.message || errorMessage;
+        }
+      }
+
+      alert(`❌ Lỗi khi xóa:\n${errorMessage}`);
     }
   };
 
