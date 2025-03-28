@@ -32,34 +32,20 @@ const ManageBookingUser = () => {
   const itemsPerPage = 10;
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
-  // const getBookingStatus = (status) => {
-  //   switch (status) {
-  //     case "NOTYET":
-  //       return "Chưa diễn ra";
-  //     case "PENDING":
-  //       return "Đang diễn ra";
-  //     case "COMPLETE":
-  //       return "Hoàn thành";
-  //     case "CANCELLED":
-  //       return "Đã hủy";
-  //     default:
-  //       return "Không xác định";
-  //   }
-  // };
-  // const getBookingStatusPaid = (status) => {
-  //   switch (status) {
-  //     case "DEPOST":
-  //       return "Đặt cọc";
-  //     case "PAIDALL":
-  //       return "Thanh toán toàn bộ";
-  //     case "UNPAID":
-  //       return "Chưa thanh toán";
-  //     case "FAILED":
-  //       return "Thanh toán thất bại";
-  //     default:
-  //       return "Không xác định";
-  //   }
-  // };
+  const getBookingStatus = (status) => {
+    switch (status) {
+      case "NOTYET":
+        return "Chưa diễn ra";
+      case "PENDING":
+        return "Đang diễn ra";
+      case "COMPLETE":
+        return "Hoàn thành";
+      case "CANCELLED":
+        return "Đã hủy";
+      default:
+        return "Không xác định";
+    }
+  };
 
   const fetchAllBookings = async () => {
     try {
@@ -181,9 +167,6 @@ const ManageBookingUser = () => {
                         <strong>Dịch vụ phụ</strong>
                       </TableCell>
                       <TableCell>
-                        <strong>Dịch vụ phụ</strong>
-                      </TableCell>
-                      <TableCell>
                         <strong>Thú cưng</strong>
                       </TableCell>
                       <TableCell>
@@ -202,20 +185,8 @@ const ManageBookingUser = () => {
                         <strong>Trạng thái</strong>
                       </TableCell>
                       <TableCell>
-                        <strong>Trạng thái thanh toán</strong>
-                      </TableCell>
-                      <TableCell>
-                        <strong>Thời gian bắt đầu</strong>
-                      </TableCell>
-                      <TableCell>
-                        <strong>Thời gian kết thúc</strong>
-                      </TableCell>
-                      <TableCell>
                         <strong>Thanh toán</strong>
                       </TableCell>
-                      {/* <TableCell>
-                      <strong>Thanh toán</strong>
-                    </TableCell> */}
                     </TableRow>
                   </TableHead>
                   <TableBody>
@@ -231,7 +202,7 @@ const ManageBookingUser = () => {
                         <TableCell>{booking.bookinId}</TableCell>
                         <TableCell>{booking.serviceName}</TableCell>
                         <TableCell>
-                          {booking.optinalServiceName || "Không có dịch vụ phụ"}
+                          {booking.optinalServiceName ?? "không có"}
                         </TableCell>
                         <TableCell>{booking.petName}</TableCell>
                         <TableCell>{booking.fullName}</TableCell>
@@ -246,12 +217,9 @@ const ManageBookingUser = () => {
                                 : "success.main"
                             }
                           >
-                            {booking.bookingStatus}
+                            {getBookingStatus(booking.bookingStatus)}
                           </Typography>
                         </TableCell>
-                        <TableCell>{booking.bookingStatusPaid}</TableCell>
-                        <TableCell>{booking.startTime}</TableCell>
-                        <TableCell>{booking.endTime}</TableCell>
                         <TableCell>
                           {booking.bookingStatus === "NOTYET" && (
                             <button
@@ -280,7 +248,7 @@ const ManageBookingUser = () => {
                                 (e.target.style.backgroundColor = "#115293")
                               }
                             >
-                              Thanh toán
+                              Create
                             </button>
                           )}
                         </TableCell>
