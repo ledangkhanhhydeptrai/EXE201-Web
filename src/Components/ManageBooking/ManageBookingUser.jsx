@@ -59,7 +59,8 @@ const ManageBookingUser = () => {
         }
       );
       if (response.status >= 200 && response.status < 300) {
-        setData(response.data.data);
+        setData(response.data.data.sort((a, b) => a.bookinId - b.bookinId));
+        setCurrentData(response.data.data.slice(0, itemsPerPage));
       }
     } catch (error) {
       console.error("❌ Lỗi khi gọi API:", error);
@@ -81,14 +82,16 @@ const ManageBookingUser = () => {
             Authorization: `Bearer ${localStorage.getItem("jwt")}`
           },
           params: {
-            bookDate: bookingDate,
-            bookingStatus,
-            bookingStatusPaid
-          }
+            bookDate: bookingDate || "2025-03-28",  // Thay giá trị mặc định
+            bookingStatus: bookingStatus || "NOTYET",
+            bookingStatusPaid: bookingStatusPaid || "UNPAID"
+          }          
         }
       );
-      setData(response.data.data);
-      setCurrentData(response.data.data.slice(0, itemsPerPage));
+      if (response.status >= 200 && response.status < 300) {
+        setData(response.data.data);
+        setCurrentData(response.data.data.slice(0, itemsPerPage));
+      }
     } catch (error) {
       console.error("Lỗi khi lọc danh sách booking:", error);
     }
@@ -248,7 +251,7 @@ const ManageBookingUser = () => {
                                 (e.target.style.backgroundColor = "#115293")
                               }
                             >
-                              Create
+                              Thanh toán
                             </button>
                           )}
                         </TableCell>
