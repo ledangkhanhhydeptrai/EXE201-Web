@@ -3,13 +3,12 @@ import axios from "axios";
 import styles from "./ManagePet.module.scss";
 import Header from "../../Header/Header";
 import {
-  Alert,
   Box,
   Button,
   Dialog,
   DialogActions,
   DialogContent,
-  DialogTitle,
+  DialogTitle
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import Footer from "../../Footer/Footer";
@@ -48,8 +47,8 @@ export default function ManagepetUser() {
         "https://bookingpetservice.onrender.com/api/pets/v1/getPetListOfUser",
         {
           headers: {
-            Authorization: `Bearer ${token}`,
-          },
+            Authorization: `Bearer ${token}`
+          }
         }
       );
       if (response.status >= 200 && response.status < 300) {
@@ -86,37 +85,45 @@ export default function ManagepetUser() {
   const handleCreate = async () => {
     try {
       setCreatePetApiFetching(true);
+
       const response = await axios.post(
         "https://bookingpetservice.onrender.com/api/pets/v1/createPet",
         formData,
         {
           headers: {
             Authorization: `Bearer ${token}`,
-            "Content-Type": "multipart/form-data",
-          },
+            "Content-Type": "multipart/form-data"
+          }
         }
       );
 
+      console.log("API Response:", response.data); // Debugging
+
       if (response.status === 201) {
-        setData([...data, response.data.data]);
-        fetchData();
+        setData((prevData) => [
+          ...(Array.isArray(prevData) ? prevData : []),
+          response.data.data
+        ]);
+        fetchData(); // Ensure this doesn’t reset data incorrectly
         setShowForm(false);
         resetFormData();
       }
     } catch (error) {
+      console.error("Error", error);
       alert("Vui lòng nhập đầy đủ thông tin");
     } finally {
       setCreatePetApiFetching(false);
     }
   };
+
   const deletePetByUser = async (petId) => {
     try {
       const response = await axios.delete(
         `https://bookingpetservice.onrender.com/api/pets/deletePetOfUserById/${petId}`,
         {
           headers: {
-            Authorization: `Bearer ${token}`,
-          },
+            Authorization: `Bearer ${token}`
+          }
         }
       );
       if (response.status >= 200 && response.status < 300) {
@@ -142,7 +149,7 @@ export default function ManagepetUser() {
             sx={{
               display: "flex",
               justifyContent: "center",
-              marginTop: "20px",
+              marginTop: "20px"
             }}
           >
             <Button variant="contained" onClick={handleClick}>

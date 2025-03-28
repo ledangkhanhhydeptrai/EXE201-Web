@@ -1,3 +1,129 @@
+// import { useNavigate } from "react-router-dom";
+// import styles from "./Book.module.scss";
+// import { useEffect, useState } from "react";
+// import Header from "../../Header/Header";
+// import Footer from "../../Footer/Footer";
+// import { useDispatch, useSelector } from "react-redux";
+// import { setBookingInfo } from "../../redux/bookingSlice";
+// import axios from "axios";
+// const services = [
+//   "Đặt chỗ hàng ngày",
+//   "Chăm sóc qua đêm",
+//   "Chăm sóc trong những ngày lễ"
+// ];
+// const Book = () => {
+//   const navigate = useNavigate();
+//   const dispatch = useDispatch();
+//   const [isOpen, setIsOpen] = useState(false);
+//   const [selected, setSelected] = useState("Chọn dịch vụ");
+//   const toggleDropdown = () => setIsOpen(!isOpen);
+//   const selectService = (service) => {
+//     setSelected(service);
+//     setIsOpen(false);
+//   };
+//   // const [formData, setFormData] = useState({
+//   //   name: "",
+//   //   email: "",
+//   //   phone: "",
+//   //   service: "",
+//   //   date: "",
+//   //   time: ""
+//   // });
+//   const bookingData = useSelector((state) => state.booking);
+//   const [formData, setFormData] = useState({
+//     service: "",
+//     paymentMethod: "",
+//     date: ""
+//   });
+//   const handleChange = (e) => {
+//     const { name, value } = e.target;
+//     setFormData({ ...formData, [name]: value });
+//   };
+//   useEffect(() => {
+//     const fetchData = async () => {
+//       const response = await axios.get(
+//         `https://bookingpetservice.onrender.com/api/payment/v1/getAllPaymentMethod`
+//       );
+//       if (response.status >= 200 && response.status < 300) {
+//         setFormData(response.data.data);
+//       } else {
+//         throw new Error(`HTTP Status:${response.status}`);
+//       }
+//     };
+//     fetchData();
+//   }, []);
+
+//   const handleSubmit = (e) => {
+//     e.preventDefault();
+//     console.log("Dữ liệu đặt lịch:", formData);
+//     navigate("/payment");
+//   };
+//   return (
+//     <div className="container-fluid">
+//       <div className={styles.app}>
+//         <Header />
+//         <div className={styles.imagetitle}>
+//           <h2 className={styles.title}>ĐẶT LỊCH</h2>
+//           <main className={styles.bookingForm}>
+//             <form onSubmit={handleSubmit} className={styles.form}>
+//               <div className={styles.serviceGroup}>
+//                 <h3>Dịch vụ</h3>
+//                 <select
+//                   name="service"
+//                   value={formData.service}
+//                   onChange={handleChange}
+//                   className={styles.dropdown}
+//                 >
+//                   <option value="">Chọn dịch vụ</option>
+//                   <option value="dailyCare">Đặt chỗ hàng ngày</option>
+//                   <option value="overnightCare">Chăm sóc qua đêm</option>
+//                   <option value="holidayCare">
+//                     Chăm sóc trong những ngày lễ
+//                   </option>
+//                 </select>
+//               </div>
+//               <div className={styles.paymentGroup}>
+//                 <h3>Phương thức thanh toán</h3>
+//                 <select
+//                   name="paymentMethod"
+//                   value={formData.paymentMethod}
+//                   onChange={handleChange}
+//                   className={styles.dropdown}
+//                   required
+//                 >
+//                   <option value="">Thanh toán trước 50%</option>
+//                   <option value="cash">Trả thẳng</option>
+//                 </select>
+//               </div>
+//               <div className={styles.dateGroup}>
+//                 Ngày:
+//                 <input
+//                   type="date"
+//                   name="date"
+//                   value={formData.date}
+//                   onChange={handleChange}
+//                   required
+//                 />
+//                 <button className={styles.petbutton}>
+//                   Chọn thú cưng trong danh sách của bạn
+//                 </button>
+//               </div>
+//               <div className={styles.buttonGroup}>
+//                 <button type="button" onClick={() => navigate("/")}>
+//                   Quay lại
+//                 </button>
+//                 <button type="submit">Đặt lịch</button>
+//               </div>
+//             </form>
+//           </main>
+//         </div>
+//         <Footer />
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default Book;
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import styles from "./Book.module.scss";
@@ -19,8 +145,6 @@ const Book = () => {
     service: "",
     paymentMethod: "",
     date: "",
-    startTime: "08:30:00",
-    endTime: "10:30:00",
   });
   const fetchServices = async () => {
     try {
@@ -104,13 +228,13 @@ const Book = () => {
           petId: selectedPet.petId,
           serviceId: formData.service,
           optionalServiceId: formData.optionalService || null,
-          paymentId: formData.paymentMethod
+          paymentId: formData.paymentMethod,
         },
         {
           headers: {
             Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json"
-          }
+            "Content-Type": "application/json",
+          },
         }
       );
       console.log("Response từ server:", response);
@@ -154,9 +278,9 @@ const Book = () => {
         {
           headers: {
             Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
           },
-          timeout: 5000
+          timeout: 5000,
         }
       );
 
@@ -225,7 +349,7 @@ const Book = () => {
                     </select>
                   </div>
                   <div className={styles.dateGroup}>
-                    Ngày đặt lịch:
+                    Ngày:
                     <input
                       type="date"
                       name="date"

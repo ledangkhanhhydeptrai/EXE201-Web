@@ -30,20 +30,20 @@ const ManageBooking = () => {
   const [bookingStatusPaid, setBookingStatusPaid] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
-  const getBookingStatus = (status) => {
-    switch (status) {
-      case "NOTYET":
-        return "Chưa diễn ra";
-      case "PENDING":
-        return "Đang diễn ra";
-      case "COMPLETED":
-        return "Hoàn thành";
-      case "CANCELLED":
-        return "Đã hủy";
-      default:
-        return "Không xác định";
-    }
-  };
+  // const getBookingStatus = (status) => {
+  //   switch (status) {
+  //     case "NOTYET":
+  //       return "Chưa diễn ra";
+  //     case "PENDING":
+  //       return "Đang diễn ra";
+  //     case "COMPLETED":
+  //       return "Hoàn thành";
+  //     case "CANCELLED":
+  //       return "Đã hủy";
+  //     default:
+  //       return "Không xác định";
+  //   }
+  // };
   // const getBookingStatusPaid = (status) => {
   //   switch (status) {
   //     case "PAIDALL":
@@ -179,9 +179,9 @@ const ManageBooking = () => {
                 <TableCell className={styles.tableCell} align="center">
                   Booking Status
                 </TableCell>
-                {/* <TableCell className={styles.tableCell} align="center">
+                <TableCell className={styles.tableCell} align="center">
                   Booking Status Paid
-                </TableCell> */}
+                </TableCell>
                 <TableCell align="center" className={styles.tableCell}>
                   Detail
                 </TableCell>
@@ -202,12 +202,8 @@ const ManageBooking = () => {
                   <TableCell align="center">{row.endTime}</TableCell>
                   <TableCell align="center">{row.endDate}</TableCell>
                   <TableCell align="center">{row.totalAmount}</TableCell>
-                  <TableCell align="center">
-                    {getBookingStatus(row.bookingStatus)}
-                  </TableCell>
-                  {/* <TableCell align="center">
-                    {getBookingStatusPaid(row.bookingStatusPaid)}
-                  </TableCell> */}
+                  <TableCell align="center">{row.bookingStatus}</TableCell>
+                  <TableCell align="center">{row.bookingStatusPaid}</TableCell>
                   <TableCell align="center">
                     <Button
                       variant="contained"
