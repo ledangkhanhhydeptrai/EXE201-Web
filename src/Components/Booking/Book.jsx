@@ -79,6 +79,7 @@ const Book = () => {
   }, []);
   const asyncDataOptionService = async () => {
     try {
+      setIsLoading(true);
       const token = localStorage.getItem("jwt");
 
       const response = await axios.get(
@@ -97,6 +98,8 @@ const Book = () => {
       setDataOptionService(mapOption);
     } catch (error) {
       console.log({ error });
+    } finally {
+      setIsLoading(false);
     }
   };
   const handleSubmit = async (e) => {
