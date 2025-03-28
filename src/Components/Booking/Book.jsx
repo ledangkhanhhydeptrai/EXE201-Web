@@ -243,7 +243,6 @@ const Book = () => {
                     <select
                       name="optionalServiceId"
                       value={formDataBooking.optionalServiceId}
-                      required
                       style={{
                         width: "100%",
                       }}
