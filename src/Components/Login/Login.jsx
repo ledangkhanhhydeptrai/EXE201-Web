@@ -11,7 +11,7 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
-  DialogTitle
+  DialogTitle,
 } from "@mui/material";
 export default function Login() {
   const [userName, setUserName] = useState("");
@@ -30,7 +30,7 @@ export default function Login() {
         { userName, password },
         {
           headers: { "Content-Type": "application/json" },
-          timeout: 5000
+          timeout: 5000,
         }
       );
 
@@ -94,12 +94,12 @@ export default function Login() {
         `https://bookingpetservice.onrender.com/api/user/v1/forGotPassword`,
         {
           userName,
-          newPassword
+          newPassword,
         },
         {
           headers: {
-            "Content-Type": "application/json"
-          }
+            "Content-Type": "application/json",
+          },
         }
       );
       if (response.status >= 200 && response.status < 300) {
@@ -177,19 +177,21 @@ export default function Login() {
                 </DialogTitle>
                 <DialogContent>
                   <p className={styles.popupText}>
-                    Nhập email và password của bạn để đặt lại mật khẩu.
+                    Nhập username và new password của bạn để đặt lại mật khẩu.
                   </p>
                   <input
                     type="text"
                     placeholder="Nhập username mới"
                     value={userName}
                     onChange={(e) => setUserName(e.target.value)}
+                    style={{ width: "100%", marginBottom: 12 }}
                   />
                   <input
                     type="password"
                     placeholder="Nhập mật khẩu mới"
                     value={newPassword}
                     onChange={(e) => setNewPassword(e.target.value)}
+                    style={{ width: "100%" }}
                   />
                 </DialogContent>
                 <DialogActions>

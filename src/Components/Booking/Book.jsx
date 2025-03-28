@@ -5,9 +5,12 @@ import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
 import axios from "axios";
 import Loading from "../Loading/Loading";
+import { DatePicker } from "antd";
+import dayjs from "dayjs";
 
 const Book = () => {
   const navigate = useNavigate();
+  const [dataOptionService, setDataOptionService] = useState([]);
   const [services, setServices] = useState([]);
   const [paymentMethods, setPaymentMethods] = useState([]);
   const [pets, setPets] = useState([]);
@@ -15,13 +18,17 @@ const Book = () => {
   const [isCreatePetPopupOpen, setIsCreatePetPopupOpen] = useState(false);
   const [selectedPet, setSelectedPet] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [formData, setFormData] = useState({
-    service: "",
-    paymentMethod: "",
-    date: "",
-    startTime: "08:30:00",
-    endTime: "10:30:00",
+  const [formDataBooking, setFormDataBooking] = useState({
+    date: dayjs(),
+    localDate: "",
+    startTime: "",
+    endTime: "",
+    petId: "",
+    serviceId: "",
+    optionalServiceId: "",
+    paymentId: ""
   });
+
   const fetchServices = async () => {
     try {
       setIsLoading(true);
@@ -50,6 +57,7 @@ const Book = () => {
   };
   useEffect(() => {
     fetchServices();
+    asyncDataOptionService();
   }, []);
 
   // Lấy danh sách phương thức thanh toán
@@ -69,20 +77,39 @@ const Book = () => {
         console.error("Lỗi lấy danh sách phương thức thanh toán:", err)
       );
   }, []);
+  const asyncDataOptionService = async () => {
+    try {
+      setIsLoading(true);
+      const token = localStorage.getItem("jwt");
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+      const response = await axios.get(
+        "https://bookingpetservice.onrender.com/api/OptionalService/v1/getAllOptionalServiceIsActive",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json"
+          }
+        }
+      );
+      const mapOption = response.data?.data?.map((item) => ({
+        value: item.serviceId,
+        label: `${item.serviceName} - ${item.price} vnd`
+      }));
+      setDataOptionService(mapOption);
+    } catch (error) {
+      console.log({ error });
+    } finally {
+      setIsLoading(false);
+    }
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (
-      !formData.service ||
-      !formData.paymentMethod ||
-      !formData.date ||
-      !selectedPet.petId
+      !formDataBooking.serviceId ||
+      !formDataBooking.localDate ||
+      !formDataBooking.paymentId ||
+      !formDataBooking.petId
     ) {
       alert("Vui lòng chọn đầy đủ thông tin!");
       return;
@@ -98,13 +125,13 @@ const Book = () => {
       const response = await axios.post(
         "https://bookingpetservice.onrender.com/api/booking/v1/bookingByUser",
         {
-          localDate: formData.date,
-          startTime: formData.startTime || "08:30:00",
-          endTime: formData.endTime || "10:30:00",
+          localDate: formDataBooking.localDate,
+          startTime: formDataBooking.startTime,
+          endTime: formDataBooking.endTime,
           petId: selectedPet.petId,
-          serviceId: formData.service,
-          optionalServiceId: formData.optionalService || null,
-          paymentId: formData.paymentMethod
+          serviceId: formDataBooking.serviceId,
+          optionalServiceId: formDataBooking.optionalServiceId,
+          paymentId: formDataBooking.paymentId
         },
         {
           headers: {
@@ -113,7 +140,6 @@ const Book = () => {
           }
         }
       );
-      console.log("Response từ server:", response);
       if (response.status >= 300) {
         throw new Error("Đặt lịch thất bại, vui lòng thử lại!");
       }
@@ -122,10 +148,8 @@ const Book = () => {
         throw new Error("Dữ liệu phản hồi không hợp lệ từ máy chủ.");
       }
 
-      console.log("Navigating with booking data:", response.data.data);
       navigate("/booksuccess", { state: { bookingData: response.data.data } });
     } catch (error) {
-      console.error("Lỗi khi đặt lịch:", error);
       if (error.response) {
         const apiError =
           error.response.data?.message || "Lỗi không xác định từ API.";
@@ -178,7 +202,6 @@ const Book = () => {
       setIsLoading(false);
     }
   };
-
   return (
     <>
       {isLoading ? (
@@ -192,12 +215,19 @@ const Book = () => {
               <main className={styles.bookingForm}>
                 <form onSubmit={handleSubmit} className={styles.form}>
                   <div className={styles.serviceGroup}>
-                    <h3>Dịch vụ</h3>
+                    <h3>Chọn dịch vụ</h3>
                     <select
                       name="service"
-                      value={formData.service}
-                      onChange={handleChange}
-                      className={styles.dropdown}
+                      value={formDataBooking.serviceId}
+                      onChange={(e) =>
+                        setFormDataBooking((prev) => ({
+                          ...prev,
+                          serviceId: e.target.value
+                        }))
+                      }
+                      style={{
+                        width: "100%"
+                      }}
                     >
                       <option value="">Chọn dịch vụ</option>
                       {services.map((service, index) => (
@@ -207,14 +237,46 @@ const Book = () => {
                       ))}
                     </select>
                   </div>
+                  <div>
+                    <h3>Chọn dịch vụ phụ</h3>
+
+                    <select
+                      name="optionalServiceId"
+                      value={formDataBooking.optionalServiceId}
+                      required
+                      style={{
+                        width: "100%"
+                      }}
+                      onChange={(e) =>
+                        setFormDataBooking((prev) => ({
+                          ...prev,
+                          optionalServiceId: e.target.value
+                        }))
+                      }
+                    >
+                      <option value="">Chọn dịch vụ phụ</option>
+                      {dataOptionService.map((item) => (
+                        <option key={item.value} value={item.value}>
+                          {item.label}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
                   <div className={styles.paymentGroup}>
                     <h3>Phương thức thanh toán</h3>
                     <select
                       name="paymentMethod"
-                      value={formData.paymentMethod}
-                      onChange={handleChange}
-                      className={styles.dropdown}
+                      value={formDataBooking.paymentId}
                       required
+                      style={{
+                        width: "100%"
+                      }}
+                      onChange={(e) =>
+                        setFormDataBooking((prev) => ({
+                          ...prev,
+                          paymentId: e.target.value
+                        }))
+                      }
                     >
                       <option value="">Chọn phương thức thanh toán</option>
                       {paymentMethods.map((method) => (
@@ -225,14 +287,37 @@ const Book = () => {
                     </select>
                   </div>
                   <div className={styles.dateGroup}>
-                    Ngày đặt lịch:
-                    <input
-                      type="date"
-                      name="date"
-                      value={formData.date}
-                      onChange={handleChange}
-                      required
+                    <DatePicker
+                      style={{ width: "100%" }}
+                      showTime
+                      value={dayjs(formDataBooking.date, "YYYY-MM-DD HH:mm:ss")}
+                      onChange={(_, dateStr) => {
+                        const [date, time] = dateStr.split(" ");
+                        const [hours, minutes, seconds] = time
+                          .split(":")
+                          .map(Number);
+                        const newHours = hours + 1;
+                        const newTime = `${String(newHours).padStart(
+                          2,
+                          "0"
+                        )}:${String(minutes).padStart(2, "0")}:${String(
+                          seconds
+                        ).padStart(2, "0")}`;
+                        setFormDataBooking((prev) => ({
+                          ...prev,
+                          date: dateStr,
+                          localDate: date,
+                          startTime: time,
+                          endTime: newTime
+                        }));
+                      }}
                     />
+                    {formDataBooking.date && (
+                      <>
+                        <p>Thời gian bắt đầu: {formDataBooking.startTime}</p>
+                        <p>Thời gian kết thúc: {formDataBooking.endTime}</p>
+                      </>
+                    )}
                     <button
                       className={styles.petbutton}
                       onClick={handleSelectPet}
@@ -248,7 +333,13 @@ const Book = () => {
                               <li
                                 key={index}
                                 className={styles.petItem}
-                                onClick={() => setSelectedPet(pet)}
+                                onClick={() => {
+                                  setFormDataBooking((prev) => ({
+                                    ...prev,
+                                    petId: pet.petId
+                                  }));
+                                  setSelectedPet(pet);
+                                }}
                               >
                                 <img
                                   src={pet.imagePetBase64}
