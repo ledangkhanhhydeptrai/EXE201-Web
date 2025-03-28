@@ -184,9 +184,9 @@ const ManageBookingUser = () => {
                       <TableCell>
                         <strong>Trạng thái</strong>
                       </TableCell>
-                      {/* <TableCell>
-                      <strong>Thanh toán</strong>
-                    </TableCell> */}
+                      <TableCell>
+                        <strong>Thanh toán</strong>
+                      </TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
@@ -219,6 +219,38 @@ const ManageBookingUser = () => {
                           >
                             {getBookingStatus(booking.bookingStatus)}
                           </Typography>
+                        </TableCell>
+                        <TableCell>
+                          {booking.bookingStatus === "NOTYET" && (
+                            <button
+                              style={{
+                                backgroundColor: "#1976d2",
+                                color: "white",
+                                padding: "6px 12px",
+                                border: "none",
+                                borderRadius: "4px",
+                                fontSize: "14px",
+                                fontWeight: "500",
+                                cursor: "pointer",
+                                transition:
+                                  "background-color 0.3s ease, transform 0.2s ease",
+                              }}
+                              onMouseOver={(e) =>
+                                (e.target.style.backgroundColor = "#115293")
+                              }
+                              onMouseOut={(e) =>
+                                (e.target.style.backgroundColor = "#1976d2")
+                              }
+                              onMouseDown={(e) =>
+                                (e.target.style.backgroundColor = "#0d3a7d")
+                              }
+                              onMouseUp={(e) =>
+                                (e.target.style.backgroundColor = "#115293")
+                              }
+                            >
+                              Create
+                            </button>
+                          )}
                         </TableCell>
                       </TableRow>
                     ))}
