@@ -25,7 +25,7 @@ const ManageBooking = () => {
   const navigate = useNavigate();
   const [data, setData] = useState([]);
   const [currentData, setCurrentData] = useState([]);
-  const [bookingDate, setBookingDate] = useState("2025-03-28");
+  const [bookingDate, setBookingDate] = useState("");
   const [bookingStatus, setBookingStatus] = useState("");
   const [bookingStatusPaid, setBookingStatusPaid] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
@@ -80,9 +80,9 @@ const ManageBooking = () => {
         `https://bookingpetservice.onrender.com/api/booking/v1/getBookingByAdmiByDropdown`,
         {
           params: {
-            bookDate: bookingDate,
-            bookingStatus,
-            bookingStatusPaid
+            bookDate: bookingDate || "2025-03-28",
+            bookingStatus: bookingStatus || "NOTYET",
+            bookingStatusPaid: bookingStatusPaid || "UNPAID"
           }
         }
       );
