@@ -26,8 +26,8 @@ const ManageBooking1 = () => {
   const [data, setData] = useState([]);
   const [currentData, setCurrentData] = useState([]);
   const [bookingDate, setBookingDate] = useState("");
-  const [bookingStatus, setBookingStatus] = useState("");
-  const [bookingStatusPaid, setBookingStatusPaid] = useState("");
+  // const [bookingStatus, setBookingStatus] = useState("");
+  // const [bookingStatusPaid, setBookingStatusPaid] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
   const getBookingStatus = (status) => {
@@ -70,19 +70,16 @@ const ManageBooking1 = () => {
     }
   };
   const fetchFilteredBookings = useCallback(async () => {
-    if (!bookingDate && !bookingStatus && !bookingStatusPaid) {
+    if (!bookingDate) {
       fetchAllBookings();
       return;
     }
-
     try {
       const response = await axios.get(
-        `https://bookingpetservice.onrender.com/api/booking/v1/getBookingByAdmiByDropdown`,
+        `https://bookingpetservice.onrender.com/api/booking/v1/getBookingByStaffByDropdown`,
         {
           params: {
-            bookDate: bookingDate || "2025-03-28",
-            bookingStatus: bookingStatus || "NOTYET",
-            bookingStatusPaid: bookingStatusPaid || "UNPAID"
+            bookDate: bookingDate || "2025-03-28"
           }
         }
       );
@@ -91,7 +88,7 @@ const ManageBooking1 = () => {
     } catch (error) {
       console.error("Lỗi khi lọc danh sách booking:", error);
     }
-  }, [bookingDate, bookingStatus, bookingStatusPaid]);
+  }, [bookingDate]);
 
   useEffect(() => {
     fetchAllBookings();
@@ -119,7 +116,7 @@ const ManageBooking1 = () => {
             className={styles.datePicker}
             InputLabelProps={{ shrink: true }}
           />
-          <FormControl className={styles.select}>
+          {/* <FormControl className={styles.select}>
             <InputLabel>Trạng thái đặt chỗ</InputLabel>
             <Select
               value={bookingStatus}
@@ -142,7 +139,7 @@ const ManageBooking1 = () => {
               <MenuItem value="UNPAID">Chưa thanh toán</MenuItem>
               <MenuItem value="FAILED">Thanh toán thất bại</MenuItem>
             </Select>
-          </FormControl>
+          </FormControl> */}
         </div>
         <TableContainer component={Paper} className={styles.tableContainer}>
           <Table className={styles.table} aria-label="user table">
