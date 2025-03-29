@@ -192,7 +192,7 @@ export default function ManageService() {
   useEffect(() => {
     const fetchService = async () => {
       const response = await axios.get(
-        "https://bookingpetservice.onrender.com/api/service/v1/getAllServiceIsActive",
+        "https://bookingpetservice.onrender.com/api/service/v1/getAllServiceByAdmin",
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("jwt")}`
