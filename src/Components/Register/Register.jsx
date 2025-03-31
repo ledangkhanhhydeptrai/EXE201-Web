@@ -17,6 +17,7 @@ export default function Register() {
   const [address, setAddress] = useState("");
   const [file, setFile] = useState(null);
   const [errors, setErrors] = useState({});
+  const API_URL = import.meta.env.VITE_API_BASE_URL;
   const handleCreate = async (e) => {
     e.preventDefault();
     setErrors({});
@@ -38,15 +39,11 @@ export default function Register() {
       formData.append("file", file);
     }
     try {
-      const response = await axios.post(
-        `https://bookingpetservice.onrender.com/api/user/v1/signup`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data"
-          }
+      const response = await axios.post(`${API_URL}/user/v1/signup`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data"
         }
-      );
+      });
       console.log("API Response:", response.data.data);
       if (response.status >= 200 && response.status < 300) {
         setOpen(true);

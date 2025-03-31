@@ -35,6 +35,7 @@ const ServiceOptional = () => {
   const endIndex = currentPage + itemsPerPage;
   const currentData = data.slice(startIndex, endIndex);
   const [isLoading, setIsLoading] = useState(false);
+  const API_URL = import.meta.env.VITE_API_BASE_URL;
   const handleOpenCreate = () => {
     setOpenCreate(true);
   };
@@ -50,7 +51,7 @@ const ServiceOptional = () => {
   };
   const fetchData = async () => {
     const response = await axios.get(
-      `https://bookingpetservice.onrender.com/api/OptionalService/v1/getAllOptionalServiceIsActive`
+      `${API_URL}/OptionalService/v1/getAllOptionalServiceIsActive`
     );
     if (response.status >= 200 && response.status < 300) {
       setData(response.data.data.sort((a, b) => a.serviceId - b.serviceId));
@@ -96,7 +97,7 @@ const ServiceOptional = () => {
 
     try {
       const response = await axios.post(
-        `https://bookingpetservice.onrender.com/api/OptionalService/v1/createService`,
+        `${API_URL}/OptionalService/v1/createService`,
         formData,
         {
           headers: {
@@ -184,7 +185,7 @@ const ServiceOptional = () => {
 
     try {
       const response = await axios.put(
-        `https://bookingpetservice.onrender.com/api/OptionalService/v1/update/${currentService.serviceId}`,
+        `${API_URL}/OptionalService/v1/update/${currentService.serviceId}`,
         formData,
         {
           headers: {
@@ -235,7 +236,7 @@ const ServiceOptional = () => {
 
     try {
       const response = await axios.delete(
-        `https://bookingpetservice.onrender.com/api/OptionalService/v1/deleteOptionalService/${serviceId}`,
+        `${API_URL}/OptionalService/v1/deleteOptionalService/${serviceId}`,
         {
           headers: {
             accept: "*/*"
