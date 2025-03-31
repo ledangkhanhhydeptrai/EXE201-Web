@@ -15,12 +15,12 @@ import Header1 from "../HeaderAdmin/Header1";
 
 export default function ManageUser1() {
   const [data, setData] = useState([]);
-
+  const API_URL = import.meta.env.VITE_API_BASE_URL;
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `https://bookingpetservice.onrender.com/api/user/getAllAccount`
+          `${API_URL}/user/getAllAccount`
         );
 
         if (response.status >= 200 && response.status < 300) {
