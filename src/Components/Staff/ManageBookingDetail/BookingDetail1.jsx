@@ -16,7 +16,7 @@ const BookingDetail1 = () => {
   const { bookinId } = useParams();
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
-
+  const API_URL = import.meta.env.VITE_API_BASE_URL;
   useEffect(() => {
     if (!bookinId || isNaN(Number(bookinId))) {
       console.error("❌ ID không hợp lệ:", bookinId);
@@ -27,7 +27,7 @@ const BookingDetail1 = () => {
     const fetchDataById = async () => {
       try {
         const response = await axios.get(
-          `https://bookingpetservice.onrender.com/api/booking/v1/getBookingDetailByIdByAdmin/${bookinId}`,
+          `${API_URL}/booking/v1/getBookingDetailByIdByAdmin/${bookinId}`,
           {
             headers: { Authorization: `Bearer ${localStorage.getItem("jwt")}` }
           }

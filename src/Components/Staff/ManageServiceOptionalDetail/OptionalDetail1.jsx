@@ -8,11 +8,11 @@ import Sidebar1 from "../Sidebar/Sidebar1";
 const OptionalDetail1 = () => {
   const { serviceId } = useParams();
   const [data, setData] = useState(null);
-
+  const API_URL = import.meta.env.VITE_API_BASE_URL;
   const fetchData = async () => {
     try {
       const response = await axios.get(
-        `https://bookingpetservice.onrender.com/api/OptionalService/v1/getOptionalServiceByIdIsActive/${serviceId}`
+        `${API_URL}/OptionalService/v1/getOptionalServiceByIdIsActive/${serviceId}`
       );
       if (response.status >= 200 && response.status < 300) {
         setData(response.data.data);

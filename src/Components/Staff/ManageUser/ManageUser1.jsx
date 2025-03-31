@@ -1,4 +1,5 @@
 import {
+  Pagination,
   Paper,
   Table,
   TableBody,
@@ -15,13 +16,16 @@ import Header1 from "../HeaderAdmin/Header1";
 
 export default function ManageUser1() {
   const [data, setData] = useState([]);
-
+  const API_URL = import.meta.env.VITE_API_BASE_URL;
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentData = data.slice(startIndex, endIndex);
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          `https://bookingpetservice.onrender.com/api/user/getAllAccount`
-        );
+        const response = await axios.get(`${API_URL}/user/getAllAccount`);
 
         if (response.status >= 200 && response.status < 300) {
           console.log("API Response:", response.data);
@@ -64,7 +68,7 @@ export default function ManageUser1() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {data.map((row) => (
+              {currentData.map((row) => (
                 <TableRow key={row.userName} className={styles.tableRow}>
                   <TableCell component="th" scope="row" align="center">
                     {row.userId}
@@ -94,6 +98,14 @@ export default function ManageUser1() {
             </TableBody>
           </Table>
         </TableContainer>
+        <div className={styles.pagination}>
+          <Pagination
+            count={Math.ceil(data.length / itemsPerPage)} // Tổng số trang
+            page={currentPage}
+            onChange={(event, value) => setCurrentPage(value)}
+            color="primary"
+          />
+        </div>
       </div>
     </>
   );

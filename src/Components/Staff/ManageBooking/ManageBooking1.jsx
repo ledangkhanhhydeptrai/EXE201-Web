@@ -9,10 +9,6 @@ import {
   TableHead,
   TableRow,
   Paper,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
   Button,
   Pagination,
   TextField
@@ -29,6 +25,7 @@ const ManageBooking1 = () => {
   // const [bookingStatus, setBookingStatus] = useState("");
   // const [bookingStatusPaid, setBookingStatusPaid] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
+  const API_URL = import.meta.env.VITE_API_BASE_URL;
   const itemsPerPage = 10;
   const getBookingStatus = (status) => {
     switch (status) {
@@ -61,7 +58,7 @@ const ManageBooking1 = () => {
   const fetchAllBookings = async () => {
     try {
       const response = await axios.get(
-        "https://bookingpetservice.onrender.com/api/booking/v1/getAllBookingByAmind"
+        `${API_URL}/booking/v1/getAllBookingByAmind`
       );
       setData(response.data.data.sort((a, b) => a.serviceId - b.serviceId));
       setCurrentData(response.data.data.slice(0, itemsPerPage));
@@ -76,7 +73,7 @@ const ManageBooking1 = () => {
     }
     try {
       const response = await axios.get(
-        `https://bookingpetservice.onrender.com/api/booking/v1/getBookingByStaffByDropdown`,
+        `${API_URL}/booking/v1/getBookingByStaffByDropdown`,
         {
           params: {
             bookDate: bookingDate || "2025-03-28"

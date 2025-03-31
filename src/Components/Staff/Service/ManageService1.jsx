@@ -34,6 +34,7 @@ export default function ManageService1() {
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const currentData = serviceRows.slice(startIndex, endIndex);
+  const API_URL = import.meta.env.VITE_API_BASE_URL;
   const navigate = useNavigate();
   const handleOpenCreate = () => {
     setOpenCreate(true);
@@ -85,7 +86,7 @@ export default function ManageService1() {
 
     try {
       const response = await axios.put(
-        `https://bookingpetservice.onrender.com/api/service/v1/update/${currentService.serviceId}`,
+        `${API_URL}/service/v1/update/${currentService.serviceId}`,
         formData,
         {
           headers: {
@@ -142,7 +143,7 @@ export default function ManageService1() {
 
     try {
       const response = await axios.delete(
-        `https://bookingpetservice.onrender.com/api/service/v1/deleteService/${serviceId}`,
+        `${API_URL}/service/v1/deleteService/${serviceId}`,
         {
           headers: {
             accept: "*/*",
@@ -190,7 +191,7 @@ export default function ManageService1() {
   useEffect(() => {
     const fetchService = async () => {
       const response = await axios.get(
-        "https://bookingpetservice.onrender.com/api/service/v1/getAllServiceIsActive",
+        `${API_URL}/service/v1/getAllServiceIsActive`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("jwt")}`
@@ -233,7 +234,7 @@ export default function ManageService1() {
 
     try {
       const response = await axios.post(
-        `https://bookingpetservice.onrender.com/api/service/v1/createService`,
+        `${API_URL}/service/v1/createService`,
         formData,
         {
           headers: {

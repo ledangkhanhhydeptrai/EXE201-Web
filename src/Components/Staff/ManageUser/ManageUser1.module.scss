@@ -1,7 +1,5 @@
 .container {
-  display: flex;
-  justify-content: center;
-  margin-left: 270px;
+  margin-left: 245px;
   margin-top: 1px;
 }
 
@@ -9,7 +7,7 @@
   border-radius: 12px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   overflow: hidden;
-  width: 1090%;
+  width: 100%;
 }
 
 .table {
@@ -42,4 +40,31 @@
   height: 40px;
   border-radius: 50%;
   object-fit: cover;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+
+  .MuiPagination-root {
+    display: flex;
+    gap: 8px;
+
+    .MuiPaginationItem-root {
+      font-size: 16px;
+      font-weight: bold;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+
+      &:hover {
+        background-color: rgba(255, 0, 0, 0.1); // Màu đỏ nhạt
+      }
+    }
+
+    .Mui-selected {
+      background-color: red !important;
+      color: white !important;
+    }
+  }
 }
