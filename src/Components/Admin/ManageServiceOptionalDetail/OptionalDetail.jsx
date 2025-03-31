@@ -8,11 +8,12 @@ import Sidebar from "../Sidebar/Sidebar";
 const OptionalDetail = () => {
   const { serviceId } = useParams();
   const [data, setData] = useState(null);
-
+  const API_URL = import.meta.env.VITE_API_BASE_URL;
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const fetchData = async () => {
     try {
       const response = await axios.get(
-        `https://bookingpetservice.onrender.com/api/OptionalService/v1/getOptionalServiceByIdIsActive/${serviceId}`
+        `${API_URL}/OptionalService/v1/getOptionalServiceByIdIsActive/${serviceId}`
       );
       if (response.status >= 200 && response.status < 300) {
         setData(response.data.data);
@@ -26,7 +27,7 @@ const OptionalDetail = () => {
 
   useEffect(() => {
     fetchData();
-  }, [serviceId]);
+  }, [fetchData, serviceId]);
 
   return (
     <>

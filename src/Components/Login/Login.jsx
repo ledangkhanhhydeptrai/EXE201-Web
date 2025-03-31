@@ -11,7 +11,7 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
-  DialogTitle,
+  DialogTitle
 } from "@mui/material";
 export default function Login() {
   const [userName, setUserName] = useState("");
@@ -19,6 +19,7 @@ export default function Login() {
   const [newPassword, setNewPassword] = useState("");
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const API_URL = import.meta.env.VITE_API_BASE_URL;
   const handleLogin = async () => {
     if (!userName || !password) {
       alert("Vui lòng nhập đầy đủ thông tin đăng nhập!");
@@ -26,11 +27,11 @@ export default function Login() {
     }
     try {
       const response = await axios.post(
-        `https://bookingpetservice.onrender.com/api/user/v1/login`,
+        `${API_URL}/user/v1/login`,
         { userName, password },
         {
           headers: { "Content-Type": "application/json" },
-          timeout: 5000,
+          timeout: 5000
         }
       );
 
@@ -91,15 +92,15 @@ export default function Login() {
     setLoading(true);
     try {
       const response = await axios.post(
-        `https://bookingpetservice.onrender.com/api/user/v1/forGotPassword`,
+        `${API_URL}/user/v1/forGotPassword`,
         {
           userName,
-          newPassword,
+          newPassword
         },
         {
           headers: {
-            "Content-Type": "application/json",
-          },
+            "Content-Type": "application/json"
+          }
         }
       );
       if (response.status >= 200 && response.status < 300) {

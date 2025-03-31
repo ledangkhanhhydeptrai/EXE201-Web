@@ -19,11 +19,12 @@ export default function ManagePet() {
   const token = localStorage.getItem("jwt");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
+  const API_URL = import.meta.env.VITE_API_BASE_URL;
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `https://bookingpetservice.onrender.com/api/pets/v1/getPetListOfUser`,
+          `${API_URL}/pets/v1/getPetListOfUser`,
           {
             headers: {
               "Content-Type": "application/json",
@@ -41,7 +42,7 @@ export default function ManagePet() {
       }
     };
     fetchData();
-  }, [token]);
+  }, [API_URL, token]);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const currentData = data.slice(startIndex, endIndex);

@@ -34,6 +34,7 @@ export default function ManageService() {
   const endIndex = startIndex + itemsPerPage;
   const currentData = serviceRows.slice(startIndex, endIndex);
   const navigate = useNavigate();
+  const API_URL = import.meta.env.VITE_API_BASE_URL;
   const handleOpenCreate = () => {
     setOpenCreate(true);
   };
@@ -94,7 +95,7 @@ export default function ManageService() {
 
     try {
       const response = await axios.put(
-        `https://bookingpetservice.onrender.com/api/service/v1/update/${currentService.serviceId}`,
+        `${API_URL}/service/v1/update/${currentService.serviceId}`,
         formData,
         {
           headers: {
@@ -146,7 +147,7 @@ export default function ManageService() {
 
     try {
       const response = await axios.delete(
-        `https://bookingpetservice.onrender.com/api/service/v1/deleteService/${serviceId}`,
+        `${API_URL}/service/v1/deleteService/${serviceId}`,
         {
           headers: {
             accept: "*/*",
@@ -192,7 +193,7 @@ export default function ManageService() {
   useEffect(() => {
     const fetchService = async () => {
       const response = await axios.get(
-        "https://bookingpetservice.onrender.com/api/service/v1/getAllServiceByAdmin",
+        `${API_URL}/service/v1/getAllServiceByAdmin`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("jwt")}`
@@ -204,7 +205,7 @@ export default function ManageService() {
       );
     };
     fetchService();
-  }, []);
+  }, [API_URL]);
 
   const handleCreate = async () => {
     // Kiểm tra dữ liệu trước khi gửi
@@ -242,7 +243,7 @@ export default function ManageService() {
 
     try {
       const response = await axios.post(
-        `https://bookingpetservice.onrender.com/api/service/v1/createService`,
+        `${API_URL}/service/v1/createService`,
         formData,
         {
           headers: {

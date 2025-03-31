@@ -30,6 +30,7 @@ const ManageBooking = () => {
   const [bookingStatusPaid, setBookingStatusPaid] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
+  const API_URL = import.meta.env.VITE_API_BASE_URL;
   // const getBookingStatus = (status) => {
   //   switch (status) {
   //     case "NOTYET":
@@ -58,17 +59,18 @@ const ManageBooking = () => {
   //       return "Không xác định";
   //   }
   // };
-  const fetchAllBookings = async () => {
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const fetchAllBookings = useCallback(async () => {
     try {
       const response = await axios.get(
-        "https://bookingpetservice.onrender.com/api/booking/v1/getAllBookingByAmind"
+        `${API_URL}/booking/v1/getAllBookingByAmind`
       );
       setData(response.data.data.sort((a, b) => a.bookinId - b.bookinId));
       setCurrentData(response.data.data.slice(0, itemsPerPage));
     } catch (error) {
       console.error("Lỗi khi lấy danh sách booking:", error);
     }
-  };
+  });
   const fetchFilteredBookings = useCallback(async () => {
     if (!bookingDate && !bookingStatus && !bookingStatusPaid) {
       fetchAllBookings();
@@ -77,7 +79,7 @@ const ManageBooking = () => {
 
     try {
       const response = await axios.get(
-        `https://bookingpetservice.onrender.com/api/booking/v1/getBookingByAdmiByDropdown`,
+        `${API_URL}/booking/v1/getBookingByAdmiByDropdown`,
         {
           params: {
             bookDate: bookingDate || "2025-03-28",

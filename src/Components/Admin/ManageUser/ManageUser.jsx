@@ -12,7 +12,7 @@ import {
 import Header from "../HeaderAdmin/Header";
 import Sidebar from "../Sidebar/Sidebar";
 import styles from "./ManageUser.module.scss";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import axios from "axios";
 
 export default function ManageUser() {
@@ -22,11 +22,11 @@ export default function ManageUser() {
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const currentData = data.slice(startIndex, endIndex);
-  const fetchData = async () => {
+  const API_URL = import.meta.env.VITE_API_BASE_URL;
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const fetchData = useCallback(async () => {
     try {
-      const response = await axios.get(
-        `https://bookingpetservice.onrender.com/api/user/getAllAccount`
-      );
+      const response = await axios.get(`${API_URL}/user/getAllAccount`);
 
       if (response.status >= 200 && response.status < 300) {
         const sortedData = response.data.data.sort(
@@ -38,16 +38,16 @@ export default function ManageUser() {
     } catch (error) {
       console.error("Error fetching data:", error);
     }
-  };
+  });
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [fetchData]);
   const handleToggleStatus = async (userId, isActive) => {
     try {
       const url = isActive
-        ? `https://bookingpetservice.onrender.com/api/user/v1/banAccountById/${userId}
+        ? `${API_URL}/user/v1/banAccountById/${userId}
 `
-        : `https://bookingpetservice.onrender.com/api/user/v1/unBanAccountById/${userId}
+        : `${API_URL}/user/v1/unBanAccountById/${userId}
 `;
       const response = await axios.put(url);
       if (response.status >= 200 && response.status < 300) {

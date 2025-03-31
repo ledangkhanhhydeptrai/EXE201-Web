@@ -1,11 +1,22 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./Header.module.scss";
 import { useNavigate } from "react-router-dom";
 
 export default function Header() {
   const navigate = useNavigate();
   const [isDropdownVisible, setDropdownVisible] = useState(false);
+  const [user, setUser] = useState(null);
+  useEffect(() => {
+    const storedToken = localStorage.getItem("jwt");
+    const storedUsername = localStorage.getItem("username");
 
+    console.log("Stored Token:", storedToken);
+    console.log("Stored Username:", storedUsername);
+
+    if (storedToken && storedUsername) {
+      setUser({ token: storedToken, userName: storedUsername });
+    }
+  }, []);
   const toggleDropdown = () => {
     setDropdownVisible(!isDropdownVisible);
   };
@@ -23,7 +34,9 @@ export default function Header() {
           className={styles.userAvatar}
           onClick={toggleDropdown}
         />
-        <p style={{ marginTop: "-30px", marginLeft: "40px" }}>Hello User</p>
+        <p style={{ marginTop: "-25px", marginLeft: "40px" }}>
+          Hello: {user?.userName}
+        </p>
         <div
           className={`${styles.dropdownMenu} ${
             isDropdownVisible ? styles.active : ""
