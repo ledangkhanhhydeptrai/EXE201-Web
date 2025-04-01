@@ -200,7 +200,7 @@ export default function ManagepetUser() {
             }}
           >
             <Button variant="contained" onClick={handleClick}>
-              + Create
+              + Tạo thú cưng
             </Button>
           </Box>
           <div className={styles.petsList}>
@@ -229,7 +229,7 @@ export default function ManagepetUser() {
                     deletePetByUser(pet.petId);
                   }}
                 >
-                  Delete
+                  Xóa thú cưng
                 </Button>
               </div>
             ))}

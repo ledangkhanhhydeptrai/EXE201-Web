@@ -68,7 +68,7 @@ const Service = () => {
                   className={styles.bookNow}
                   onClick={() => navigate("/booking")}
                 >
-                  Book now
+                  Đặt lịch ngay
                 </button>
               </section>
               <section className={styles.services}>

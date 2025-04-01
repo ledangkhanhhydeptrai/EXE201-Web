@@ -23,38 +23,38 @@ export default function Sidebar() {
         <ul className={styles.navLinks}>
           <li>
             <Link to="/dashboard" className={styles.navLink}>
-              <FontAwesomeIcon icon={faChartBar} className={styles.icon} />{" "}
-              Dashboard
+              <FontAwesomeIcon icon={faChartBar} className={styles.icon} /> Bảng
+              Doanh Thu
             </Link>
           </li>
           <li>
             <Link to="/user" className={styles.navLink}>
-              <FontAwesomeIcon icon={faUsers} className={styles.icon} /> Manage
-              User
+              <FontAwesomeIcon icon={faUsers} className={styles.icon} /> Quản lí
+              người dùng
             </Link>
           </li>
           <li>
             <Link to="/pet" className={styles.navLink}>
-              <FontAwesomeIcon icon={faPaw} className={styles.icon} /> Manage
-              Pets
+              <FontAwesomeIcon icon={faPaw} className={styles.icon} /> Quản lí
+              thú cưng
             </Link>
           </li>
           <li>
             <Link to="/managebooking" className={styles.navLink}>
               <FontAwesomeIcon icon={faCalendarCheck} className={styles.icon} />{" "}
-              Manage Booking
+              Quản lí đặt lịch
             </Link>
           </li>
           <li>
             <Link to="/manage-service" className={styles.navLink}>
-              <FontAwesomeIcon icon={faCog} className={styles.icon} /> Manage
-              Service
+              <FontAwesomeIcon icon={faCog} className={styles.icon} /> Quản lí
+              dịch vụ
             </Link>
           </li>
           <li>
             <Link to="/serviceoptional" className={styles.navLink}>
-              <FontAwesomeIcon icon={faCog} className={styles.icon} /> Manage
-              Service Optional
+              <FontAwesomeIcon icon={faCog} className={styles.icon} /> Quản lí
+              chọn dịch vụ
             </Link>
           </li>
           <li />
