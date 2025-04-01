@@ -21,11 +21,12 @@ const UserDetail = () => {
   const [data, setData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const API_URL = import.meta.env.VITE_API_BASE_URL;
   const fetchData = async () => {
     try {
       setIsLoading(true);
       const response = await axios.get(
-        `https://bookingpetservice.onrender.com/api/booking/v1/getBookingDetailByIdByUser/${bookinId}`,
+        `${API_URL}/booking/v1/getBookingDetailByIdByUser/${bookinId}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("jwt")}`,

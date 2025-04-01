@@ -33,6 +33,7 @@ export default function ManagepetUser() {
   const [isCreatePetApiFetching, setCreatePetApiFetching] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const API_URL = import.meta.env.VITE_API_BASE_URL;
   const handleClick = async () => {
     if (isLoggedIn) {
       setShowForm(true);
@@ -43,14 +44,11 @@ export default function ManagepetUser() {
   const fetchData = async () => {
     try {
       setIsLoading(true);
-      const response = await axios.get(
-        "https://bookingpetservice.onrender.com/api/pets/v1/getPetListOfUser",
-        {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
+      const response = await axios.get(`${API_URL}/pets/v1/getPetListOfUser`, {
+        headers: {
+          Authorization: `Bearer ${token}`
         }
-      );
+      });
       if (response.status >= 200 && response.status < 300) {
         setData(response.data.data);
       }
@@ -87,7 +85,7 @@ export default function ManagepetUser() {
       setCreatePetApiFetching(true);
 
       const response = await axios.post(
-        "https://bookingpetservice.onrender.com/api/pets/v1/createPet",
+        `${API_URL}/pets/v1/createPet`,
         formData,
         {
           headers: {
@@ -147,7 +145,7 @@ export default function ManagepetUser() {
 
     try {
       const response = await axios.delete(
-        `https://bookingpetservice.onrender.com/api/pets/deletePetOfUserById/${petId}`,
+        `${API_URL}/pets/deletePetOfUserById/${petId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`

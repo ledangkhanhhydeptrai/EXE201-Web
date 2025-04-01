@@ -32,6 +32,7 @@ const ManageBookingUser = () => {
   const itemsPerPage = 10;
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+  const API_URL = import.meta.env.VITE_API_BASE_URL;
   const getBookingStatus = (status) => {
     switch (status) {
       case "NOTYET":
@@ -51,7 +52,7 @@ const ManageBookingUser = () => {
     try {
       setLoading(true);
       const response = await axios.get(
-        `https://bookingpetservice.onrender.com/api/booking/v1/getAllBookingByUser`,
+        `${API_URL}/booking/v1/getAllBookingByUser`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("jwt")}`
@@ -76,16 +77,16 @@ const ManageBookingUser = () => {
 
     try {
       const response = await axios.get(
-        `https://bookingpetservice.onrender.com/api/booking/v1/getBookingByUserByDropdown`,
+        `${API_URL}/booking/v1/getBookingByUserByDropdown`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("jwt")}`
           },
           params: {
-            bookDate: bookingDate || "2025-03-28",  // Thay giá trị mặc định
+            bookDate: bookingDate || "2025-03-28", // Thay giá trị mặc định
             bookingStatus: bookingStatus || "NOTYET",
             bookingStatusPaid: bookingStatusPaid || "UNPAID"
-          }          
+          }
         }
       );
       if (response.status >= 200 && response.status < 300) {

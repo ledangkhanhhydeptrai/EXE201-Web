@@ -29,7 +29,7 @@ export default function Homepage() {
   const location = useLocation();
   const navigate = useNavigate();
   const queryParams = new URLSearchParams(location.search);
-
+  const API_URL = import.meta.env.VITE_API_BASE_URL;
   // Extract parameters
   const params = {
     code: queryParams.get("code"),
@@ -51,14 +51,14 @@ export default function Homepage() {
         if (params.status == "PAID") {
           // alert("Thanh toán thành công")
           const data = await axios.get(
-            `https://bookingpetservice.onrender.com/api/payment/order${location.search}`
+            `${API_URL}/payment/order${location.search}`
           );
           console.log("gui be thanh cong", data.data);
           navigate("/success");
         } else {
           alert("Thanh toán không thành công");
           const data = await axios.get(
-            `https://bookingpetservice.onrender.com/api/payment/cancel${location.search}`
+            `${API_URL}/payment/cancel${location.search}`
           );
           console.log("gui be thanh cong", data.data);
         }

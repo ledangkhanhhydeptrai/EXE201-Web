@@ -31,6 +31,7 @@ const Detail = () => {
   const [petAge, setPetAge] = useState(0);
   const [showUpdateForm, setShowUpdateForm] = useState(false);
   const token = localStorage.getItem("jwt");
+  const API_URL = import.meta.env.VITE_API_BASE_URL;
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     setFile(file);
@@ -74,7 +75,7 @@ const Detail = () => {
 
     try {
       const response = await axios.put(
-        `https://bookingpetservice.onrender.com/api/pets/v1/updatePet/${selectedPet?.petId}`,
+        `${API_URL}/pets/v1/updatePet/${selectedPet?.petId}`,
         formData,
         {
           headers: {
@@ -118,7 +119,7 @@ const Detail = () => {
     try {
       console.log("Đang gọi API với petID:", petId);
       const response = await axios.get(
-        `https://bookingpetservice.onrender.com/api/pets/getPetByIdOfUser/${petId}?t=${new Date().getTime()}`,
+        `${API_URL}/pets/getPetByIdOfUser/${petId}?t=${new Date().getTime()}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("jwt")}`
