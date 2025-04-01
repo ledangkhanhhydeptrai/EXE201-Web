@@ -131,11 +131,11 @@ export default function Login() {
             <p>Đăng nhập vào Adopt Pet</p>
             <button className={styles.googleButton}>
               <img src={img3} alt="Google Icon" className={styles.googleIcon} />
-              Sign Up with Google
+              Đăng nhập với Google
             </button>
             <div className={styles.hoac}>
               <div className={styles.borderleft} />
-              <p>OR</p>
+              <p>Hoặc</p>
               <div className={styles.borderright} />
             </div>
             <div className={styles.inputall}>
@@ -154,7 +154,7 @@ export default function Login() {
             </div>
             <div className={styles.buttonall}>
               <button className={styles.signin} onClick={handleLogin}>
-                Sign In
+                Đăng nhập
               </button>
               <br />
               <br />
@@ -162,7 +162,7 @@ export default function Login() {
                 className={styles.registernow}
                 onClick={() => navigate("/register")}
               >
-                Register Now
+                Đăng kí bây giờ
               </button>
             </div>
             <div className={styles.passwordfinal}>
@@ -215,7 +215,7 @@ export default function Login() {
           </div>
           <div className={styles.conditions}>
             <Link to="/">
-              <p>Adopt Pet Terms & Conditions</p>
+              <p>Điều khoản & Điều kiện của việc nhận nuôi thú cưng</p>
             </Link>
           </div>
         </div>
