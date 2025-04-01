@@ -10,11 +10,12 @@ const Service = () => {
   const [data, setData] = useState([]);
   const [data1, setData1] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const API_URL = import.meta.env.VITE_API_BASE_URL;
   const fetchData = async () => {
     try {
       setIsLoading(true);
       const response = await axios.get(
-        `https://bookingpetservice.onrender.com/api/service/v1/getAllServiceIsActive`
+        `${API_URL}/service/v1/getAllServiceIsActive`
       );
       if (response.status >= 200 && response.status < 300) {
         setData(response.data.data);
@@ -30,7 +31,7 @@ const Service = () => {
       setIsLoading(true);
 
       const response = await axios.get(
-        "https://bookingpetservice.onrender.com/api/OptionalService/v1/getAllOptionalServiceIsActive"
+        `${API_URL}/OptionalService/v1/getAllOptionalServiceIsActive`
       );
       if (response.status >= 200 && response.status < 300) {
         setData1(response.data.data);

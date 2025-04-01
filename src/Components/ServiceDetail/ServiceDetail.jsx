@@ -8,11 +8,11 @@ import Footer from "../../Footer/Footer";
 const ServiceDetail = () => {
   const [data, setData] = useState(null);
   const { serviceId } = useParams();
-
+  const API_URL = import.meta.env.VITE_API_BASE_URL;
   const fetchData = async () => {
     try {
       const response = await axios.get(
-        `https://bookingpetservice.onrender.com/api/service/v1/getServiceByIdIsActive/${serviceId}`
+        `${API_URL}/service/v1/getServiceByIdIsActive/${serviceId}`
       );
 
       if (response.status >= 200 && response.status < 300) {

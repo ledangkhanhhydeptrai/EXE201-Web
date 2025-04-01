@@ -31,6 +31,7 @@ const Profile = () => {
   const [file, setFile] = useState(null);
   const [setError] = useState("");
   const [open, setOpen] = useState(false);
+  const API_URL = import.meta.env.VITE_API_BASE_URL;
   const handleOpen = () => {
     setOpen(true);
   };
@@ -40,15 +41,12 @@ const Profile = () => {
   const fetchProfile = async () => {
     try {
       setLoading(true);
-      const response = await axios.get(
-        "https://bookingpetservice.onrender.com/api/user/getUserProfile",
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("jwt")}`
-          }
+      const response = await axios.get(`${API_URL}/user/getUserProfile`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("jwt")}`
         }
-      );
+      });
 
       if (response.data.status === "200 OK") {
         setProfile(response.data.data);
@@ -77,7 +75,7 @@ const Profile = () => {
     }
     try {
       const response = await axios.put(
-        `https://bookingpetservice.onrender.com/api/user/v1/updateUserProfile`,
+        `${API_URL}/user/v1/updateUserProfile`,
         formData,
         {
           headers: {

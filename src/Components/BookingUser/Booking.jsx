@@ -14,11 +14,12 @@ import {
 const Booking = () => {
   const [data, setData] = useState([]);
   const token = localStorage.getItem("jwt");
+  const API_URL = import.meta.env.VITE_API_BASE_URL;
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `https://bookingpetservice.onrender.com/api/booking/v1/getAllBookingByUser`,
+          `${API_URL}/booking/v1/getAllBookingByUser`,
           {
             headers: {
               Authorization: `Bearer ${token}`
