@@ -24,7 +24,7 @@ export default function Register() {
     if (password !== confirmPassword) {
       setErrors((prev) => ({
         ...prev,
-        confirmPassword: "Passwords do not match"
+        confirmPassword: "Mật khẩu không khớp"
       }));
       return;
     }
@@ -81,7 +81,7 @@ export default function Register() {
             <img src={img2} alt="" onClick={() => navigate("/")} />
           </div>
           <div className={styles.mainTitle}>
-            <p>Create Account</p>
+            <p>Tạo tài khoản</p>
             <form className={styles.inputall} onSubmit={handleCreate}>
               <div className={styles.column}>
                 <input
@@ -152,13 +152,13 @@ export default function Register() {
                 )}
               </div>
               <div className={styles.buttonall}>
-                <button>Create Account</button>
+                <button>Tạo tài khoản</button>
               </div>
             </form>
             <Dialog open={open} onClose={() => setOpen(false)}>
-              <DialogTitle>🎉 Registration Successful</DialogTitle>
+              <DialogTitle>🎉 Đăng kí Thành Công</DialogTitle>
               <DialogContent>
-                <p>Welcome! You have registered successfully.</p>
+                <p>Chào Mừng! Bạn đăng kí thành công</p>
                 <Button
                   onClick={() => {
                     setOpen(false);
@@ -173,15 +173,15 @@ export default function Register() {
             </Dialog>
             <div className={styles.foot}>
               <p>
-                Already have an account?{" "}
+                Đã có tài khoản?{" "}
                 <Link to="/login" className={styles.loginlink}>
-                  Login
+                  Đăng nhập
                 </Link>
               </p>
             </div>
             <div className={styles.conditions}>
               <Link to="/">
-                <p>Adopt Pet Terms & Conditions</p>
+                <p>Điều khoản & Điều kiện của việc nhận nuôi thú cưng</p>
               </Link>
             </div>
           </div>
