@@ -9,7 +9,7 @@ import {
   CardContent,
   Grid,
   Avatar,
-  Divider,
+  Divider
 } from "@mui/material";
 import Header from "../../Header/Header";
 import styles from "./UserDetail.module.scss";
@@ -22,6 +22,69 @@ const UserDetail = () => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const API_URL = import.meta.env.VITE_API_BASE_URL;
+  const getPaymentStatus = (method) => {
+    switch (method) {
+      case "UNPAID":
+        return "Chưa thanh toán";
+      case "PAIDALL":
+        return "Thanh toán toàn bộ";
+      case "DEPOSIT":
+        return "Đặt cọc";
+      case "FAILED":
+        return "Thanh toán thất bại";
+    }
+  };
+  const getBookingStatus = (method) => {
+    switch (method) {
+      case "PENDING":
+        return "Đang diễn ra";
+      case "NOTYET":
+        return "Chưa diễn ra";
+      case "COMPLETED":
+        return "Hoàn thành";
+      case "CANCELLED":
+        return "Đã hủy";
+    }
+  };
+  const handlePayment = async () => {
+    if (
+      data?.bookingStatus !== "NOTYET" ||
+      data?.bookingStatusPaid !== "UNPAID"
+    ) {
+      alert(
+        "Chỉ có thể thanh toán khi dịch vụ chưa diễn ra và chưa thanh toán"
+      );
+      return;
+    }
+
+    const bookingFormData = new FormData();
+    bookingFormData.append("bookingId", data.bookinId);
+
+    try {
+      setIsLoading(true);
+      const response = await axios.post(
+        `${API_URL}/payment/checkOut`,
+        bookingFormData,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("jwt")}`
+          }
+        }
+      );
+
+      const checkOutUrl = response?.data?.data?.checkOutUrl;
+      if (!checkOutUrl) {
+        alert("Hệ thống thanh toán hiện đang không hoạt động");
+      } else {
+        window.location.href = checkOutUrl;
+      }
+    } catch (error) {
+      console.error("Lỗi khi tạo đơn hàng:", error);
+      alert("Thanh toán thất bại. Vui lòng thử lại.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
   const fetchData = async () => {
     try {
       setIsLoading(true);
@@ -29,8 +92,8 @@ const UserDetail = () => {
         `${API_URL}/booking/v1/getBookingDetailByIdByUser/${bookinId}`,
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("jwt")}`,
-          },
+            Authorization: `Bearer ${localStorage.getItem("jwt")}`
+          }
         }
       );
       if (response.status >= 200 && response.status < 300) {
@@ -63,9 +126,9 @@ const UserDetail = () => {
 
                   <Divider sx={{ mb: 2 }} />
 
-                  <Grid container spacing={2}>
+                  <Grid container spacing={3}>
                     {/* Cột 1 */}
-                    <Grid item xs={6}>
+                    <Grid item xs={5}>
                       <Typography variant="body1">
                         <strong>ID:</strong> {data?.bookinId}
                       </Typography>
@@ -73,13 +136,12 @@ const UserDetail = () => {
                         <strong>Ngày đặt:</strong> {data?.bookingDate}
                       </Typography>
                       <Typography variant="body1">
-                        <strong>Trạng thái:</strong> {data?.bookingStatus}
+                        <strong>Trạng thái:</strong>{" "}
+                        {getBookingStatus(data?.bookingStatus)}
                       </Typography>
                       <Typography variant="body1">
                         <strong>Thanh toán:</strong>{" "}
-                        {data?.bookingStatusPaid
-                          ? "Đã thanh toán"
-                          : "Chưa thanh toán"}
+                        {getPaymentStatus(data?.bookingStatusPaid)}
                       </Typography>
                       <Typography variant="body1">
                         <strong>Khách hàng:</strong> {data?.fullName}
@@ -104,11 +166,93 @@ const UserDetail = () => {
                         <strong>Mô tả:</strong> {data?.serviceDescription}
                       </Typography>
                       <Typography variant="body1">
+                        <strong>Hình ảnh:</strong>{" "}
+                        <img
+                          src={data?.imageService}
+                          alt=""
+                          style={{
+                            width: "200px",
+                            height: "auto",
+                            borderRadius: "8px",
+                            marginTop: "5px"
+                          }}
+                        />
+                      </Typography>
+                      <Typography variant="body1">
+                        <strong>Dịch vụ phụ:</strong> {data?.optinalServiceName}
+                      </Typography>
+                      <Typography variant="body1">
+                        <strong>Giá dịch vụ phụ:</strong>{" "}
+                        {data?.optianlServiceprice}
+                      </Typography>
+                      <Typography variant="body1">
+                        <strong>Miêu tả dịch vụ phụ:</strong>{" "}
+                        {data?.optinalServiceDescription}
+                      </Typography>
+                      <Typography variant="body1">
+                        <strong>Hình ảnh dịch vụ phụ:</strong>{" "}
+                        <img
+                          src={data?.optinalImageService}
+                          alt=""
+                          style={{
+                            width: "200px",
+                            height: "auto",
+                            borderRadius: "8px",
+                            marginTop: "5px"
+                          }}
+                        />
+                      </Typography>
+                      <Typography variant="body1">
+                        <strong>Tên thú cưng:</strong>
+                        {data?.petName}
+                      </Typography>
+                      <Typography variant="body1">
+                        <strong>Loại thú cưng:</strong>
+                        {data?.petTypeEnum}
+                      </Typography>
+                      <Typography variant="body1">
+                        <strong>Giới tính thú cưng:</strong>
+                        {data?.petGenderEnum}
+                      </Typography>
+                      <Typography variant="body1">
+                        <strong>Hình ảnh thú cưng:</strong>
+                        <img
+                          src={data?.petImage}
+                          alt=""
+                          style={{
+                            width: "200px",
+                            height: "auto",
+                            borderRadius: "8px",
+                            marginTop: "5px"
+                          }}
+                        />
+                      </Typography>
+                      <Typography variant="body1">
+                        <strong>Tuổi thú cưng:</strong>
+                        {data?.age}
+                      </Typography>
+                      <Typography variant="body1">
+                        <strong>Ghi chú:</strong>
+                        {data?.notes}
+                      </Typography>
+                      <Typography variant="body1">
                         <strong>Phương thức thanh toán:</strong>{" "}
                         {data?.paymentMethodEnum}
                       </Typography>
                       <Typography variant="body1">
                         <strong>Ngày tạo:</strong> {data?.createAt}
+                      </Typography>
+                      <Typography variant="body1">
+                        <strong>Giờ bắt đầu:</strong> {data?.startTime}
+                      </Typography>
+                      <Typography variant="body1">
+                        <strong>Giờ kết thúc:</strong> {data?.endTime}
+                      </Typography>
+                      <Typography variant="body1">
+                        <strong>Ngày kết thúc:</strong> {data?.endDate}
+                      </Typography>
+                      <Typography variant="body1">
+                        <strong>Tổng cộng:</strong> {data?.totalAmount}
                       </Typography>
                     </Grid>
                   </Grid>
@@ -133,6 +277,13 @@ const UserDetail = () => {
                       onClick={() => navigate(-1)}
                     >
                       Quay Lại
+                    </Button>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={handlePayment}
+                    >
+                      Thanh toán
                     </Button>
                   </Grid>
                 </CardContent>

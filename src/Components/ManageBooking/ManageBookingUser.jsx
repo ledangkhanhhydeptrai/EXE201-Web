@@ -47,6 +47,20 @@ const ManageBookingUser = () => {
         return "Không xác định";
     }
   };
+  const getBookingStatusPaid = (status) => {
+    switch (status) {
+      case "UNPAID":
+        return "Chưa thanh toán";
+      case "DEPOSIT":
+        return "Đặt cọc";
+      case "PAIDALL":
+        return "Thanh toán toàn bộ";
+      case "FAILED":
+        return "Thanh toán thất bại";
+      default:
+        return "Không xác định";
+    }
+  };
 
   const fetchAllBookings = async () => {
     try {
@@ -189,6 +203,9 @@ const ManageBookingUser = () => {
                         <strong>Trạng thái</strong>
                       </TableCell>
                       <TableCell>
+                        <strong>Trạng thái thanh toán</strong>
+                      </TableCell>
+                      <TableCell>
                         <strong>Thanh toán</strong>
                       </TableCell>
                     </TableRow>
@@ -223,6 +240,9 @@ const ManageBookingUser = () => {
                           >
                             {getBookingStatus(booking.bookingStatus)}
                           </Typography>
+                        </TableCell>
+                        <TableCell>
+                          {getBookingStatusPaid(booking.bookingStatusPaid)}
                         </TableCell>
                         <TableCell>
                           {booking.bookingStatus === "NOTYET" && (
