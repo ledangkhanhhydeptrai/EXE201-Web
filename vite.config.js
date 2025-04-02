@@ -10,6 +10,7 @@ export default defineConfig({
         secure: false,
       },
     },
+    historyApiFallback: true, // Fix lỗi 404 khi refresh
   },
   plugins: [react()],
   base: "/",
