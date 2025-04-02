@@ -1,10 +1,14 @@
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
 
 export default defineConfig({
-  server: {
-    historyApiFallback: true, // Fix lỗi 404 khi refresh
-  },
   plugins: [react()],
-  base: "/",
+  build: {
+    outDir: "dist"
+  },
+  server: {
+    fs: {
+      allow: [".."] // Cho phép truy cập file ngoài thư mục dự án (nếu cần)
+    }
+  }
 });
