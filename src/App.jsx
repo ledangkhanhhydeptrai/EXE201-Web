@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Route, Router, Routes } from "react-router-dom";
 import Homepage from "./Home/Homepage";
 import Service from "./Components/Service/Service";
 import Book from "./Components/Booking/Book";
@@ -47,7 +47,7 @@ import ManageServiceOptional1 from "./Components/Staff/ManageServiceOptional/Man
 import OptionalDetail1 from "./Components/Staff/ManageServiceOptionalDetail/OptionalDetail1";
 function App() {
   return (
-    <>
+    <Router basename="/">
       <Routes>
         <Route path="/" element={<Homepage />} />
         <Route path="/service" element={<Service />} />
@@ -109,7 +109,7 @@ function App() {
           element={<OptionalDetail1 />}
         />
       </Routes>
-    </>
+    </Router>
   );
 }
 
