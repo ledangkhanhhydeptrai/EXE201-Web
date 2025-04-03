@@ -1,4 +1,4 @@
-import { Route, Router, Routes } from "react-router-dom";
+import { HashRouter as Router, Routes, Route } from "react-router-dom";
 import Homepage from "./Home/Homepage";
 import Service from "./Components/Service/Service";
 import Book from "./Components/Booking/Book";
@@ -47,69 +47,64 @@ import ManageServiceOptional1 from "./Components/Staff/ManageServiceOptional/Man
 import OptionalDetail1 from "./Components/Staff/ManageServiceOptionalDetail/OptionalDetail1";
 function App() {
   return (
-    <Router basename="/">
-      <Routes>
-        <Route path="/" element={<Homepage />} />
-        <Route path="/service" element={<Service />} />
-        <Route path="/booking" element={<Book />} />
-        <Route path="/request" element={<Request />} />
-        <Route path="/payment" element={<Payment />} />
-        <Route path="/success" element={<Paymentsuccess />} />
-        <Route path="/introduce" element={<Introduce />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/user" element={<ManageUser />} />
-        <Route path="/pet" element={<ManagePet />} />
-        <Route path="/manage-service" element={<ManageService />} />
-        <Route path="/matching" element={<Matching />} />
-        <Route path="/profilematch" element={<Profilematching />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/feed" element={<Feed />} />
-        <Route path="/form" element={<Form />} />
-        <Route path="/test" element={<FormTest />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/blog" element={<Blog />} />
-        <Route path="/post" element={<Post />} />
-        <Route path="/pet1" element={<ManagePet1 />} />
-        <Route path="/user1" element={<ManageUser1 />} />
-        <Route path="/dashboard1" element={<Dashboard1 />} />
-        <Route path="/service1" element={<ManageService1 />} />
-        <Route path="/booksuccess" element={<BookingSuccess />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/managebooking" element={<ManageBooking />} />
-        <Route path="/bookinguser" element={<Booking />} />
-        <Route path="/userpet" element={<ManagePetUser />} />
-        <Route path="/managebookinguser" element={<ManageBookingUser />} />
-        <Route path="/pet/:petId" element={<Detail />} />
-        <Route path="/managebooking/:bookinId" element={<BookingDetail />} />
-        <Route path="/managebookinguser/:bookinId" element={<UserDetail />} />
-        <Route path="/detailblog" element={<BlogDetail />} />
-        <Route path="/detailblog/1" element={<Detail1 />} />
-        <Route path="/detailblog/2" element={<Detail2 />} />
-        <Route path="/detailblog/3" element={<Detail3 />} />
-        <Route path="/detailblog/4" element={<Detail4 />} />
-        <Route path="/managebooking1" element={<ManageBooking1 />} />
-        <Route path="/service/:serviceId" element={<ServiceDetail />} />
-        <Route path="/serviceoptional" element={<ServiceOptional />} />
-        <Route
-          path="/manageservice/:serviceId"
-          element={<ManageServiceDetail />}
-        />
-        <Route
-          path="/serviceoptional/:serviceId"
-          element={<OptionalDetail />}
-        />
-        <Route
-          path="/detailservice/:serviceId"
-          element={<ServiceDetailOptional />}
-        />
-        <Route path="/serviceoptional1" element={<ManageServiceOptional1 />} />
-        <Route
-          path="/serviceoptional1/:serviceId"
-          element={<OptionalDetail1 />}
-        />
-      </Routes>
-    </Router>
+    <Routes>
+      <Route path="/" element={<Homepage />} />
+      <Route path="/service" element={<Service />} />
+      <Route path="/booking" element={<Book />} />
+      <Route path="/request" element={<Request />} />
+      <Route path="/payment" element={<Payment />} />
+      <Route path="/success" element={<Paymentsuccess />} />
+      <Route path="/introduce" element={<Introduce />} />
+      <Route path="/dashboard" element={<Dashboard />} />
+      <Route path="/user" element={<ManageUser />} />
+      <Route path="/pet" element={<ManagePet />} />
+      <Route path="/manage-service" element={<ManageService />} />
+      <Route path="/matching" element={<Matching />} />
+      <Route path="/profilematch" element={<Profilematching />} />
+      <Route path="/profile" element={<Profile />} />
+      <Route path="/feed" element={<Feed />} />
+      <Route path="/form" element={<Form />} />
+      <Route path="/test" element={<FormTest />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
+      <Route path="/blog" element={<Blog />} />
+      <Route path="/post" element={<Post />} />
+      <Route path="/pet1" element={<ManagePet1 />} />
+      <Route path="/user1" element={<ManageUser1 />} />
+      <Route path="/dashboard1" element={<Dashboard1 />} />
+      <Route path="/service1" element={<ManageService1 />} />
+      <Route path="/booksuccess" element={<BookingSuccess />} />
+      <Route path="/profile" element={<Profile />} />
+      <Route path="/managebooking" element={<ManageBooking />} />
+      <Route path="/bookinguser" element={<Booking />} />
+      <Route path="/userpet" element={<ManagePetUser />} />
+      <Route path="/managebookinguser" element={<ManageBookingUser />} />
+      <Route path="/pet/:petId" element={<Detail />} />
+      <Route path="/managebooking/:bookinId" element={<BookingDetail />} />
+      <Route path="/managebookinguser/:bookinId" element={<UserDetail />} />
+      <Route path="/detailblog" element={<BlogDetail />} />
+      <Route path="/detailblog/1" element={<Detail1 />} />
+      <Route path="/detailblog/2" element={<Detail2 />} />
+      <Route path="/detailblog/3" element={<Detail3 />} />
+      <Route path="/detailblog/4" element={<Detail4 />} />
+      <Route path="/managebooking1" element={<ManageBooking1 />} />
+      <Route path="/service/:serviceId" element={<ServiceDetail />} />
+      <Route path="/serviceoptional" element={<ServiceOptional />} />
+      <Route
+        path="/manageservice/:serviceId"
+        element={<ManageServiceDetail />}
+      />
+      <Route path="/serviceoptional/:serviceId" element={<OptionalDetail />} />
+      <Route
+        path="/detailservice/:serviceId"
+        element={<ServiceDetailOptional />}
+      />
+      <Route path="/serviceoptional1" element={<ManageServiceOptional1 />} />
+      <Route
+        path="/serviceoptional1/:serviceId"
+        element={<OptionalDetail1 />}
+      />
+    </Routes>
   );
 }
 
