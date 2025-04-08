@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import styles from "./Profile.module.scss";
-import Header from "../../Header/Header";
+
 import axios from "axios";
 import {
   Card,
@@ -16,8 +16,10 @@ import {
   DialogActions
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import Footer from "../../Footer/Footer";
+
 import Loading from "../Loading/Loading";
+import Header from "../Admin/HeaderAdmin/Header";
+import Sidebar from "../Admin/Sidebar/Sidebar";
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -104,8 +106,11 @@ const Profile = () => {
             marginTop: 100
           }}
         >
-          <Header />
-          <div>
+          <div style={{ marginTop: "-100px", marginLeft: "-5px" }}>
+            <Header />
+          </div>
+          <Sidebar />
+          <div style={{ marginTop: "50px" }}>
             <Card
               className={styles.profileCard}
               style={{
@@ -218,7 +223,6 @@ const Profile = () => {
               </Dialog>
             </Card>
           </div>
-          <Footer />
         </div>
       )}
     </>

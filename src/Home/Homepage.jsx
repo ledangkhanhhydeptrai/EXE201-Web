@@ -38,7 +38,7 @@ export default function Homepage() {
     id: queryParams.get("id"),
     cancel: queryParams.get("cancel"),
     status: queryParams.get("status"),
-    orderCode: queryParams.get("orderCode"),
+    orderCode: queryParams.get("orderCode")
   };
 
   let isPaymentProccessed = false;
@@ -167,7 +167,9 @@ export default function Homepage() {
           </section>
         </div>
         {/* <ChatBot /> */}
-        <Footer />
+        <div style={{ marginLeft: "12px" }}>
+          <Footer />
+        </div>
       </div>
     </div>
   );

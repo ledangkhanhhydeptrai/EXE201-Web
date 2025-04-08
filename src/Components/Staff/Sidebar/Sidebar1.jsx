@@ -3,7 +3,6 @@ import styles from "./Sidebar.module.scss";
 import img1 from "../../../assets/z6223063894468_38357e99297b491d9712cb1e17076215.jpg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faChartBar,
   faUsers,
   faPaw,
   faCalendarCheck,
@@ -21,12 +20,6 @@ export default function Sidebar1() {
           <h2 className={styles.logo}>Adopt Pet</h2>
         </span>
         <ul className={styles.navLinks}>
-          <li>
-            <Link to="/dashboard1" className={styles.navLink}>
-              <FontAwesomeIcon icon={faChartBar} className={styles.icon} />{" "}
-              Dashboard
-            </Link>
-          </li>
           <li>
             <Link to="/user1" className={styles.navLink}>
               <FontAwesomeIcon icon={faUsers} className={styles.icon} /> Manage

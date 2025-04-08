@@ -200,7 +200,7 @@ export default function ManagepetUser() {
             }}
           >
             <Button variant="contained" onClick={handleClick}>
-              + Tạo thú cưng
+              + Thêm thú cưng
             </Button>
           </Box>
           <div className={styles.petsList}>
