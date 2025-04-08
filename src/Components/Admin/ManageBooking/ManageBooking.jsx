@@ -20,7 +20,6 @@ import {
 import styles from "./ManageBooking.module.scss";
 import Sidebar from "../Sidebar/Sidebar";
 import Header from "../HeaderAdmin/Header";
-
 const ManageBooking = () => {
   const navigate = useNavigate();
   const [data, setData] = useState([]);
@@ -77,30 +76,39 @@ const ManageBooking = () => {
       return;
     }
 
+    const params = {};
+    if (bookingDate) params.bookingDate = bookingDate;
+    if (bookingStatus) params.bookingStatus = bookingStatus;
+    if (bookingStatusPaid) params.bookingStatusPaid = bookingStatusPaid;
+
+    console.log("🔥 Params lọc booking gửi đi:", params);
+
     try {
       const response = await axios.get(
         `${API_URL}/booking/v1/getBookingByAdmiByDropdown`,
-        {
-          params: {
-            bookDate: bookingDate || "2025-03-28",
-            bookingStatus: bookingStatus || "NOTYET",
-            bookingStatusPaid: bookingStatusPaid || "UNPAID"
-          }
-        }
+        { params }
       );
       setData(response.data.data);
       setCurrentData(response.data.data.slice(0, itemsPerPage));
     } catch (error) {
       console.error("Lỗi khi lọc danh sách booking:", error);
     }
-  }, [bookingDate, bookingStatus, bookingStatusPaid]);
+  }, [
+    API_URL,
+    bookingDate,
+    bookingStatus,
+    bookingStatusPaid,
+    fetchAllBookings
+  ]);
 
-  useEffect(() => {
-    fetchAllBookings();
-  }, []);
   useEffect(() => {
     fetchFilteredBookings();
   }, [fetchFilteredBookings]);
+
+  useEffect(() => {
+    fetchAllBookings();
+  }, [fetchAllBookings]);
+  
   useEffect(() => {
     const startIndex = (currentPage - 1) * itemsPerPage;
     const paginatedData = data.slice(startIndex, startIndex + itemsPerPage);
@@ -117,10 +125,14 @@ const ManageBooking = () => {
             label="Ngày đặt chỗ"
             type="date"
             value={bookingDate}
-            onChange={(e) => setBookingDate(e.target.value)}
+            onChange={(e) => {
+              console.log("Ngày vừa chọn:", e.target.value); // Kiểm tra ở đây
+              setBookingDate(e.target.value);
+            }}
             className={styles.datePicker}
             InputLabelProps={{ shrink: true }}
           />
+
           <FormControl className={styles.select}>
             <InputLabel>Trạng thái đặt chỗ</InputLabel>
             <Select

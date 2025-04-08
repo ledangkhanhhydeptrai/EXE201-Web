@@ -5,11 +5,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faChartBar,
   faUsers,
-  faPaw,
   faCalendarCheck,
   faCog
 } from "@fortawesome/free-solid-svg-icons";
-
+// làm trang giao dịch
 export default function Sidebar() {
   return (
     <div className={styles.sidebar}>
@@ -34,27 +33,24 @@ export default function Sidebar() {
             </Link>
           </li>
           <li>
-            <Link to="/pet" className={styles.navLink}>
-              <FontAwesomeIcon icon={faPaw} className={styles.icon} /> Quản lí
-              thú cưng
-            </Link>
-          </li>
-          <li>
             <Link to="/managebooking" className={styles.navLink}>
-              <FontAwesomeIcon icon={faCalendarCheck} className={styles.icon} />{" "}
+              <FontAwesomeIcon
+                icon={faCalendarCheck}
+                className={styles.icon}
+              />{" "}
               Quản lí đặt lịch
             </Link>
           </li>
           <li>
             <Link to="/manage-service" className={styles.navLink}>
               <FontAwesomeIcon icon={faCog} className={styles.icon} /> Quản lí
-              dịch vụ
+              dịch vụ chính
             </Link>
           </li>
           <li>
             <Link to="/serviceoptional" className={styles.navLink}>
               <FontAwesomeIcon icon={faCog} className={styles.icon} /> Quản lí
-              chọn dịch vụ
+              dịch vụ phụ
             </Link>
           </li>
           <li />
