@@ -85,3 +85,45 @@
   border-radius: 8px;
   font-size: 14px;
 }
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  margin: 1rem 0;
+  padding: 1rem;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
+}
+
+.datePicker {
+  flex: 1;
+  min-width: 220px;
+
+  .MuiInputBase-root {
+    border-radius: 8px;
+    background-color: #f9f9f9;
+  }
+
+  .MuiInputLabel-root {
+    font-weight: 500;
+  }
+}
+
+.select {
+  flex: 1;
+  min-width: 220px;
+
+  .MuiInputBase-root {
+    border-radius: 8px;
+    background-color: #f9f9f9;
+  }
+
+  .MuiInputLabel-root {
+    font-weight: 500;
+  }
+}
