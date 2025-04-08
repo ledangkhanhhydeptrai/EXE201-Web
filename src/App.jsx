@@ -46,6 +46,7 @@ import ManageService1 from "./Components/Staff/Service/ManageService1";
 import ManageServiceOptional1 from "./Components/Staff/ManageServiceOptional/ManageServiceOptional1";
 import OptionalDetail1 from "./Components/Staff/ManageServiceOptionalDetail/OptionalDetail1";
 import ProfileAdmin from "./Components/Admin/Profile/Profile";
+import DashboardBy from "./Components/Admin/DashboardById/DashboardBy";
 function App() {
   return (
     <Routes>
@@ -106,6 +107,7 @@ function App() {
         element={<OptionalDetail1 />}
       />
       <Route path="/profileadmin" element={<ProfileAdmin />} />
+      <Route path="/dashboard/:id" element={<DashboardBy />} />
     </Routes>
   );
 }

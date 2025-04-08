@@ -1,189 +1,162 @@
 import {
-  Button,
+  FormControl,
+  InputLabel,
+  MenuItem,
   Pagination,
   Paper,
+  Select,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
-  TableRow
+  TableRow,
+  TextField
 } from "@mui/material";
 import Header from "../HeaderAdmin/Header";
 import Sidebar from "../Sidebar/Sidebar";
 import styles from "./Dashboard.module.scss";
 import { useCallback, useEffect, useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export default function Dashboard() {
   const [data, setData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-  const currentData = data.slice(startIndex, endIndex);
   const API_URL = import.meta.env.VITE_API_BASE_URL;
-  const [filterName, setFilterName] = useState("");
-  const [filterEmail, setFilterEmail] = useState("");
-  const [filterStatus, setFilterStatus] = useState(""); // "active", "banned", ""
-  // const filteredData = data.filter((user) => {
-  //   const nameMatch = user.userName
-  //     .toLowerCase()
-  //     .includes(filterName.toLowerCase());
-  //   const emailMatch = user.email
-  //     .toLowerCase()
-  //     .includes(filterEmail.toLowerCase());
-  //   const statusMatch =
-  //     filterStatus === ""
-  //       ? true
-  //       : filterStatus === "active"
-  //       ? user.active
-  //       : !user.active;
-
-  //   return nameMatch && emailMatch && statusMatch;
-  // });
-
-  // const currentData = filteredData.slice(startIndex, endIndex);
-
+  const [localDate, setLocalDate] = useState("");
+  const [bookingStatusPaid, setBookingStatusPaid] = useState("");
+  const [currentData, setCurrentData] = useState([]);
+  const navigate = useNavigate();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const fetchData = useCallback(async () => {
     try {
-      const response = await axios.get(`${API_URL}/user/getAllAccount`);
-
+      const response = await axios.get(
+        `${API_URL}/transaction/v1/GetAllTransaction`
+      );
       if (response.status >= 200 && response.status < 300) {
-        const sortedData = response.data.data.sort(
-          (a, b) => a.userId - b.userId
-        );
-        console.log("API Response:", response.data);
+        const sortedData = response.data.data.sort((a, b) => a.id - b.id);
         setData(sortedData);
       }
     } catch (error) {
       console.error("Error fetching data:", error);
     }
-  });
-  useEffect(() => {
-    fetchData();
-  }, [fetchData]);
-  const handleToggleStatus = async (userId, isActive) => {
+  }, [API_URL]);
+  const filteredData = useCallback(async () => {
+    const params = {};
+    if (localDate) params.localDate = localDate;
+    if (bookingStatusPaid) params.bookingStatusPaid = bookingStatusPaid;
+
     try {
-      const url = isActive
-        ? `${API_URL}/user/v1/banAccountById/${userId}
-`
-        : `${API_URL}/user/v1/unBanAccountById/${userId}
-`;
-      const response = await axios.put(url);
-      if (response.status >= 200 && response.status < 300) {
-        fetchData();
-      }
+      const response = await axios.get(
+        `${API_URL}/transaction/v1/GetTransactionDropdown`,
+        { params }
+      );
+      setData(response.data.data);
     } catch (error) {
-      console.error("Error fetching data:", error);
+      console.error("Lỗi khi lọc danh sách booking:", error);
     }
-  };
+  }, [API_URL, localDate, bookingStatusPaid]);
+  useEffect(() => {
+    const getData = async () => {
+      if (!bookingStatusPaid && !localDate) {
+        await fetchData();
+      } else {
+        await filteredData();
+      }
+    };
+    getData();
+  }, [bookingStatusPaid, localDate, filteredData]);
+
+  useEffect(() => {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const paginatedData = data.slice(startIndex, startIndex + itemsPerPage);
+    setCurrentData(paginatedData);
+  }, [currentPage, data]);
   return (
     <>
       <Sidebar />
       <Header />
-      <div className={styles.filterContainer}>
-        <input
-          type="text"
-          placeholder="Lọc theo tên người dùng"
-          value={filterName}
-          onChange={(e) => {
-            setCurrentPage(1);
-            setFilterName(e.target.value);
-          }}
-          className={styles.filterInput}
-        />
-        <input
-          type="text"
-          placeholder="Lọc theo email"
-          value={filterEmail}
-          onChange={(e) => {
-            setCurrentPage(1);
-            setFilterEmail(e.target.value);
-          }}
-          className={styles.filterInput}
-        />
-        <select
-          value={filterStatus}
-          onChange={(e) => {
-            setCurrentPage(1);
-            setFilterStatus(e.target.value);
-          }}
-          className={styles.filterSelect}
-        >
-          <option value="">Tất cả trạng thái</option>
-          <option value="active">Đang hoạt động</option>
-          <option value="banned">Đã bị cấm</option>
-        </select>
-      </div>
-
       <div className={styles.container}>
+        <div className={styles.filters}>
+          <TextField
+            label="Ngày đặt chỗ"
+            type="date"
+            value={localDate}
+            onChange={(e) => {
+              console.log("Ngày vừa chọn:", e.target.value);
+              setLocalDate(e.target.value);
+            }}
+            className={styles.datePicker}
+            InputLabelProps={{ shrink: true }}
+          />
+          <FormControl className={styles.select}>
+            <InputLabel>Trạng thái thanh toán</InputLabel>
+            <Select
+              value={bookingStatusPaid}
+              onChange={(e) => setBookingStatusPaid(e.target.value)}
+            >
+              <MenuItem value="PAIDALL">Thanh toán toàn bộ</MenuItem>
+              <MenuItem value="DEPOSIT">Đặt cọc</MenuItem>
+              <MenuItem value="UNPAID">Chưa thanh toán</MenuItem>
+              <MenuItem value="FAILED">Thanh toán thất bại</MenuItem>
+            </Select>
+          </FormControl>
+        </div>
         <TableContainer component={Paper} className={styles.tableContainer}>
           <Table className={styles.table} aria-label="user table">
             <TableHead>
               <TableRow className={styles.tableHead}>
                 <TableCell className={styles.tableCell} align="center">
-                  userId
+                  Id
                 </TableCell>
                 <TableCell className={styles.tableCell} align="center">
-                  Username
+                  Amount
                 </TableCell>
                 <TableCell className={styles.tableCell} align="center">
-                  Email
+                  Amount Paid
                 </TableCell>
                 <TableCell className={styles.tableCell} align="center">
-                  Phone
-                </TableCell>
-                <TableCell className={styles.tableCell} align="center">
-                  Address
+                  Amount Remaining
                 </TableCell>
                 <TableCell className={styles.tableCell} align="center">
                   Status
                 </TableCell>
                 <TableCell className={styles.tableCell} align="center">
-                  Avatar
+                  account Number
                 </TableCell>
                 <TableCell className={styles.tableCell} align="center">
-                  Actions
+                  Description
+                </TableCell>
+                <TableCell className={styles.tableCell} align="center">
+                  Transaction Date Time
+                </TableCell>
+                <TableCell className={styles.tableCell} align="center">
+                  Order Code
                 </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {currentData.map((row, index) => (
-                <TableRow key={index} className={styles.tableRow}>
+                <TableRow
+                  key={index}
+                  className={styles.tableRow}
+                  onClick={() => navigate(`/dashboard/${row.id}`)}
+                >
                   <TableCell component="th" scope="row" align="center">
-                    {row.userId}
+                    {row.id}
                   </TableCell>
-                  <TableCell align="center">{row.userName}</TableCell>
-                  <TableCell align="center">{row.email}</TableCell>
-                  <TableCell align="center">{row.phone}</TableCell>
-                  <TableCell align="center">{row.address}</TableCell>
+                  <TableCell align="center">{row.amount}</TableCell>
+                  <TableCell align="center">{row.amountPaid}</TableCell>
+                  <TableCell align="center">{row.amountRemaining}</TableCell>
+                  <TableCell align="center">{row.status}</TableCell>
+                  <TableCell align="center">{row.accountNumber}</TableCell>
+                  <TableCell align="center">{row.description}</TableCell>
                   <TableCell align="center">
-                    <span
-                      className={
-                        row.active ? styles.activeStatus : styles.bannedStatus
-                      }
-                    >
-                      {row.active ? "Đang hoạt động" : "Bị cấm"}
-                    </span>
+                    {row.transactionDateTime}
                   </TableCell>
-                  <TableCell align="center">
-                    <img
-                      src={row.avatarBase64}
-                      alt="Avatar"
-                      className={styles.avatar}
-                    />
-                  </TableCell>
-                  <TableCell align="center">
-                    <Button
-                      variant="contained"
-                      color={row.active ? "error" : "success"}
-                      onClick={() => handleToggleStatus(row.userId, row.active)}
-                    >
-                      {row.active ? "Ban" : "Unban"}
-                    </Button>
-                  </TableCell>
+                  <TableCell align="center">{row.orderCode}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
