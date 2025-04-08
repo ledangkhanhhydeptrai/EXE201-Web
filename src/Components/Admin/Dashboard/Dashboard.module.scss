@@ -1,6 +1,6 @@
 .container {
   margin-left: 245px;
-  margin-top: 1px;
+  margin-top: 21px;
 }
 
 .tableContainer {
@@ -94,6 +94,7 @@
   background-color: #fff;
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  margin-top: 70px;
 
   @media (max-width: 768px) {
     flex-direction: column;
