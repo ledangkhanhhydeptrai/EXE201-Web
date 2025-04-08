@@ -24,6 +24,9 @@ export default function Header() {
     localStorage.removeItem("jwt");
     navigate("/login");
   };
+  const handleNavigate = () => {
+    navigate("/profile");
+  };
   return (
     <div className={styles.container}>
       <input type="text" placeholder="Search" className={styles.searchInput} />
@@ -42,7 +45,7 @@ export default function Header() {
             isDropdownVisible ? styles.active : ""
           }`}
         >
-          <a href="/profile">Manage Profile</a>
+          <a onClick={handleNavigate}>Manage Profile</a>
           <a onClick={handleLogout}>Logout</a>
         </div>
       </div>
