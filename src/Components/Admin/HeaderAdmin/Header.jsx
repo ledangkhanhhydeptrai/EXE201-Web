@@ -25,7 +25,7 @@ export default function Header() {
     navigate("/login");
   };
   const handleNavigate = () => {
-    navigate("/profile");
+    navigate("/profileadmin");
   };
   return (
     <div className={styles.container}>

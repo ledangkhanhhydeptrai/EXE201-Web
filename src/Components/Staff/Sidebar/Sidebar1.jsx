@@ -2,13 +2,7 @@ import { Link } from "react-router-dom";
 import styles from "./Sidebar.module.scss";
 import img1 from "../../../assets/z6223063894468_38357e99297b491d9712cb1e17076215.jpg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faUsers,
-  faPaw,
-  faCalendarCheck,
-  faCog
-} from "@fortawesome/free-solid-svg-icons";
-
+import { faCalendarCheck } from "@fortawesome/free-solid-svg-icons";
 export default function Sidebar1() {
   return (
     <div className={styles.sidebar}>
@@ -21,36 +15,11 @@ export default function Sidebar1() {
         </span>
         <ul className={styles.navLinks}>
           <li>
-            <Link to="/user1" className={styles.navLink}>
-              <FontAwesomeIcon icon={faUsers} className={styles.icon} /> Manage
-              User
-            </Link>
-          </li>
-          <li>
-            <Link to="/pet1" className={styles.navLink}>
-              <FontAwesomeIcon icon={faPaw} className={styles.icon} /> Manage
-              Pets
-            </Link>
-          </li>
-          <li>
-            <Link to="/service1" className={styles.navLink}>
-              <FontAwesomeIcon icon={faPaw} className={styles.icon} /> Manage
-              Service
-            </Link>
-          </li>
-          <li>
             <Link to="/managebooking1" className={styles.navLink}>
               <FontAwesomeIcon icon={faCalendarCheck} className={styles.icon} />{" "}
               Manage Booking
             </Link>
           </li>
-          <li>
-            <Link to="/serviceoptional1" className={styles.navLink}>
-              <FontAwesomeIcon icon={faCog} className={styles.icon} /> Manage
-              Service Optional
-            </Link>
-          </li>
-          <li />
         </ul>
       </div>
     </div>
