@@ -25,7 +25,7 @@ import Loading from "../Loading/Loading";
 const ManageBookingUser = () => {
   const [data, setData] = useState([]);
   const [currentData, setCurrentData] = useState([]);
-  const [bookingDate, setBookingDate] = useState("2025-03-28");
+  const [bookingDate, setBookingDate] = useState("");
   const [bookingStatus, setBookingStatus] = useState("");
   const [bookingStatusPaid, setBookingStatusPaid] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
@@ -84,10 +84,11 @@ const ManageBookingUser = () => {
     }
   };
   const fetchFilteredBookings = useCallback(async () => {
-    if (!bookingDate && !bookingStatus && !bookingStatusPaid) {
-      fetchAllBookings();
-      return;
-    }
+    const params = {};
+    if (bookingDate) params.bookingDate = bookingDate;
+    if (bookingStatus) params.bookingStatus = bookingStatus;
+    if (bookingStatusPaid) params.bookingStatusPaid = bookingStatusPaid;
+    console.log("🔥 Params lọc booking gửi đi:", params);
 
     try {
       const response = await axios.get(
@@ -96,16 +97,26 @@ const ManageBookingUser = () => {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("jwt")}`
           },
-          params: {
-            bookDate: bookingDate || "2025-03-28", // Thay giá trị mặc định
-            bookingStatus: bookingStatus || "NOTYET",
-            bookingStatusPaid: bookingStatusPaid || "UNPAID"
-          }
+          params
         }
       );
-      if (response.status >= 200 && response.status < 300) {
-        setData(response.data.data);
-        setCurrentData(response.data.data.slice(0, itemsPerPage));
+      const bookings = response.data.data || [];
+      const filtered = bookings.filter((booking) => {
+        const matchDate = bookingDate
+          ? booking.transactionDateTime.includes(bookingDate)
+          : true;
+        const matchStatus = bookingStatus
+          ? booking.status === bookingStatus
+          : true;
+        const matchStatusPaid = bookingStatusPaid
+          ? booking.bookingStatusPaid === bookingStatusPaid
+          : true;
+        return matchDate && matchStatus && matchStatusPaid;
+      });
+      setData(filtered);
+      setCurrentData(response.data.data.slice(0, itemsPerPage));
+      if (filtered.length > 0) {
+        console.log("Không có dữ liệu phù hợp");
       }
     } catch (error) {
       console.error("Lỗi khi lọc danh sách booking:", error);
@@ -211,73 +222,89 @@ const ManageBookingUser = () => {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {currentData.map((booking, index) => (
-                      <TableRow
-                        key={index}
-                        hover
-                        sx={{ cursor: "pointer" }}
-                        onClick={() =>
-                          navigate(`/managebookinguser/${booking.bookinId}`)
-                        }
-                      >
-                        <TableCell>{booking.bookinId}</TableCell>
-                        <TableCell>{booking.serviceName}</TableCell>
-                        <TableCell>
-                          {booking.optinalServiceName ?? "không có"}
-                        </TableCell>
-                        <TableCell>{booking.petName}</TableCell>
-                        <TableCell>{booking.fullName}</TableCell>
-                        <TableCell>{booking.bookingDate}</TableCell>
-                        <TableCell>{booking.startTime}</TableCell>
-                        <TableCell>{booking.endTime}</TableCell>
-                        <TableCell>
-                          <Typography
-                            color={
-                              booking.bookingStatus === "PENDING"
-                                ? "warning.main"
-                                : "success.main"
-                            }
+                    {currentData.length === 0 ? (
+                      <TableRow>
+                        <TableCell colSpan={11} align="center">
+                          <div
+                            style={{
+                              padding: "40px 0",
+                              color: "#999",
+                              fontSize: "18px"
+                            }}
                           >
-                            {getBookingStatus(booking.bookingStatus)}
-                          </Typography>
-                        </TableCell>
-                        <TableCell>
-                          {getBookingStatusPaid(booking.bookingStatusPaid)}
-                        </TableCell>
-                        <TableCell>
-                          {booking.bookingStatus === "NOTYET" && (
-                            <button
-                              style={{
-                                backgroundColor: "#1976d2",
-                                color: "white",
-                                padding: "6px 12px",
-                                border: "none",
-                                borderRadius: "4px",
-                                fontSize: "14px",
-                                fontWeight: "500",
-                                cursor: "pointer",
-                                transition:
-                                  "background-color 0.3s ease, transform 0.2s ease"
-                              }}
-                              onMouseOver={(e) =>
-                                (e.target.style.backgroundColor = "#115293")
-                              }
-                              onMouseOut={(e) =>
-                                (e.target.style.backgroundColor = "#1976d2")
-                              }
-                              onMouseDown={(e) =>
-                                (e.target.style.backgroundColor = "#0d3a7d")
-                              }
-                              onMouseUp={(e) =>
-                                (e.target.style.backgroundColor = "#115293")
-                              }
-                            >
-                              Thanh toán
-                            </button>
-                          )}
+                            Không có dữ liệu
+                          </div>
                         </TableCell>
                       </TableRow>
-                    ))}
+                    ) : (
+                      currentData.map((booking, index) => (
+                        <TableRow
+                          key={index}
+                          hover
+                          sx={{ cursor: "pointer" }}
+                          onClick={() =>
+                            navigate(`/managebookinguser/${booking.bookinId}`)
+                          }
+                        >
+                          <TableCell>{booking.bookinId}</TableCell>
+                          <TableCell>{booking.serviceName}</TableCell>
+                          <TableCell>
+                            {booking.optinalServiceName ?? "không có"}
+                          </TableCell>
+                          <TableCell>{booking.petName}</TableCell>
+                          <TableCell>{booking.fullName}</TableCell>
+                          <TableCell>{booking.bookingDate}</TableCell>
+                          <TableCell>{booking.startTime}</TableCell>
+                          <TableCell>{booking.endTime}</TableCell>
+                          <TableCell>
+                            <Typography
+                              color={
+                                booking.bookingStatus === "PENDING"
+                                  ? "warning.main"
+                                  : "success.main"
+                              }
+                            >
+                              {getBookingStatus(booking.bookingStatus)}
+                            </Typography>
+                          </TableCell>
+                          <TableCell>
+                            {getBookingStatusPaid(booking.bookingStatusPaid)}
+                          </TableCell>
+                          <TableCell>
+                            {booking.bookingStatus === "NOTYET" && (
+                              <button
+                                style={{
+                                  backgroundColor: "#1976d2",
+                                  color: "white",
+                                  padding: "6px 12px",
+                                  border: "none",
+                                  borderRadius: "4px",
+                                  fontSize: "14px",
+                                  fontWeight: "500",
+                                  cursor: "pointer",
+                                  transition:
+                                    "background-color 0.3s ease, transform 0.2s ease"
+                                }}
+                                onMouseOver={(e) =>
+                                  (e.target.style.backgroundColor = "#115293")
+                                }
+                                onMouseOut={(e) =>
+                                  (e.target.style.backgroundColor = "#1976d2")
+                                }
+                                onMouseDown={(e) =>
+                                  (e.target.style.backgroundColor = "#0d3a7d")
+                                }
+                                onMouseUp={(e) =>
+                                  (e.target.style.backgroundColor = "#115293")
+                                }
+                              >
+                                Thanh toán
+                              </button>
+                            )}
+                          </TableCell>
+                        </TableRow>
+                      ))
+                    )}
                   </TableBody>
                 </Table>
               </TableContainer>
