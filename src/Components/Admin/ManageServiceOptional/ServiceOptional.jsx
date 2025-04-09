@@ -295,7 +295,7 @@ const ServiceOptional = () => {
             margin: "20px auto"
           }}
         >
-          Create
+          Tạo dịch vụ
         </Button>
         <Dialog open={openCreate} onClose={handleCloseCreate}>
           <DialogTitle className={styles.dialogTitle}>
@@ -303,7 +303,7 @@ const ServiceOptional = () => {
           </DialogTitle>
           <DialogContent>
             <div className={styles.formContainer}>
-              <label htmlFor="serviceName">Service Name</label>
+              <label htmlFor="serviceName">Tên dịch vụ</label>
               <input
                 type="text"
                 placeholder="Enter a service name"
@@ -311,7 +311,7 @@ const ServiceOptional = () => {
                 onChange={(e) => setServiceName(e.target.value)}
               />
 
-              <label htmlFor="description">Description</label>
+              <label htmlFor="description">Miêu tả</label>
               <input
                 type="text"
                 placeholder="Enter a description"
@@ -319,7 +319,7 @@ const ServiceOptional = () => {
                 onChange={(e) => setDescription(e.target.value)}
               />
 
-              <label htmlFor="price">Price</label>
+              <label htmlFor="price">Giá dịch vụ</label>
               <input
                 type="number"
                 placeholder="Enter a price"
@@ -349,7 +349,8 @@ const ServiceOptional = () => {
           sx={{
             borderRadius: "12px",
             boxShadow: "0 4px 10px rgba(0,0,0,0.1)",
-            overflow: "hidden"
+            overflow: "hidden",
+            marginTop: "-50px"
           }}
         >
           <Table sx={{ minWidth: 650 }} aria-label="service table">
@@ -362,49 +363,49 @@ const ServiceOptional = () => {
                   sx={{ color: "#fff", fontWeight: "bold" }}
                   align="center"
                 >
-                  Service Name
+                  Tên dịch vụ
                 </TableCell>
                 <TableCell
                   sx={{ color: "#fff", fontWeight: "bold" }}
                   align="center"
                 >
-                  Description
+                  Miêu tả
                 </TableCell>
                 <TableCell
                   sx={{ color: "#fff", fontWeight: "bold" }}
                   align="center"
                 >
-                  Price
+                  Giá dịch vụ
                 </TableCell>
                 <TableCell
                   sx={{ color: "#fff", fontWeight: "bold" }}
                   align="center"
                 >
-                  ImageServiceBase64
+                  Hình ảnh
                 </TableCell>
                 <TableCell
                   sx={{ color: "#fff", fontWeight: "bold" }}
                   align="center"
                 >
-                  Active
+                  Trang thái
                 </TableCell>
                 <TableCell
                   sx={{ color: "#fff", fontWeight: "bold" }}
                   align="center"
                 >
-                  Update
+                  Cập nhật
                 </TableCell>
                 <TableCell
                   sx={{ color: "#fff", fontWeight: "bold" }}
                   align="center"
                 >
-                  Delete
+                  Xóa
                 </TableCell>
                 <TableCell
                   sx={{ color: "#fff", fontWeight: "bold" }}
                   align="center"
                 >
-                  Detail
+                  Chi tiết
                 </TableCell>
               </TableRow>
             </TableHead>
@@ -447,14 +448,19 @@ const ServiceOptional = () => {
                     </div>
                   </TableCell>
                   <TableCell align="center">
-                    {row.active ? "True" : "False"}
+                    {row.active ? "Đang hoạt dộng" : "Không hoat động"}
                   </TableCell>
                   <TableCell align="center">
-                    <button onClick={() => handleOpen(row)}>Edit</button>
+                    <button
+                      onClick={() => handleOpen(row)}
+                      style={{ fontSize: "0.8rem", width: "90px" }}
+                    >
+                      Cập nhật
+                    </button>
                   </TableCell>
                   <TableCell align="center">
                     <button onClick={() => handleDelete(row.serviceId)}>
-                      Delete
+                      Xóa
                     </button>
                   </TableCell>
                   <TableCell align="center">
@@ -462,8 +468,9 @@ const ServiceOptional = () => {
                       onClick={() =>
                         navigate(`/serviceoptional/${row.serviceId}`)
                       }
+                      sx={{ fontSize: "0.75rem", width: "84px" }}
                     >
-                      Detail
+                      Chi tiết
                     </Button>
                   </TableCell>
                 </TableRow>

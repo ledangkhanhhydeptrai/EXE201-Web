@@ -23,7 +23,7 @@ export default function Sidebar() {
           <li>
             <Link to="/dashboard" className={styles.navLink}>
               <FontAwesomeIcon icon={faChartBar} className={styles.icon} /> Bảng
-              Doanh Thu
+              Giao Dịch
             </Link>
           </li>
           <li>
