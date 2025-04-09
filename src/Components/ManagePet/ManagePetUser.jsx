@@ -284,16 +284,16 @@ export default function ManagepetUser() {
                 onChange={(e) => setPetType(e.target.value)}
               >
                 <option value="">Chọn loại thú cưng</option>
-                <option value="CAT">CAT</option>
-                <option value="DOG">DOG</option>
+                <option value="CAT">Mèo</option>
+                <option value="DOG">Chó</option>
               </select>
               <select
                 value={petGender}
                 onChange={(e) => setPetGender(e.target.value)}
               >
                 <option value="">Chọn Giới Tính</option>
-                <option value="MALE">MALE</option>
-                <option value="FEMALE">FEMALE</option>
+                <option value="MALE">Đực</option>
+                <option value="FEMALE">Cái</option>
               </select>
               <input
                 type="number"

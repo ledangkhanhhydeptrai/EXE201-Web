@@ -33,9 +33,9 @@ export default function Header() {
   return (
     <header className={styles.header}>
       <div className={styles.logo}>
-        <img src={img1} alt="Adopt Pet" onClick={() => navigate("/")} />
+        <img src={img1} alt="Adopt A Pet" onClick={() => navigate("/")} />
         <div className={styles.brand}>
-          <h1>Adopt Pet</h1>
+          <h1>Adopt A Pet</h1>
         </div>
       </div>
       <nav className={styles.navbar}>

@@ -196,9 +196,9 @@ const ManageBookingUser = () => {
                       <TableCell>
                         <strong>Thời gian bắt đầu</strong>
                       </TableCell>
-                      <TableCell>
+                      {/* <TableCell>
                         <strong>Thời gian kết thúc</strong>
-                      </TableCell>
+                      </TableCell> */}
                       <TableCell>
                         <strong>Trạng thái</strong>
                       </TableCell>
@@ -229,7 +229,7 @@ const ManageBookingUser = () => {
                         <TableCell>{booking.fullName}</TableCell>
                         <TableCell>{booking.bookingDate}</TableCell>
                         <TableCell>{booking.startTime}</TableCell>
-                        <TableCell>{booking.endTime}</TableCell>
+                        {/* <TableCell>{booking.endTime}</TableCell> */}
                         <TableCell>
                           <Typography
                             color={
