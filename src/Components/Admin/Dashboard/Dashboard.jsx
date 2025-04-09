@@ -141,28 +141,28 @@ export default function Dashboard() {
                   Id
                 </TableCell>
                 <TableCell className={styles.tableCell} align="center">
-                  Amount
+                  Số lượng
                 </TableCell>
                 <TableCell className={styles.tableCell} align="center">
-                  Amount Paid
+                  Số lượng đã thanh toán
                 </TableCell>
                 <TableCell className={styles.tableCell} align="center">
-                  Amount Remaining
+                  Số tiền còn lại
                 </TableCell>
                 <TableCell className={styles.tableCell} align="center">
-                  Status
+                  Trạng thái
                 </TableCell>
                 <TableCell className={styles.tableCell} align="center">
-                  account Number
+                  Số tài khoản
                 </TableCell>
                 <TableCell className={styles.tableCell} align="center">
-                  Description
+                  Miêu tả
                 </TableCell>
                 <TableCell className={styles.tableCell} align="center">
-                  Transaction Date Time
+                  Ngày giao dịch
                 </TableCell>
                 <TableCell className={styles.tableCell} align="center">
-                  Order Code
+                  Mã đặt hàng
                 </TableCell>
               </TableRow>
             </TableHead>
