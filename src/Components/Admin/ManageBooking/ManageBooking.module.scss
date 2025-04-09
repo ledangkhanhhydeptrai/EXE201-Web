@@ -130,26 +130,42 @@
   }
 }
 
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: flex-end;
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  margin-bottom: 24px;
+}
+
+.datePicker,
+.select {
+  min-width: 220px;
+  flex: 1;
+}
+
 .buttonWrapper {
   display: flex;
-  justify-content: center;
-  margin-top: -60px;
-  margin-left: -460px;
-  padding: 12px;
-  border-radius: 12px;
-  background: #fefefe;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  align-items: center;
+  justify-content: flex-start;
+  padding-bottom: 10px;
 }
 
 .filterButton {
-  padding: 10px 24px;
+  padding: 10px 32px;
+  background-color: #d32f2f !important;
+  color: white;
+  border-radius: 10px;
   font-weight: bold;
-  border-radius: 8px;
-  transition: 0.3s ease;
+  text-transform: none;
+  transition: all 0.3s ease;
 
   &:hover {
-    background-color: #e53935 !important; // đỏ đậm hơn khi hover
+    background-color: #b71c1c !important;
     transform: translateY(-2px);
-    box-shadow: 0 6px 12px rgba(229, 57, 53, 0.3);
   }
 }
