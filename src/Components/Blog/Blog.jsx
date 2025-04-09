@@ -43,7 +43,7 @@ const Blog = () => {
           <div className={styles.mainImage}>
             <img src={img1} alt="Family Pets" />
             <p className={styles.blogtitle}>
-              Blog trên <strong>adopt pet</strong>
+              Blog trên <strong>Adopt A Pet</strong>
             </p>
             <p className={styles.customer}>
               Khách Hàng Nói Gì Về Chúng Tôi?
@@ -74,7 +74,7 @@ const Blog = () => {
                   style={{
                     marginTop: "-24px",
                     marginLeft: "73px",
-                    color: "#886750",
+                    color: "#886750"
                   }}
                 >
                   Himi
@@ -109,7 +109,7 @@ const Blog = () => {
                   style={{
                     marginTop: "-24px",
                     marginLeft: "73px",
-                    color: "#886750",
+                    color: "#886750"
                   }}
                 >
                   Bao Khanh
@@ -118,9 +118,12 @@ const Blog = () => {
                   | ngày 9 tháng 1 năm 2025
                 </p>
               </p>
-              <a href="/detailBlog/1" className={styles.mainDay}>
+              <p
+                onClick={() => navigate("/detailBlog/1")}
+                className={styles.mainDay}
+              >
                 Vì Sao Chúng Tôi Thành Lập Dịch Vụ Chăm Sóc Thú Cưng Này?
-              </a>
+              </p>
             </div>
             <div className={styles.titles}>
               <p className={styles.postmans}>
@@ -129,7 +132,7 @@ const Blog = () => {
                   style={{
                     marginTop: "-24px",
                     marginLeft: "73px",
-                    color: "#886750",
+                    color: "#886750"
                   }}
                 >
                   Phuc Hung
@@ -138,9 +141,12 @@ const Blog = () => {
                   + | ngày 4 tháng 2 năm 2025
                 </p>
               </p>
-              <a href="/detailBlog/2" className={styles.mainDay}>
+              <p
+                onClick={() => navigate("/detailBlog/2")}
+                className={styles.mainDay}
+              >
                 Khách Hàng Nói Gì Về Chúng Tôi? – Những Lời Chia Sẻ Đáng Yêu
-              </a>
+              </p>
             </div>
             <div className={styles.titles1}>
               <p className={styles.postmans}>
@@ -149,7 +155,7 @@ const Blog = () => {
                   style={{
                     marginTop: "-24px",
                     marginLeft: "73px",
-                    color: "#886750",
+                    color: "#886750"
                   }}
                 >
                   Bao Khanh
@@ -158,9 +164,12 @@ const Blog = () => {
                   | ngày 9 tháng 1 năm 2025
                 </p>
               </p>
-              <a href="/detailBlog/3" className={styles.mainDay}>
+              <p
+                onClick={() => navigate("/detailBlog/3")}
+                className={styles.mainDay}
+              >
                 Dấu Hiệu Nhận Biết Thú Cưng Đang Bị Căng Thẳng{" "}
-              </a>
+              </p>
             </div>
             <div className={styles.titles1}>
               <p className={styles.postmans}>
@@ -169,7 +178,7 @@ const Blog = () => {
                   style={{
                     marginTop: "-24px",
                     marginLeft: "73px",
-                    color: "#886750",
+                    color: "#886750"
                   }}
                 >
                   Khanh Hung
@@ -178,9 +187,12 @@ const Blog = () => {
                   | ngày 9 tháng 1 năm 2025
                 </p>
               </p>
-              <a href="/detailBlog/4" className={styles.mainDay}>
+              <p
+                onClick={() => navigate("/detailBlog/4")}
+                className={styles.mainDay}
+              >
                 Thực Đơn Ăn Uống Khoa Học Cho Chó Mèo
-              </a>
+              </p>
             </div>
           </div>
         </div>
