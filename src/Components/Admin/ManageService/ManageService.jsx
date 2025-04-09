@@ -286,7 +286,7 @@ export default function ManageService() {
       <Header />
       <div className={styles.createButtonContainer}>
         <Button variant="contained" color="primary" onClick={handleOpenCreate}>
-          Create
+          Tạo dịch vụ
         </Button>
 
         <Dialog open={openCreate} onClose={handleCloseCreate}>
@@ -295,7 +295,7 @@ export default function ManageService() {
           </DialogTitle>
           <DialogContent>
             <div className={styles.formContainer}>
-              <label htmlFor="serviceName">Service Name</label>
+              <label htmlFor="serviceName">Tên dịch vụ</label>
               <input
                 type="text"
                 placeholder="Enter a service name"
@@ -303,7 +303,7 @@ export default function ManageService() {
                 onChange={(e) => setServiceName(e.target.value)}
               />
 
-              <label htmlFor="description">Description</label>
+              <label htmlFor="description">Miêu tả</label>
               <input
                 type="text"
                 placeholder="Enter a description"
@@ -311,7 +311,7 @@ export default function ManageService() {
                 onChange={(e) => setDescription(e.target.value)}
               />
 
-              <label htmlFor="price">Price</label>
+              <label htmlFor="price">Giá dịch vụ</label>
               <input
                 type="number"
                 placeholder="Enter a price"
@@ -354,49 +354,49 @@ export default function ManageService() {
                   sx={{ color: "#fff", fontWeight: "bold" }}
                   align="center"
                 >
-                  Service Name
+                  Tên dịch vụ
                 </TableCell>
                 <TableCell
                   sx={{ color: "#fff", fontWeight: "bold" }}
                   align="center"
                 >
-                  Description
+                  Miêu tả
                 </TableCell>
                 <TableCell
                   sx={{ color: "#fff", fontWeight: "bold" }}
                   align="center"
                 >
-                  Price
+                  Giá dịch vụ
                 </TableCell>
                 <TableCell
                   sx={{ color: "#fff", fontWeight: "bold" }}
                   align="center"
                 >
-                  ImageServiceBase64
+                  Hình ảnh
                 </TableCell>
                 <TableCell
                   sx={{ color: "#fff", fontWeight: "bold" }}
                   align="center"
                 >
-                  Active
+                  Trạng thái
                 </TableCell>
                 <TableCell
                   sx={{ color: "#fff", fontWeight: "bold" }}
                   align="center"
                 >
-                  Update
+                  Cập nhật
                 </TableCell>
                 <TableCell
                   sx={{ color: "#fff", fontWeight: "bold" }}
                   align="center"
                 >
-                  Delete
+                  Xóa
                 </TableCell>
                 <TableCell
                   sx={{ color: "#fff", fontWeight: "bold" }}
                   align="center"
                 >
-                  Detail
+                  Chi tiết
                 </TableCell>
               </TableRow>
             </TableHead>
@@ -436,23 +436,26 @@ export default function ManageService() {
                     </div>
                   </TableCell>
                   <TableCell align="center">
-                    {row.active ? "True" : "False"}
+                    {row.active ? "Hoạt động" : "Không hoạt động"}
                   </TableCell>
                   <TableCell align="center">
-                    <button onClick={() => handleOpen(row)}>Edit</button>
+                    <button onClick={() => handleOpen(row)}>Sửa</button>
                   </TableCell>
                   <TableCell align="center">
                     <button onClick={() => handleDelete(row.serviceId)}>
-                      Delete
+                      Xóa
                     </button>
                   </TableCell>
                   <TableCell align="center">
                     <Button
+                      variant="contained"
+                      color="primary"
                       onClick={() =>
                         navigate(`/manageservice/${row.serviceId}`)
                       }
+                      sx={{ fontSize: "0.75rem", width: "84px" }} // chỉnh cỡ chữ nhỏ hơn
                     >
-                      Detail
+                      Chi tiết
                     </Button>
                   </TableCell>
                 </TableRow>
@@ -472,30 +475,30 @@ export default function ManageService() {
         >
           <div className={styles.modalContent}>
             <form onSubmit={handleSubmit}>
-              <label htmlFor="serviceName">Service Name</label>
+              <label htmlFor="serviceName">Tên dịch vụ</label>
               <input
                 type="text"
                 name="serviceName"
                 defaultValue={currentService?.serviceName}
                 title="Service Name"
               />
-              <label htmlFor="serviceDescription">Description</label>
+              <label htmlFor="serviceDescription">Miêu tả</label>
               <input
                 type="text"
                 name="serviceDescription"
                 defaultValue={currentService?.description}
                 title="Description"
               />
-              <label htmlFor="servicePrice">Price</label>
+              <label htmlFor="servicePrice">Giá dịch vụ</label>
               <input
                 type="number"
                 name="servicePrice"
                 defaultValue={currentService?.price}
                 title="Price"
               />
-              <label htmlFor="imageService">Image Service</label>
+              <label htmlFor="imageService">Hình ảnh dịch vụ</label>
               <input type="file" name="imageService" title="Image Service" />
-              <button type="submit">Update</button>
+              <button type="submit">Cập nhật</button>
             </form>
           </div>
         </Modal>

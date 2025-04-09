@@ -101,7 +101,7 @@ const BookingDetail = () => {
                   <strong>Dịch vụ:</strong> {data.serviceName}
                 </Typography>
                 <Typography variant="body1">
-                  <strong>Dịch vụ chọn:</strong> {data.optinalServiceName}
+                  <strong>Dịch vụ phụ:</strong> {data.optinalServiceName|| "Không có"}
                 </Typography>
                 <Typography variant="body1">
                   <strong>Thú cưng:</strong> {data.petName}
