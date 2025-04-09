@@ -28,7 +28,22 @@ export default function Dashboard() {
   const [localDate, setLocalDate] = useState("");
   const [bookingStatusPaid, setBookingStatusPaid] = useState("");
   const [currentData, setCurrentData] = useState([]);
+  const [noData, setNoData] = useState(false);
   const navigate = useNavigate();
+  const handleStatus = (booking) => {
+    switch (booking) {
+      case "PAIDALL":
+        return "Thanh toán toàn bộ";
+      case "UNPAID":
+        return "Chưa thanh toán";
+      case "DEPOSIT":
+        return "Đặt cọc";
+      case "FAILED":
+        return "Thanh toán thất bại";
+      default:
+        return "Không xác định";
+    }
+  };
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const fetchData = useCallback(async () => {
     try {
@@ -53,7 +68,21 @@ export default function Dashboard() {
         `${API_URL}/transaction/v1/GetTransactionDropdown`,
         { params }
       );
-      setData(response.data.data);
+      const bookings = response.data.data || [];
+      const filtered = bookings.filter((booking) => {
+        const matchDate = localDate
+          ? booking.transactionDateTime.includes(localDate)
+          : true;
+        const matchStatus = bookingStatusPaid
+          ? booking.status === bookingStatusPaid
+          : true;
+        return matchDate && matchStatus;
+      });
+      setData(filtered);
+      setNoData(filtered.length === 0);
+      if (filtered.length > 0) {
+        console.log("Không có dữ liệu phù hợp");
+      }
     } catch (error) {
       console.error("Lỗi khi lọc danh sách booking:", error);
     }
@@ -138,27 +167,45 @@ export default function Dashboard() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {currentData.map((row, index) => (
-                <TableRow
-                  key={index}
-                  className={styles.tableRow}
-                  onClick={() => navigate(`/dashboard/${row.id}`)}
-                >
-                  <TableCell component="th" scope="row" align="center">
-                    {row.id}
+              {noData ? (
+                <TableRow>
+                  <TableCell colSpan={9} align="center">
+                    <div
+                      style={{
+                        padding: "40px 0",
+                        color: "#999",
+                        fontSize: "18px"
+                      }}
+                    >
+                      Không có dữ liệu
+                    </div>
                   </TableCell>
-                  <TableCell align="center">{row.amount}</TableCell>
-                  <TableCell align="center">{row.amountPaid}</TableCell>
-                  <TableCell align="center">{row.amountRemaining}</TableCell>
-                  <TableCell align="center">{row.status}</TableCell>
-                  <TableCell align="center">{row.accountNumber}</TableCell>
-                  <TableCell align="center">{row.description}</TableCell>
-                  <TableCell align="center">
-                    {row.transactionDateTime}
-                  </TableCell>
-                  <TableCell align="center">{row.orderCode}</TableCell>
                 </TableRow>
-              ))}
+              ) : (
+                currentData.map((row, index) => (
+                  <TableRow
+                    key={index}
+                    className={styles.tableRow}
+                    onClick={() => navigate(`/dashboard/${row.id}`)}
+                  >
+                    <TableCell align="center">{row.id}</TableCell>
+                    <TableCell align="center">{row.amount}</TableCell>
+                    <TableCell align="center">{row.amountPaid}</TableCell>
+                    <TableCell align="center">{row.amountRemaining}</TableCell>
+                    <TableCell align="center">
+                      {handleStatus(row.status)}
+                    </TableCell>
+                    <TableCell align="center">{row.accountNumber}</TableCell>
+                    <TableCell align="center">
+                      {handleStatus(row.description)}
+                    </TableCell>
+                    <TableCell align="center">
+                      {row.transactionDateTime}
+                    </TableCell>
+                    <TableCell align="center">{row.orderCode}</TableCell>
+                  </TableRow>
+                ))
+              )}
             </TableBody>
           </Table>
         </TableContainer>

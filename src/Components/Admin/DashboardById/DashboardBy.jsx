@@ -8,7 +8,7 @@ import axios from "axios";
 const DashboardBy = () => {
   const API_URL = import.meta.env.VITE_API_BASE_URL;
   const { id } = useParams();
-  const [detail, setDetail] = useState(null); // ← đã fix chỗ này
+  const [detail, setDetail] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -22,7 +22,7 @@ const DashboardBy = () => {
           }
         );
         console.log("Dữ liệu giao dịch:", response.data);
-        setDetail(response.data.data); // ← đã fix chỗ này
+        setDetail(response.data.data);
       } catch (error) {
         console.error(
           "Lỗi khi gọi API:",
@@ -62,7 +62,7 @@ const DashboardBy = () => {
               <div className={styles.detailRow}>
                 <span className={styles.label}>Dịch vụ bổ sung:</span>
                 <span className={styles.value}>
-                  {detail.optionalServiceName}
+                  {detail.optionalServiceName || "Không có"}
                 </span>
               </div>
               <div className={styles.detailRow}>

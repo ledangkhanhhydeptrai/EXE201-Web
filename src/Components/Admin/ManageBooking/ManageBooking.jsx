@@ -100,15 +100,9 @@ const ManageBooking = () => {
     bookingStatusPaid,
     fetchAllBookings
   ]);
-
-  useEffect(() => {
-    fetchFilteredBookings();
-  }, [fetchFilteredBookings]);
-
   useEffect(() => {
     fetchAllBookings();
-  }, [fetchAllBookings]);
-  
+  }, []);
   useEffect(() => {
     const startIndex = (currentPage - 1) * itemsPerPage;
     const paginatedData = data.slice(startIndex, startIndex + itemsPerPage);
@@ -157,6 +151,16 @@ const ManageBooking = () => {
               <MenuItem value="FAILED">Thanh toán thất bại</MenuItem>
             </Select>
           </FormControl>
+          <div className={styles.buttonWrapper}>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={fetchFilteredBookings}
+              className={styles.filterButton}
+            >
+              Lọc
+            </Button>
+          </div>
         </div>
         <TableContainer component={Paper} className={styles.tableContainer}>
           <Table className={styles.table} aria-label="user table">
