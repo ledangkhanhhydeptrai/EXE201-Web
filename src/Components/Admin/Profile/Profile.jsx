@@ -15,14 +15,11 @@ import {
   TextField,
   DialogActions
 } from "@mui/material";
-import { useNavigate } from "react-router-dom";
-
 import Header from "../HeaderAdmin/Header";
 import Sidebar from "../Sidebar/Sidebar";
 import Loading from "../../Loading/Loading";
 
 const ProfileAdmin = () => {
-  const navigate = useNavigate();
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
   const [fullname, setFullname] = useState("");
@@ -158,12 +155,6 @@ const ProfileAdmin = () => {
                 </div>
               </CardContent>
               <CardActions className={styles.actions}>
-                <Button
-                  className={styles.navigateButton}
-                  onClick={() => navigate("/bookinguser")}
-                >
-                  Chuyển trang
-                </Button>
                 <Button className={styles.navigateButton} onClick={handleOpen}>
                   Update
                 </Button>
