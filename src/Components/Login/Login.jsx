@@ -62,7 +62,7 @@ export default function Login() {
           if (role === "ADMIN") {
             navigate("/dashboard");
           } else if (role === "STAFF") {
-            navigate("/dashboard1");
+            navigate("/managebooking1");
           } else {
             navigate("/");
           }

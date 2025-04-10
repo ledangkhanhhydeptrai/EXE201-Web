@@ -181,6 +181,9 @@ const Detail = () => {
         <Typography className={styles.petInfo}>
           <strong>Tuổi:</strong> {petDetail.age} tháng
         </Typography>
+        <Typography className={styles.petInfo}>
+          <strong>Mô tả:</strong> {petDetail.notes} 
+        </Typography>
         <div className={styles.buttonContainer}>
           <Button
             variant="contained"

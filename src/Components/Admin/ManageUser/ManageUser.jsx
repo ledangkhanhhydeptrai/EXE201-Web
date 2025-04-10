@@ -70,7 +70,7 @@ export default function ManageUser() {
                   userId
                 </TableCell>
                 <TableCell className={styles.tableCell} align="center">
-                  Username
+                  Tên tài khoản
                 </TableCell>
                 <TableCell className={styles.tableCell} align="center">
                   Họ và Tên
