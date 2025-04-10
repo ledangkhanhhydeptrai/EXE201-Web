@@ -30,8 +30,8 @@ export default function Homepage() {
 
   const location = useLocation();
   const navigate = useNavigate();
-  const queryParams = new URLSearchParams(location.search);
-  const orderCode = searchParams.get("orderCode");
+  const queryParams = new URLSearchParams(window.location.search);
+
   // Extract parameters
   const params = {
     code: queryParams.get("code"),
@@ -47,19 +47,24 @@ export default function Homepage() {
     if (isPaymentProccessed === true) return;
     isPaymentProccessed = true;
     const handlePayment = async () => {
+
+      
       console.log(params?.status);
       if (params?.status !== null && params?.status !== undefined) {
         if (params.status == "PAID") {
+                
+      console.log(params?.status );
           // alert("Thanh toán thành công")
-          const data = await axios.get(
-            `https://bookingpetservice.onrender.com/api/payment/order?orderCode=${orderCode}`
+          const data = axios.get(
+            `https://bookingpetservice.onrender.com/api/payment/order?orderCode=${params.orderCode}`
           );
           console.log("gui be thanh cong", data.data);
+          alert("Thanh toán thành công");
           navigate("/success");
         } else {
           alert("Thanh toán không thành công");
           const data = await axios.get(
-            `https://bookingpetservice.onrender.com/api/payment/cancel?orderCode=${orderCode}`
+            `https://bookingpetservice.onrender.com/api/payment/cancel?orderCode=${params.orderCode}`
           );
           console.log("gui be thanh cong", data.data);
         }
