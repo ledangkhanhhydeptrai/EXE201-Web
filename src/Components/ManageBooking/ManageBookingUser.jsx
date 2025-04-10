@@ -101,23 +101,23 @@ const ManageBookingUser = () => {
         }
       );
       const bookings = response.data.data || [];
-      const filtered = bookings.filter((booking) => {
-        const matchDate = bookingDate
-          ? booking.transactionDateTime.includes(bookingDate)
-          : true;
-        const matchStatus = bookingStatus
-          ? booking.status === bookingStatus
-          : true;
-        const matchStatusPaid = bookingStatusPaid
-          ? booking.bookingStatusPaid === bookingStatusPaid
-          : true;
-        return matchDate && matchStatus && matchStatusPaid;
-      });
-      setData(filtered);
+      // const filtered = bookings.filter((booking) => {
+      //   const matchDate = bookingDate
+      //     ? booking.transactionDateTime.includes(bookingDate)
+      //     : true;
+      //   const matchStatus = bookingStatus
+      //     ? booking.status === bookingStatus
+      //     : true;
+      //   const matchStatusPaid = bookingStatusPaid
+      //     ? booking.bookingStatusPaid === bookingStatusPaid
+      //     : true;
+      //   return matchDate && matchStatus && matchStatusPaid;
+      // });
+      // setData(filtered);
       setCurrentData(response.data.data.slice(0, itemsPerPage));
-      if (filtered.length > 0) {
-        console.log("Không có dữ liệu phù hợp");
-      }
+      // if (filtered.length > 0) {
+      //   console.log("Không có dữ liệu phù hợp");
+      // }
     } catch (error) {
       console.error("Lỗi khi lọc danh sách booking:", error);
     }
@@ -133,7 +133,7 @@ const ManageBookingUser = () => {
     const paginatedData = data.slice(startIndex, startIndex + itemsPerPage);
     setCurrentData(paginatedData);
   }, [currentPage, data]);
-
+  console.log({currentData});
   return (
     <>
       {loading ? (

@@ -58,9 +58,7 @@ export default function Homepage() {
           const data = axios.get(
             `https://bookingpetservice.onrender.com/api/payment/order?orderCode=${params.orderCode}`
           );
-          console.log("gui be thanh cong", data.data);
           alert("Thanh toán thành công");
-          navigate("/success");
         } else {
           alert("Thanh toán không thành công");
           const data = await axios.get(
