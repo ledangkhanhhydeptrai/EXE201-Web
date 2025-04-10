@@ -31,6 +31,7 @@ const Detail = () => {
   const [petAge, setPetAge] = useState(0);
   const [showUpdateForm, setShowUpdateForm] = useState(false);
   const token = localStorage.getItem("jwt");
+  const API_URL = import.meta.env.VITE_API_BASE_URL;
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     setFile(file);
@@ -54,28 +55,6 @@ const Detail = () => {
       return;
     }
 
-    // ✅ Validation trước khi gửi API
-    if (!petName.trim()) {
-      alert("❌ Vui lòng nhập tên thú cưng!");
-      return;
-    }
-    if (!["DOG", "CAT"].includes(petType)) {
-      alert("❌ Loại thú cưng không hợp lệ!");
-      return;
-    }
-    if (!["MALE", "FEMALE"].includes(petGender)) {
-      alert("❌ Giới tính thú cưng không hợp lệ!");
-      return;
-    }
-    if (isNaN(petAge) || petAge < 0) {
-      alert("❌ Tuổi thú cưng không hợp lệ!");
-      return;
-    }
-    if (file && typeof file !== "string" && !file.type.startsWith("image/")) {
-      alert("❌ Chỉ chấp nhận file hình ảnh!");
-      return;
-    }
-
     const formData = new FormData();
     formData.append("petName", petName.trim());
     formData.append("petType", petType || "DOG");
@@ -96,7 +75,7 @@ const Detail = () => {
 
     try {
       const response = await axios.put(
-        `https://bookingpetservice.onrender.com/api/pets/v1/updatePet/${selectedPet?.petId}`,
+        `${API_URL}/pets/v1/updatePet/${selectedPet?.petId}`,
         formData,
         {
           headers: {
@@ -119,10 +98,19 @@ const Detail = () => {
 
       let errorMessage = "❌ Có lỗi xảy ra!";
       if (error.response) {
-        errorMessage = error.response.data?.message || errorMessage;
+        const { data, status } = error.response;
+
+        // Trường hợp lỗi 400: Validation từ API
+        if (status === 400 && data?.errors) {
+          errorMessage = data.errors.map((err) => `- ${err.msg}`).join("\n");
+        }
+        // Trường hợp lỗi khác
+        else {
+          errorMessage = data?.message || errorMessage;
+        }
       }
 
-      alert(`❌ Lỗi cập nhật: ${errorMessage}`);
+      alert(`❌ Lỗi cập nhật:\n${errorMessage}`);
     }
   };
 
@@ -131,7 +119,7 @@ const Detail = () => {
     try {
       console.log("Đang gọi API với petID:", petId);
       const response = await axios.get(
-        `https://bookingpetservice.onrender.com/api/pets/getPetByIdOfUser/${petId}?t=${new Date().getTime()}`,
+        `${API_URL}/pets/getPetByIdOfUser/${petId}?t=${new Date().getTime()}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("jwt")}`

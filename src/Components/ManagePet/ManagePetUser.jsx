@@ -3,13 +3,12 @@ import axios from "axios";
 import styles from "./ManagePet.module.scss";
 import Header from "../../Header/Header";
 import {
-  Alert,
   Box,
   Button,
   Dialog,
   DialogActions,
   DialogContent,
-  DialogTitle,
+  DialogTitle
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import Footer from "../../Footer/Footer";
@@ -34,6 +33,7 @@ export default function ManagepetUser() {
   const [isCreatePetApiFetching, setCreatePetApiFetching] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const API_URL = import.meta.env.VITE_API_BASE_URL;
   const handleClick = async () => {
     if (isLoggedIn) {
       setShowForm(true);
@@ -44,14 +44,11 @@ export default function ManagepetUser() {
   const fetchData = async () => {
     try {
       setIsLoading(true);
-      const response = await axios.get(
-        "https://bookingpetservice.onrender.com/api/pets/v1/getPetListOfUser",
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+      const response = await axios.get(`${API_URL}/pets/v1/getPetListOfUser`, {
+        headers: {
+          Authorization: `Bearer ${token}`
         }
-      );
+      });
       if (response.status >= 200 && response.status < 300) {
         setData(response.data.data);
       }
@@ -86,46 +83,103 @@ export default function ManagepetUser() {
   const handleCreate = async () => {
     try {
       setCreatePetApiFetching(true);
+
       const response = await axios.post(
-        "https://bookingpetservice.onrender.com/api/pets/v1/createPet",
+        `${API_URL}/pets/v1/createPet`,
         formData,
         {
           headers: {
             Authorization: `Bearer ${token}`,
-            "Content-Type": "multipart/form-data",
-          },
+            "Content-Type": "multipart/form-data"
+          }
         }
       );
 
+      console.log("API Response:", response.data); // Debugging
+
       if (response.status === 201) {
-        setData([...data, response.data.data]);
-        fetchData();
+        setData((prevData) => [
+          ...(Array.isArray(prevData) ? prevData : []),
+          response.data.data
+        ]);
+        fetchData(); // Ensure this doesn’t reset data incorrectly
         setShowForm(false);
         resetFormData();
       }
     } catch (error) {
-      alert("Vui lòng nhập đầy đủ thông tin");
+      console.error("🚨 Lỗi khi tạo thú cưng:", error);
+      console.error("🔴 Response Data:", error.response?.data);
+
+      let errorMessage = "❌ Có lỗi xảy ra!";
+      if (error.response) {
+        const { data, status } = error.response;
+
+        // Xử lý lỗi trả về từ API
+        if (status === 400 && data?.errors) {
+          errorMessage = data.errors.map((err) => `- ${err.msg}`).join("\n");
+        } else if (status === 401) {
+          errorMessage = "❌ Bạn chưa đăng nhập hoặc token không hợp lệ!";
+        } else if (status === 409) {
+          errorMessage = "❌ Thú cưng đã tồn tại!";
+        } else {
+          errorMessage = data?.message || errorMessage;
+        }
+      }
+
+      alert(`❌ Lỗi khi thêm thú cưng:\n${errorMessage}`);
     } finally {
       setCreatePetApiFetching(false);
     }
   };
+
   const deletePetByUser = async (petId) => {
+    if (!petId) {
+      alert("❌ Lỗi: Không tìm thấy thú cưng cần xóa!");
+      return;
+    }
+
+    const confirmDelete = window.confirm(
+      "⚠️ Bạn có chắc chắn muốn xóa thú cưng này?"
+    );
+    if (!confirmDelete) return;
+
     try {
       const response = await axios.delete(
-        `https://bookingpetservice.onrender.com/api/pets/deletePetOfUserById/${petId}`,
+        `${API_URL}/pets/deletePetOfUserById/${petId}`,
         {
           headers: {
-            Authorization: `Bearer ${token}`,
-          },
+            Authorization: `Bearer ${token}`
+          }
         }
       );
+
       if (response.status >= 200 && response.status < 300) {
         setData((prevData) => prevData.filter((a) => a.petId !== petId));
+        alert("✅ Xóa thú cưng thành công!");
       } else {
         throw new Error(`HTTP Status: ${response.status}`);
       }
     } catch (error) {
-      console.error("Error deleting pet", error.response?.data || error);
+      console.error("🚨 Lỗi khi xóa thú cưng:", error);
+      console.error("🔴 Response Data:", error.response?.data);
+
+      let errorMessage = "❌ Có lỗi xảy ra!";
+      if (error.response) {
+        const { data, status } = error.response;
+
+        // Xử lý lỗi từ API
+        if (status === 400 && data?.errors) {
+          errorMessage = data.errors.map((err) => `- ${err.msg}`).join("\n");
+        } else if (status === 404) {
+          errorMessage = "❌ Không tìm thấy thú cưng hoặc đã bị xóa!";
+        } else if (status === 403) {
+          errorMessage = "❌ Bạn không có quyền xóa thú cưng này!";
+        } else {
+          errorMessage = data?.message || errorMessage;
+        }
+      }
+
+      alert(`❌ Lỗi khi xóa:\n${errorMessage}`);
     }
   };
 
@@ -142,11 +196,11 @@ export default function ManagepetUser() {
             sx={{
               display: "flex",
               justifyContent: "center",
-              marginTop: "20px",
+              marginTop: "20px"
             }}
           >
             <Button variant="contained" onClick={handleClick}>
-              + Create
+              + Thêm thú cưng
             </Button>
           </Box>
           <div className={styles.petsList}>
@@ -175,7 +229,7 @@ export default function ManagepetUser() {
                     deletePetByUser(pet.petId);
                   }}
                 >
-                  Delete
+                  Xóa thú cưng
                 </Button>
               </div>
             ))}

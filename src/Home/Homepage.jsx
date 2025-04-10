@@ -23,26 +23,27 @@ import img22 from "../assets/z6286238817714_22b773654830b930a1172bcee85aa526.jpg
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import axios from "axios";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { useEffect } from "react";
 export default function Homepage() {
+  const [searchParams] = useSearchParams();
+
   const location = useLocation();
   const navigate = useNavigate();
   const queryParams = new URLSearchParams(location.search);
-
+  const orderCode = searchParams.get("orderCode");
   // Extract parameters
   const params = {
     code: queryParams.get("code"),
     id: queryParams.get("id"),
     cancel: queryParams.get("cancel"),
     status: queryParams.get("status"),
-    orderCode: queryParams.get("orderCode"),
+    orderCode: queryParams.get("orderCode")
   };
 
   let isPaymentProccessed = false;
 
   useEffect(() => {
-    console.log("useEffec  t");
     if (isPaymentProccessed === true) return;
     isPaymentProccessed = true;
     const handlePayment = async () => {
@@ -51,14 +52,14 @@ export default function Homepage() {
         if (params.status == "PAID") {
           // alert("Thanh toán thành công")
           const data = await axios.get(
-            `https://bookingpetservice.onrender.com/api/payment/order${location.search}`
+            `https://bookingpetservice.onrender.com/api/payment/order?orderCode=${orderCode}`
           );
           console.log("gui be thanh cong", data.data);
           navigate("/success");
         } else {
           alert("Thanh toán không thành công");
           const data = await axios.get(
-            `https://bookingpetservice.onrender.com/api/payment/cancel${location.search}`
+            `https://bookingpetservice.onrender.com/api/payment/cancel?orderCode=${orderCode}`
           );
           console.log("gui be thanh cong", data.data);
         }
@@ -166,7 +167,9 @@ export default function Homepage() {
           </section>
         </div>
         {/* <ChatBot /> */}
-        <Footer />
+        <div style={{ marginLeft: "12px" }}>
+          <Footer />
+        </div>
       </div>
     </div>
   );

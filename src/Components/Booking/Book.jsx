@@ -5,7 +5,7 @@ import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
 import axios from "axios";
 import Loading from "../Loading/Loading";
-import { Checkbox, DatePicker, Radio } from "antd";
+import { DatePicker } from "antd";
 import dayjs from "dayjs";
 
 const Book = () => {
@@ -18,6 +18,7 @@ const Book = () => {
   const [isCreatePetPopupOpen, setIsCreatePetPopupOpen] = useState(false);
   const [selectedPet, setSelectedPet] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const API_URL = import.meta.env.VITE_API_BASE_URL;
   const [formDataBooking, setFormDataBooking] = useState({
     date: dayjs(),
     localDate: "",
@@ -26,14 +27,14 @@ const Book = () => {
     petId: "",
     serviceId: "",
     optionalServiceId: "",
-    paymentId: "",
+    paymentId: ""
   });
 
   const fetchServices = async () => {
     try {
       setIsLoading(true);
       const response = await fetch(
-        "https://bookingpetservice.onrender.com/api/service/v1/getAllServiceIsActive"
+        `${API_URL}/service/v1/getAllServiceIsActive`
       );
 
       if (!response.ok) {
@@ -62,9 +63,7 @@ const Book = () => {
 
   // Lấy danh sách phương thức thanh toán
   useEffect(() => {
-    fetch(
-      "https://bookingpetservice.onrender.com/api/payment/v1/getAllPaymentMethod"
-    )
+    fetch(`${API_URL}/payment/v1/getAllPaymentMethod`)
       .then((res) => res.json())
       .then((data) => {
         if (data && Array.isArray(data.data)) {
@@ -83,17 +82,17 @@ const Book = () => {
       const token = localStorage.getItem("jwt");
 
       const response = await axios.get(
-        "https://bookingpetservice.onrender.com/api/OptionalService/v1/getAllOptionalServiceIsActive",
+        `${API_URL}/OptionalService/v1/getAllOptionalServiceIsActive`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
+            "Content-Type": "application/json"
+          }
         }
       );
       const mapOption = response.data?.data?.map((item) => ({
         value: item.serviceId,
-        label: `${item.serviceName} - ${item.price} vnd`,
+        label: `${item.serviceName} - ${item.price} vnd`
       }));
       setDataOptionService(mapOption);
     } catch (error) {
@@ -123,7 +122,7 @@ const Book = () => {
         return;
       }
       const response = await axios.post(
-        "https://bookingpetservice.onrender.com/api/booking/v1/bookingByUser",
+        `${API_URL}/booking/v1/bookingByUser`,
         {
           localDate: formDataBooking.localDate,
           startTime: formDataBooking.startTime,
@@ -131,13 +130,13 @@ const Book = () => {
           petId: selectedPet.petId,
           serviceId: formDataBooking.serviceId,
           optionalServiceId: formDataBooking.optionalServiceId,
-          paymentId: formDataBooking.paymentId,
+          paymentId: formDataBooking.paymentId
         },
         {
           headers: {
             Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
+            "Content-Type": "application/json"
+          }
         }
       );
       if (response.status >= 300) {
@@ -173,16 +172,13 @@ const Book = () => {
         return;
       }
 
-      const response = await axios.get(
-        "https://bookingpetservice.onrender.com/api/pets/v1/getPetListOfUser",
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-          timeout: 5000,
-        }
-      );
+      const response = await axios.get(`${API_URL}/pets/v1/getPetListOfUser`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json"
+        },
+        timeout: 5000
+      });
 
       const data = response.data.data;
       setPets(data);
@@ -222,11 +218,11 @@ const Book = () => {
                       onChange={(e) =>
                         setFormDataBooking((prev) => ({
                           ...prev,
-                          serviceId: e.target.value,
+                          serviceId: e.target.value
                         }))
                       }
                       style={{
-                        width: "100%",
+                        width: "100%"
                       }}
                     >
                       <option value="">Chọn dịch vụ</option>
@@ -244,12 +240,12 @@ const Book = () => {
                       name="optionalServiceId"
                       value={formDataBooking.optionalServiceId}
                       style={{
-                        width: "100%",
+                        width: "100%"
                       }}
                       onChange={(e) =>
                         setFormDataBooking((prev) => ({
                           ...prev,
-                          optionalServiceId: e.target.value,
+                          optionalServiceId: e.target.value
                         }))
                       }
                     >
@@ -268,12 +264,12 @@ const Book = () => {
                       value={formDataBooking.paymentId}
                       required
                       style={{
-                        width: "100%",
+                        width: "100%"
                       }}
                       onChange={(e) =>
                         setFormDataBooking((prev) => ({
                           ...prev,
-                          paymentId: e.target.value,
+                          paymentId: e.target.value
                         }))
                       }
                     >
@@ -307,7 +303,7 @@ const Book = () => {
                           date: dateStr,
                           localDate: date,
                           startTime: time,
-                          endTime: newTime,
+                          endTime: newTime
                         }));
                       }}
                     />
@@ -335,7 +331,7 @@ const Book = () => {
                                 onClick={() => {
                                   setFormDataBooking((prev) => ({
                                     ...prev,
-                                    petId: pet.petId,
+                                    petId: pet.petId
                                   }));
                                   setSelectedPet(pet);
                                 }}

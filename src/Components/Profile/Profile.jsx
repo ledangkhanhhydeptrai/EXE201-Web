@@ -9,7 +9,11 @@ import {
   Button,
   Typography,
   Avatar,
-  CircularProgress,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  TextField,
+  DialogActions
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import Footer from "../../Footer/Footer";
@@ -19,19 +23,30 @@ const Profile = () => {
   const navigate = useNavigate();
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+  const [fullname, setFullname] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [address, setAddress] = useState("");
+  const [password, setPassword] = useState("");
+  const [file, setFile] = useState(null);
+  const [setError] = useState("");
+  const [open, setOpen] = useState(false);
+  const API_URL = import.meta.env.VITE_API_BASE_URL;
+  const handleOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
   const fetchProfile = async () => {
     try {
       setLoading(true);
-      const response = await axios.get(
-        "https://bookingpetservice.onrender.com/api/user/getUserProfile",
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("jwt")}`,
-          },
+      const response = await axios.get(`${API_URL}/user/getUserProfile`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("jwt")}`
         }
-      );
+      });
 
       if (response.data.status === "200 OK") {
         setProfile(response.data.data);
@@ -48,7 +63,37 @@ const Profile = () => {
   useEffect(() => {
     fetchProfile();
   }, []);
-
+  const handleUpdate = async () => {
+    const formData = new FormData();
+    formData.append("fullname", fullname);
+    formData.append("email", email);
+    formData.append("phone", phone);
+    formData.append("password", password);
+    formData.append("address", address);
+    if (file) {
+      formData.append("file", file);
+    }
+    try {
+      const response = await axios.put(
+        `${API_URL}/user/v1/updateUserProfile`,
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+            "Content-Type": "multipart/form-data"
+          }
+        }
+      );
+      if (response.status >= 200 && response.status < 300) {
+        alert("Update profile successfully");
+        window.location.reload();
+      } else {
+        alert("Update profile failed");
+      }
+    } catch (error) {
+      console.error("Error", error);
+    }
+  };
   return (
     <>
       {loading ? (
@@ -56,7 +101,7 @@ const Profile = () => {
       ) : (
         <div
           style={{
-            marginTop: 100,
+            marginTop: 100
           }}
         >
           <Header />
@@ -69,7 +114,7 @@ const Profile = () => {
                 justifyContent: "center",
                 alignItems: "center",
                 flexDirection: "column",
-                marginBottom: 100,
+                marginBottom: 100
               }}
             >
               <CardContent>
@@ -114,7 +159,63 @@ const Profile = () => {
                 >
                   Chuyển trang
                 </Button>
+                <Button className={styles.navigateButton} onClick={handleOpen}>
+                  Update
+                </Button>
               </CardActions>
+              <Dialog open={open} onClose={handleClose}>
+                <DialogTitle>Cập nhật Profile</DialogTitle>
+                <DialogContent>
+                  <TextField
+                    label="fullname"
+                    placeholder="Enter fullname"
+                    onChange={(e) => setFullname(e.target.value)}
+                    fullWidth
+                    margin="dense"
+                  />
+                  <TextField
+                    label="email"
+                    placeholder="Enter email"
+                    onChange={(e) => setEmail(e.target.value)}
+                    fullWidth
+                    margin="dense"
+                  />
+                  <TextField
+                    label="phone"
+                    placeholder="Enter phone"
+                    onChange={(e) => setPhone(e.target.value)}
+                    fullWidth
+                    margin="dense"
+                  />
+                  <TextField
+                    label="password"
+                    placeholder="Enter password"
+                    onChange={(e) => setPassword(e.target.value)}
+                    fullWidth
+                    margin="dense"
+                  />
+                  <TextField
+                    label="address"
+                    placeholder="Enter address"
+                    onChange={(e) => setAddress(e.target.value)}
+                    fullWidth
+                    margin="dense"
+                  />
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => {
+                      const file = e.target.files[0];
+                      setFile(file);
+                    }}
+                    style={{ marginTop: "10px" }}
+                  />
+                </DialogContent>
+                <DialogActions>
+                  <Button onClick={handleUpdate}>Cập nhật profile</Button>
+                  <Button onClick={handleClose}>Đóng</Button>
+                </DialogActions>
+              </Dialog>
             </Card>
           </div>
           <Footer />

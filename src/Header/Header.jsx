@@ -64,12 +64,12 @@ export default function Header() {
               className={styles.avatar}
               onClick={toggleDropdown}
             />
-            <span style={{ marginTop: "-10px" }}>Hello: {user.userName}</span>
+            <span style={{ marginTop: "-10px" }}>Chào: {user.userName}</span>
             {isDropdownOpen && (
               <ul className={styles.dropdown}>
-                <li onClick={() => navigate("/userpet")}>Quản lí Pet</li>
+                <li onClick={() => navigate("/userpet")}>Quản lí Thú Cưng</li>
                 <li onClick={() => navigate("/managebookinguser")}>
-                  Quản lí booking
+                  Quản lí đặt lịch
                 </li>
                 <li onClick={() => navigate("/profile")}>Hồ sơ</li>
                 <li onClick={handleLogout}>Đăng xuất</li>

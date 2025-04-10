@@ -11,7 +11,7 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
-  DialogTitle,
+  DialogTitle
 } from "@mui/material";
 export default function Login() {
   const [userName, setUserName] = useState("");
@@ -19,6 +19,7 @@ export default function Login() {
   const [newPassword, setNewPassword] = useState("");
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const API_URL = import.meta.env.VITE_API_BASE_URL;
   const handleLogin = async () => {
     if (!userName || !password) {
       alert("Vui lòng nhập đầy đủ thông tin đăng nhập!");
@@ -26,11 +27,11 @@ export default function Login() {
     }
     try {
       const response = await axios.post(
-        `https://bookingpetservice.onrender.com/api/user/v1/login`,
+        `${API_URL}/user/v1/login`,
         { userName, password },
         {
           headers: { "Content-Type": "application/json" },
-          timeout: 5000,
+          timeout: 5000
         }
       );
 
@@ -91,15 +92,15 @@ export default function Login() {
     setLoading(true);
     try {
       const response = await axios.post(
-        `https://bookingpetservice.onrender.com/api/user/v1/forGotPassword`,
+        `${API_URL}/user/v1/forGotPassword`,
         {
           userName,
-          newPassword,
+          newPassword
         },
         {
           headers: {
-            "Content-Type": "application/json",
-          },
+            "Content-Type": "application/json"
+          }
         }
       );
       if (response.status >= 200 && response.status < 300) {
@@ -130,11 +131,11 @@ export default function Login() {
             <p>Đăng nhập vào Adopt Pet</p>
             <button className={styles.googleButton}>
               <img src={img3} alt="Google Icon" className={styles.googleIcon} />
-              Sign Up with Google
+              Đăng nhập với Google
             </button>
             <div className={styles.hoac}>
               <div className={styles.borderleft} />
-              <p>OR</p>
+              <p>Hoặc</p>
               <div className={styles.borderright} />
             </div>
             <div className={styles.inputall}>
@@ -153,7 +154,7 @@ export default function Login() {
             </div>
             <div className={styles.buttonall}>
               <button className={styles.signin} onClick={handleLogin}>
-                Sign In
+                Đăng nhập
               </button>
               <br />
               <br />
@@ -161,7 +162,7 @@ export default function Login() {
                 className={styles.registernow}
                 onClick={() => navigate("/register")}
               >
-                Register Now
+                Đăng kí bây giờ
               </button>
             </div>
             <div className={styles.passwordfinal}>
@@ -214,7 +215,7 @@ export default function Login() {
           </div>
           <div className={styles.conditions}>
             <Link to="/">
-              <p>Adopt Pet Terms & Conditions</p>
+              <p>Điều khoản & Điều kiện của việc nhận nuôi thú cưng</p>
             </Link>
           </div>
         </div>

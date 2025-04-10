@@ -12,6 +12,7 @@ const BookingSuccess = () => {
   const navigate = useNavigate();
   const bookingData = location.state?.bookingData;
   const [isLoading, setIsLoading] = useState(false);
+  const API_URL = import.meta.env.VITE_API_BASE_URL;
   const createOrder = async () => {
     const bookingFormData = new FormData();
     bookingFormData.append("bookingId", bookingData.bookinId);
@@ -20,22 +21,20 @@ const BookingSuccess = () => {
       setIsLoading(true);
 
       const response = await axios.post(
-        "https://bookingpetservice.onrender.com/api/payment/checkOut",
+        `${API_URL}/payment/checkOut`,
         bookingFormData,
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("jwt")}`,
-            "Content-Type": "multipart/form-data", // Remove this if not necessary
-          },
+            Authorization: `Bearer ${localStorage.getItem("jwt")}`
+          }
         }
       );
-      // Handle the response if needed
 
       const checkOutUrl = response?.data?.data?.checkOutUrl;
       if (!checkOutUrl) {
         alert("Hệ thống thanh toán hiện đang không hoạt động");
       } else {
-        window.location.href = checkOutUrl; // Redirect to checkOutUrl
+        window.location.href = checkOutUrl;
       }
     } catch (error) {
       console.error("Error creating order:", error);
@@ -68,7 +67,7 @@ const BookingSuccess = () => {
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              marginTop: 200,
+              marginTop: 200
             }}
           >
             <div className={styles.container}>
@@ -105,6 +104,12 @@ const BookingSuccess = () => {
                 <p>
                   <strong style={{ marginRight: 6 }}>Trạng thái:</strong>
                   <Tag color="warning">{bookingData?.bookingStatus}</Tag>
+                </p>
+                <p>
+                  <strong>Thời gian bắt đầu:</strong> {bookingData?.startTime}
+                </p>
+                <p>
+                  <strong>Thời gian kết thúc:</strong> {bookingData?.endTime}
                 </p>
               </div>
 
