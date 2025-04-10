@@ -30,34 +30,37 @@ const ManageBooking = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
   const API_URL = import.meta.env.VITE_API_BASE_URL;
-  // const getBookingStatus = (status) => {
-  //   switch (status) {
-  //     case "NOTYET":
-  //       return "Chưa diễn ra";
-  //     case "PENDING":
-  //       return "Đang diễn ra";
-  //     case "COMPLETED":
-  //       return "Hoàn thành";
-  //     case "CANCELLED":
-  //       return "Đã hủy";
-  //     default:
-  //       return "Không xác định";
-  //   }
-  // };
-  // const getBookingStatusPaid = (status) => {
-  //   switch (status) {
-  //     case "PAIDALL":
-  //       return "Thanh toán toàn bộ";
-  //     case "DEPOSIT":
-  //       return "Đặt cọc";
-  //     case "UNPAID":
-  //       return "Chưa thanh toán";
-  //     case "FAILED":
-  //       return "Thanh toán thất bại";
-  //     default:
-  //       return "Không xác định";
-  //   }
-  // };
+  // bảng admin tất cả chuyển sang tiếng việt
+  // active thì đổi true thành đang hoạt động, false thì không hoạt động
+  //
+  const getBookingStatus = (status) => {
+    switch (status) {
+      case "NOTYET":
+        return "Chưa diễn ra";
+      case "PENDING":
+        return "Đang diễn ra";
+      case "COMPLETED":
+        return "Hoàn thành";
+      case "CANCELLED":
+        return "Đã hủy";
+      default:
+        return "Không xác định";
+    }
+  };
+  const getBookingStatusPaid = (status) => {
+    switch (status) {
+      case "PAIDALL":
+        return "Thanh toán toàn bộ";
+      case "DEPOSIT":
+        return "Đặt cọc";
+      case "UNPAID":
+        return "Chưa thanh toán";
+      case "FAILED":
+        return "Thanh toán thất bại";
+      default:
+        return "Không xác định";
+    }
+  };
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const fetchAllBookings = useCallback(async () => {
     try {
@@ -88,8 +91,24 @@ const ManageBooking = () => {
         `${API_URL}/booking/v1/getBookingByAdmiByDropdown`,
         { params }
       );
-      setData(response.data.data);
+      const bookings = response.data.data || []; // Đảm bảo bookings là một mảng
+      const filtered = bookings.filter((booking) => {
+        const matchDate = bookingDate
+          ? booking.transactionDateTime.includes(bookingDate)
+          : true;
+        const matchStatus = bookingStatus
+          ? booking.bookingStatus === bookingStatus
+          : true;
+        const matchStatusPaid = bookingStatusPaid
+          ? booking.bookingStatusPaid === bookingStatusPaid
+          : true;
+        return matchDate && matchStatus && matchStatusPaid;
+      });
+      setData(filtered);
       setCurrentData(response.data.data.slice(0, itemsPerPage));
+      if (filtered.length > 0) {
+        console.log("Không có dữ liệu phù hợp");
+      }
     } catch (error) {
       console.error("Lỗi khi lọc danh sách booking:", error);
     }
@@ -168,71 +187,94 @@ const ManageBooking = () => {
               <TableRow className={styles.tableHead}>
                 <TableCell className={styles.tableCell}>Booking ID</TableCell>
                 <TableCell className={styles.tableCell} align="center">
-                  Service Name
+                  Tên Dịch Vụ
                 </TableCell>
                 <TableCell className={styles.tableCell} align="center">
-                  Optional Service Name
+                  Tên Dịch Vụ Phụ
                 </TableCell>
                 <TableCell className={styles.tableCell} align="center">
-                  Pet Name
+                  Tên Thú Cưng
                 </TableCell>
                 <TableCell className={styles.tableCell} align="center">
-                  Full Name
+                  Tên Đầy Đủ
                 </TableCell>
                 <TableCell className={styles.tableCell} align="center">
-                  Booking Date
+                  Ngày Đặt Chỗ
                 </TableCell>
                 <TableCell className={styles.tableCell} align="center">
-                  Start Time
+                  Thời gian bắt đầu
                 </TableCell>
                 <TableCell className={styles.tableCell} align="center">
-                  End Time
+                  Thời gian kết thúc
                 </TableCell>
                 <TableCell className={styles.tableCell} align="center">
-                  End Date
+                  Ngày kết thúc
                 </TableCell>
                 <TableCell className={styles.tableCell} align="center">
-                  Total Amount
+                  Tổng tiền
                 </TableCell>
                 <TableCell className={styles.tableCell} align="center">
-                  Booking Status
+                  Trạng thái đặt lịch
                 </TableCell>
                 <TableCell className={styles.tableCell} align="center">
-                  Booking Status Paid
+                  Trạng thái đặt chỗ đã thanh toán
                 </TableCell>
                 <TableCell align="center" className={styles.tableCell}>
-                  Detail
+                  Chi tiết
                 </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {currentData.map((row, index) => (
-                <TableRow key={index} className={styles.tableRow}>
-                  <TableCell align="center">{row.bookinId}</TableCell>
-                  <TableCell align="center">{row.serviceName}</TableCell>
-                  <TableCell align="center">
-                    {row.optionalServiceName}
-                  </TableCell>
-                  <TableCell align="center">{row.petName}</TableCell>
-                  <TableCell align="center">{row.fullName}</TableCell>
-                  <TableCell align="center">{row.bookingDate}</TableCell>
-                  <TableCell align="center">{row.startTime}</TableCell>
-                  <TableCell align="center">{row.endTime}</TableCell>
-                  <TableCell align="center">{row.endDate}</TableCell>
-                  <TableCell align="center">{row.totalAmount}</TableCell>
-                  <TableCell align="center">{row.bookingStatus}</TableCell>
-                  <TableCell align="center">{row.bookingStatusPaid}</TableCell>
-                  <TableCell align="center">
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      onClick={() => navigate(`/managebooking/${row.bookinId}`)}
+              {currentData.length === 0 ? (
+                <TableRow>
+                  <TableCell colSpan={11} align="center">
+                    <div
+                      style={{
+                        padding: "40px 0",
+                        color: "#999",
+                        fontSize: "18px"
+                      }}
                     >
-                      Detail
-                    </Button>
+                      Không có dữ liệu
+                    </div>
                   </TableCell>
                 </TableRow>
-              ))}
+              ) : (
+                currentData.map((row, index) => (
+                  <TableRow key={index} className={styles.tableRow}>
+                    <TableCell align="center">{row.bookinId}</TableCell>
+                    <TableCell align="center">{row.serviceName}</TableCell>
+                    <TableCell align="center">
+                      {row.optinalServiceName || "Không có dịch vụ phụ"}
+                    </TableCell>
+                    <TableCell align="center">{row.petName}</TableCell>
+                    <TableCell align="center">{row.fullName}</TableCell>
+                    <TableCell align="center">{row.bookingDate}</TableCell>
+                    <TableCell align="center">{row.startTime}</TableCell>
+                    <TableCell align="center">{row.endTime}</TableCell>
+                    <TableCell align="center">{row.endDate}</TableCell>
+                    <TableCell align="center">{row.totalAmmount}</TableCell>
+                    <TableCell align="center">
+                      {getBookingStatus(row.bookingStatus)}
+                    </TableCell>
+                    <TableCell align="center">
+                      {getBookingStatusPaid(row.bookingStatusPaid)}
+                    </TableCell>
+                    <TableCell align="center">
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={() =>
+                          navigate(`/managebooking/${row.bookinId}`)
+                        }
+                        sx={{ fontSize: "0.75rem", width: "85px" }} // chỉnh cỡ chữ nhỏ hơn
+                      >
+                        Chi tiết
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                ))
+              )}
             </TableBody>
           </Table>
         </TableContainer>

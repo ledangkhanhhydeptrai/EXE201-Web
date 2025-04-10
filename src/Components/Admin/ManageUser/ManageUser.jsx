@@ -76,19 +76,19 @@ export default function ManageUser() {
                   Email
                 </TableCell>
                 <TableCell className={styles.tableCell} align="center">
-                  Phone
+                  Điện thoại
                 </TableCell>
                 <TableCell className={styles.tableCell} align="center">
-                  Address
+                  Địa chỉ
                 </TableCell>
                 <TableCell className={styles.tableCell} align="center">
-                  Status
+                  Trạng thái
                 </TableCell>
                 <TableCell className={styles.tableCell} align="center">
-                  Avatar
+                  Hình ảnh
                 </TableCell>
                 <TableCell className={styles.tableCell} align="center">
-                  Actions
+                  Hành động
                 </TableCell>
               </TableRow>
             </TableHead>

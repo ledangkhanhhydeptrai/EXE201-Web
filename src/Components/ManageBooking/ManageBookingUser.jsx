@@ -25,7 +25,7 @@ import Loading from "../Loading/Loading";
 const ManageBookingUser = () => {
   const [data, setData] = useState([]);
   const [currentData, setCurrentData] = useState([]);
-  const [bookingDate, setBookingDate] = useState("2025-03-28");
+  const [bookingDate, setBookingDate] = useState("");
   const [bookingStatus, setBookingStatus] = useState("");
   const [bookingStatusPaid, setBookingStatusPaid] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
@@ -84,10 +84,11 @@ const ManageBookingUser = () => {
     }
   };
   const fetchFilteredBookings = useCallback(async () => {
-    if (!bookingDate && !bookingStatus && !bookingStatusPaid) {
-      fetchAllBookings();
-      return;
-    }
+    const params = {};
+    if (bookingDate) params.bookingDate = bookingDate;
+    if (bookingStatus) params.bookingStatus = bookingStatus;
+    if (bookingStatusPaid) params.bookingStatusPaid = bookingStatusPaid;
+    console.log("🔥 Params lọc booking gửi đi:", params);
 
     try {
       const response = await axios.get(
@@ -96,16 +97,26 @@ const ManageBookingUser = () => {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("jwt")}`
           },
-          params: {
-            bookDate: bookingDate || "2025-03-28", // Thay giá trị mặc định
-            bookingStatus: bookingStatus || "NOTYET",
-            bookingStatusPaid: bookingStatusPaid || "UNPAID"
-          }
+          params
         }
       );
-      if (response.status >= 200 && response.status < 300) {
-        setData(response.data.data);
-        setCurrentData(response.data.data.slice(0, itemsPerPage));
+      const bookings = response.data.data || [];
+      const filtered = bookings.filter((booking) => {
+        const matchDate = bookingDate
+          ? booking.transactionDateTime.includes(bookingDate)
+          : true;
+        const matchStatus = bookingStatus
+          ? booking.status === bookingStatus
+          : true;
+        const matchStatusPaid = bookingStatusPaid
+          ? booking.bookingStatusPaid === bookingStatusPaid
+          : true;
+        return matchDate && matchStatus && matchStatusPaid;
+      });
+      setData(filtered);
+      setCurrentData(response.data.data.slice(0, itemsPerPage));
+      if (filtered.length > 0) {
+        console.log("Không có dữ liệu phù hợp");
       }
     } catch (error) {
       console.error("Lỗi khi lọc danh sách booking:", error);
