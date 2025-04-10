@@ -147,6 +147,7 @@ const ManageBooking1 = () => {
       console.log("Trạng thái trả về:", response.data.data.bookingStatus);
       handleClose();
       window.location.reload();
+      alert("Cập nhật trạng thái thành công!");
     } catch (error) {
       console.error("Lỗi khi cập nhật:", error.response?.data || error.message);
     }

@@ -174,6 +174,7 @@ const ManageBooking = () => {
       console.log("Trạng thái trả về:", response.data.data.bookingStatus);
       handleClose();
       window.location.reload();
+      alert("Cập nhật trạng thái thành công!");
     } catch (error) {
       console.error("Lỗi khi cập nhật:", error.response?.data || error.message);
     }
@@ -259,9 +260,9 @@ const ManageBooking = () => {
                 {/* <TableCell className={styles.tableCell} align="center">
                   Thời gian kết thúc
                 </TableCell> */}
-                <TableCell className={styles.tableCell} align="center">
+                {/* <TableCell className={styles.tableCell} align="center">
                   Ngày kết thúc
-                </TableCell>
+                </TableCell> */}
                 <TableCell className={styles.tableCell} align="center">
                   Tổng tiền
                 </TableCell>
@@ -307,7 +308,7 @@ const ManageBooking = () => {
                     <TableCell align="center">{row.bookingDate}</TableCell>
                     <TableCell align="center">{row.startTime}</TableCell>
                     {/* <TableCell align="center">{row.endTime}</TableCell> */}
-                    <TableCell align="center">{row.endDate}</TableCell>
+                    {/* <TableCell align="center">{row.endDate}</TableCell> */}
                     <TableCell align="center">{row.totalAmmount}</TableCell>
                     <TableCell align="center">
                       {getBookingStatus(row.bookingStatus)}

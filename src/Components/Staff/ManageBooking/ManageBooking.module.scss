@@ -137,3 +137,26 @@
     }
   }
 }
+
+.buttonWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding-bottom: 1px;
+  margin-left: 20px;
+}
+
+.filterButton {
+  padding: 10px 32px;
+  background-color: #d32f2f !important;
+  color: white;
+  border-radius: 10px;
+  font-weight: bold;
+  text-transform: none;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background-color: #b71c1c !important;
+    transform: translateY(-2px);
+  }
+}
