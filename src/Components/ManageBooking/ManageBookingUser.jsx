@@ -109,13 +109,17 @@ const ManageBookingUser = () => {
           ? booking.bookingDate?.startsWith(bookDate)
           : true;
         const matchStatus = bookingStatus
-          ? booking.status === bookingStatus
+          ? booking.bookingStatus?.trim().toUpperCase() ===
+            bookingStatus.toUpperCase()
           : true;
         const matchStatusPaid = bookingStatusPaid
-          ? booking.bookingStatusPaid === bookingStatusPaid
+          ? booking.bookingStatusPaid?.trim().toUpperCase() ===
+            bookingStatusPaid.toUpperCase()
           : true;
+
         return matchDate && matchStatus && matchStatusPaid;
       });
+
       setData(filtered);
       setCurrentData(response.data.data.slice(0, itemsPerPage));
       if (filtered.length > 0) {
@@ -163,7 +167,8 @@ const ManageBookingUser = () => {
                     style={{ width: "300px" }}
                   >
                     <MenuItem value="NOTYET">Chưa diễn ra</MenuItem>
-                    <MenuItem value="PENDING">Đang diễn ra</MenuItem>
+                    <MenuItem value="INPROGRESS">Đang diễn ra</MenuItem>
+                    <MenuItem value="PENDING">Đang chờ</MenuItem>
                     <MenuItem value="COMPLETED">Hoàn thành</MenuItem>
                     <MenuItem value="CANCELLED">Đã hủy</MenuItem>
                   </Select>

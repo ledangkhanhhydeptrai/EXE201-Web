@@ -30,7 +30,7 @@ const ManageBooking = () => {
   const [data, setData] = useState([]);
   const [currentData, setCurrentData] = useState([]);
   const [bookDate, setBookDate] = useState("");
-  const [bookingStatus, setBookingStatus] = useState("INPROGRESS");
+  const [bookingStatus, setBookingStatus] = useState("");
   const [bookingStatusPaid, setBookingStatusPaid] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [open, setOpen] = useState(false);
@@ -116,13 +116,16 @@ const ManageBooking = () => {
           ? booking.bookingDate?.startsWith(bookDate)
           : true;
         const matchStatus = bookingStatus
-          ? booking.bookingStatus === bookingStatus
+          ? booking.bookingStatus?.trim().toUpperCase() ===
+            bookingStatus.toUpperCase()
           : true;
         const matchStatusPaid = bookingStatusPaid
-          ? booking.bookingStatusPaid === bookingStatusPaid
+          ? booking.bookingStatusPaid?.trim().toUpperCase() ===
+            bookingStatusPaid.toUpperCase()
           : true;
         return matchDate && matchStatus && matchStatusPaid;
       });
+
       setData(filtered);
       setCurrentData(response.data.data.slice(0, itemsPerPage));
       if (filtered.length > 0) {
@@ -201,7 +204,8 @@ const ManageBooking = () => {
               onChange={(e) => setBookingStatus(e.target.value)}
             >
               <MenuItem value="NOTYET">Chưa diễn ra</MenuItem>
-              <MenuItem value="PENDING">Đang diễn ra</MenuItem>
+              <MenuItem value="INPROGRESS">Đang diễn ra</MenuItem>
+              <MenuItem value="PENDING">Đang chờ</MenuItem>
               <MenuItem value="COMPLETED">Hoàn thành</MenuItem>
               <MenuItem value="CANCELLED">Đã hủy</MenuItem>
             </Select>
