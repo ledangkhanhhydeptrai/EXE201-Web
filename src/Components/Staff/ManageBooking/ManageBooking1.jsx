@@ -9,10 +9,6 @@ import {
   TableHead,
   TableRow,
   Paper,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
   Button,
   Pagination,
   TextField
@@ -25,10 +21,11 @@ const ManageBooking1 = () => {
   const navigate = useNavigate();
   const [data, setData] = useState([]);
   const [currentData, setCurrentData] = useState([]);
-  const [bookingDate, setBookingDate] = useState("2025-03-28");
-  const [bookingStatus, setBookingStatus] = useState("");
-  const [bookingStatusPaid, setBookingStatusPaid] = useState("");
+  const [bookingDate, setBookingDate] = useState("");
+  // const [bookingStatus, setBookingStatus] = useState("");
+  // const [bookingStatusPaid, setBookingStatusPaid] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
+  const API_URL = import.meta.env.VITE_API_BASE_URL;
   const itemsPerPage = 10;
   const getBookingStatus = (status) => {
     switch (status) {
@@ -61,28 +58,25 @@ const ManageBooking1 = () => {
   const fetchAllBookings = async () => {
     try {
       const response = await axios.get(
-        "https://bookingpetservice.onrender.com/api/booking/v1/getAllBookingByAmind"
+        `${API_URL}/booking/v1/getAllBookingByAmind`
       );
-      setData(response.data.data);
+      setData(response.data.data.sort((a, b) => a.serviceId - b.serviceId));
       setCurrentData(response.data.data.slice(0, itemsPerPage));
     } catch (error) {
       console.error("Lỗi khi lấy danh sách booking:", error);
     }
   };
   const fetchFilteredBookings = useCallback(async () => {
-    if (!bookingDate && !bookingStatus && !bookingStatusPaid) {
+    if (!bookingDate) {
       fetchAllBookings();
       return;
     }
-
     try {
       const response = await axios.get(
-        `https://bookingpetservice.onrender.com/api/booking/v1/getBookingByAdmiByDropdown`,
+        `${API_URL}/booking/v1/getBookingByStaffByDropdown`,
         {
           params: {
-            bookDate: bookingDate,
-            bookingStatus,
-            bookingStatusPaid
+            bookDate: bookingDate || "2025-03-28"
           }
         }
       );
@@ -91,7 +85,7 @@ const ManageBooking1 = () => {
     } catch (error) {
       console.error("Lỗi khi lọc danh sách booking:", error);
     }
-  }, [bookingDate, bookingStatus, bookingStatusPaid]);
+  }, [bookingDate]);
 
   useEffect(() => {
     fetchAllBookings();
@@ -119,7 +113,7 @@ const ManageBooking1 = () => {
             className={styles.datePicker}
             InputLabelProps={{ shrink: true }}
           />
-          <FormControl className={styles.select}>
+          {/* <FormControl className={styles.select}>
             <InputLabel>Trạng thái đặt chỗ</InputLabel>
             <Select
               value={bookingStatus}
@@ -142,7 +136,7 @@ const ManageBooking1 = () => {
               <MenuItem value="UNPAID">Chưa thanh toán</MenuItem>
               <MenuItem value="FAILED">Thanh toán thất bại</MenuItem>
             </Select>
-          </FormControl>
+          </FormControl> */}
         </div>
         <TableContainer component={Paper} className={styles.tableContainer}>
           <Table className={styles.table} aria-label="user table">

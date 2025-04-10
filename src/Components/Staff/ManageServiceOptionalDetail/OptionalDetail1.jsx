@@ -1,23 +1,18 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import styles from "./ManageServiceDetail.module.scss";
-import Header from "../HeaderAdmin/Header";
-import Sidebar from "../Sidebar/Sidebar";
+import { useParams } from "react-router-dom";
+import styles from "./OptionalDetail.module.scss";
+import Header1 from "../HeaderAdmin/Header1";
+import Sidebar1 from "../Sidebar/Sidebar1";
 
-const ManageServiceDetail = () => {
+const OptionalDetail1 = () => {
   const { serviceId } = useParams();
   const [data, setData] = useState(null);
   const API_URL = import.meta.env.VITE_API_BASE_URL;
-  const navigate = useNavigate();
-  const handleClick = () => {
-    navigate("/manage-service");
-  };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   const fetchData = async () => {
     try {
       const response = await axios.get(
-        `${API_URL}/service/v1/getServiceByIdIsActive/${serviceId}`
+        `${API_URL}/OptionalService/v1/getOptionalServiceByIdIsActive/${serviceId}`
       );
       if (response.status >= 200 && response.status < 300) {
         setData(response.data.data);
@@ -31,12 +26,12 @@ const ManageServiceDetail = () => {
 
   useEffect(() => {
     fetchData();
-  }, [fetchData, serviceId]);
+  }, [serviceId]);
 
   return (
     <>
-      <Header />
-      <Sidebar />
+      <Header1 />
+      <Sidebar1 />
       <div className={styles.app}>
         {data ? (
           <div className={styles.card}>
@@ -46,7 +41,7 @@ const ManageServiceDetail = () => {
             </p>
             <p>{data.description}</p>
             <p className={styles.price}>{data.price} VND</p>
-            <a onClick={handleClick} className={styles.button}>
+            <a href="/manage-service" className={styles.button}>
               Quay lại
             </a>
           </div>
@@ -58,4 +53,4 @@ const ManageServiceDetail = () => {
   );
 };
 
-export default ManageServiceDetail;
+export default OptionalDetail1;

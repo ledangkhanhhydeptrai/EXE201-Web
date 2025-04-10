@@ -16,6 +16,7 @@ const BookingDetail = () => {
   const { bookinId } = useParams();
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const API_URL = import.meta.env.VITE_API_BASE_URL;
   const getBookingStatus = (status) => {
     switch (status) {
       case "NOTYET":
@@ -54,7 +55,7 @@ const BookingDetail = () => {
     const fetchDataById = async () => {
       try {
         const response = await axios.get(
-          `https://bookingpetservice.onrender.com/api/booking/v1/getBookingDetailByIdByAdmin/${bookinId}`,
+          `${API_URL}/booking/v1/getBookingDetailByIdByAdmin/${bookinId}`,
           {
             headers: { Authorization: `Bearer ${localStorage.getItem("jwt")}` }
           }
@@ -72,7 +73,7 @@ const BookingDetail = () => {
     };
 
     fetchDataById();
-  }, [bookinId]);
+  }, [API_URL, bookinId]);
 
   return (
     <div className="container-fluid">
@@ -100,7 +101,7 @@ const BookingDetail = () => {
                   <strong>Dịch vụ:</strong> {data.serviceName}
                 </Typography>
                 <Typography variant="body1">
-                  <strong>Dịch vụ chọn:</strong> {data.optinalServiceName}
+                  <strong>Dịch vụ phụ:</strong> {data.optinalServiceName|| "Không có"}
                 </Typography>
                 <Typography variant="body1">
                   <strong>Thú cưng:</strong> {data.petName}

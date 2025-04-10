@@ -1,9 +1,19 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./Header.module.scss";
 
 export default function Header1() {
   const [isDropdownVisible, setDropdownVisible] = useState(false);
+  const [user, setUser] = useState(null);
+  useEffect(() => {
+    const storedToken = localStorage.getItem("jwt");
+    const storedUsername = localStorage.getItem("username");
+    console.log("Stored Token:", storedToken);
+    console.log("Stored Username:", storedUsername);
 
+    if (storedToken && storedUsername) {
+      setUser({ token: storedToken, userName: storedUsername });
+    }
+  }, []);
   const toggleDropdown = () => {
     setDropdownVisible(!isDropdownVisible);
   };
@@ -19,7 +29,9 @@ export default function Header1() {
           className={styles.userAvatar}
           onClick={toggleDropdown}
         />
-        <p style={{ marginTop: "-30px", marginLeft: "40px" }}>Hello User</p>
+        <p style={{ marginTop: "-30px", marginLeft: "40px" }}>
+          Hello: {user?.userName}
+        </p>
         <div
           className={`${styles.dropdownMenu} ${
             isDropdownVisible ? styles.active : ""

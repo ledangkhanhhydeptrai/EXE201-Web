@@ -102,6 +102,7 @@
     background: #a6a6a6;
   }
 }
+
 .pagination {
   display: flex;
   justify-content: center;
@@ -116,6 +117,7 @@
       font-weight: bold;
       border-radius: 8px;
       transition: all 0.3s ease;
+
       &:hover {
         background-color: rgba(255, 0, 0, 0.1); // Màu đỏ nhạt
       }
@@ -125,5 +127,45 @@
       background-color: red !important;
       color: white !important;
     }
+  }
+}
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: flex-end;
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  margin-bottom: 24px;
+}
+
+.datePicker,
+.select {
+  min-width: 220px;
+  flex: 1;
+}
+
+.buttonWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding-bottom: 10px;
+}
+
+.filterButton {
+  padding: 10px 32px;
+  background-color: #d32f2f !important;
+  color: white;
+  border-radius: 10px;
+  font-weight: bold;
+  text-transform: none;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background-color: #b71c1c !important;
+    transform: translateY(-2px);
   }
 }

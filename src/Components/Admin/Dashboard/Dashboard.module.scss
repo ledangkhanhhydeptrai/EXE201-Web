@@ -1,0 +1,130 @@
+.container {
+  margin-left: 245px;
+  margin-top: 21px;
+}
+
+.tableContainer {
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  width: 100%;
+}
+
+.table {
+  min-width: 800px;
+  border-collapse: collapse;
+}
+
+.tableHead {
+  background-color: #f50057;
+}
+
+.tableCell {
+  font-weight: bold;
+  color: white;
+  text-align: center !important;
+}
+
+.tableRow {
+  &:nth-child(even) {
+    background-color: #f8f8f8;
+  }
+
+  &:hover {
+    background-color: #ffe0e6;
+  }
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+
+  .MuiPagination-root {
+    display: flex;
+    gap: 8px;
+
+    .MuiPaginationItem-root {
+      font-size: 16px;
+      font-weight: bold;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+
+      &:hover {
+        background-color: rgba(255, 0, 0, 0.1); // Màu đỏ nhạt
+      }
+    }
+
+    .Mui-selected {
+      background-color: red !important;
+      color: white !important;
+    }
+  }
+}
+
+.filterContainer {
+  display: flex;
+  gap: 16px;
+  margin: 20px 0;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  margin-left: 300px;
+}
+
+.filterInput,
+.filterSelect {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+}
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  margin: 1rem 0;
+  padding: 1rem;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  margin-top: 70px;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
+}
+
+.datePicker {
+  flex: 1;
+  min-width: 220px;
+
+  .MuiInputBase-root {
+    border-radius: 8px;
+    background-color: #f9f9f9;
+  }
+
+  .MuiInputLabel-root {
+    font-weight: 500;
+  }
+}
+
+.select {
+  flex: 1;
+  min-width: 220px;
+
+  .MuiInputBase-root {
+    border-radius: 8px;
+    background-color: #f9f9f9;
+  }
+
+  .MuiInputLabel-root {
+    font-weight: 500;
+  }
+}

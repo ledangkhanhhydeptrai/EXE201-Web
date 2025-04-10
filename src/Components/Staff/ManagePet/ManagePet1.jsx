@@ -14,12 +14,12 @@ import {
 } from "@mui/material";
 const ManagePet1 = () => {
   const [data, setData] = useState([]);
-
+  const API_URL = import.meta.env.VITE_API_BASE_URL;
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `https://bookingpetservice.onrender.com/api/service/v1/getAllServiceIsActive`
+          `${API_URL}/service/v1/getAllServiceIsActive`
         );
 
         if (response.status >= 200 && response.status < 300) {

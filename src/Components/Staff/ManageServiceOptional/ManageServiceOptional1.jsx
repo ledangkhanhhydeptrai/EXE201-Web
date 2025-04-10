@@ -13,14 +13,14 @@ import {
   TableHead,
   TableRow
 } from "@mui/material";
-import Header from "../HeaderAdmin/Header";
-import Sidebar from "../Sidebar/Sidebar";
-import styles from "./ServiceOptional.module.scss";
+import styles from "./ManageService.module.scss";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import Header1 from "../HeaderAdmin/Header1";
+import Sidebar1 from "../Sidebar/Sidebar1";
 
-const ServiceOptional = () => {
+const ManageServiceOptional1 = () => {
   const [data, setData] = useState([]);
   const [open, setOpen] = useState(false);
   const [currentService, setCurrentService] = useState(null);
@@ -283,8 +283,8 @@ const ServiceOptional = () => {
   const navigate = useNavigate();
   return (
     <>
-      <Header />
-      <Sidebar />
+      <Header1 />
+      <Sidebar1 />
       <div className={styles.createButtonContainer}>
         <Button
           variant="contained"
@@ -295,7 +295,7 @@ const ServiceOptional = () => {
             margin: "20px auto"
           }}
         >
-          Tạo dịch vụ
+          Create
         </Button>
         <Dialog open={openCreate} onClose={handleCloseCreate}>
           <DialogTitle className={styles.dialogTitle}>
@@ -303,7 +303,7 @@ const ServiceOptional = () => {
           </DialogTitle>
           <DialogContent>
             <div className={styles.formContainer}>
-              <label htmlFor="serviceName">Tên dịch vụ</label>
+              <label htmlFor="serviceName">Service Name</label>
               <input
                 type="text"
                 placeholder="Enter a service name"
@@ -311,7 +311,7 @@ const ServiceOptional = () => {
                 onChange={(e) => setServiceName(e.target.value)}
               />
 
-              <label htmlFor="description">Miêu tả</label>
+              <label htmlFor="description">Description</label>
               <input
                 type="text"
                 placeholder="Enter a description"
@@ -319,7 +319,7 @@ const ServiceOptional = () => {
                 onChange={(e) => setDescription(e.target.value)}
               />
 
-              <label htmlFor="price">Giá dịch vụ</label>
+              <label htmlFor="price">Price</label>
               <input
                 type="number"
                 placeholder="Enter a price"
@@ -349,8 +349,7 @@ const ServiceOptional = () => {
           sx={{
             borderRadius: "12px",
             boxShadow: "0 4px 10px rgba(0,0,0,0.1)",
-            overflow: "hidden",
-            marginTop: "-50px"
+            overflow: "hidden"
           }}
         >
           <Table sx={{ minWidth: 650 }} aria-label="service table">
@@ -363,49 +362,49 @@ const ServiceOptional = () => {
                   sx={{ color: "#fff", fontWeight: "bold" }}
                   align="center"
                 >
-                  Tên dịch vụ
+                  Service Name
                 </TableCell>
                 <TableCell
                   sx={{ color: "#fff", fontWeight: "bold" }}
                   align="center"
                 >
-                  Miêu tả
+                  Description
                 </TableCell>
                 <TableCell
                   sx={{ color: "#fff", fontWeight: "bold" }}
                   align="center"
                 >
-                  Giá dịch vụ
+                  Price
                 </TableCell>
                 <TableCell
                   sx={{ color: "#fff", fontWeight: "bold" }}
                   align="center"
                 >
-                  Hình ảnh
+                  ImageServiceBase64
                 </TableCell>
                 <TableCell
                   sx={{ color: "#fff", fontWeight: "bold" }}
                   align="center"
                 >
-                  Trang thái
+                  Active
                 </TableCell>
                 <TableCell
                   sx={{ color: "#fff", fontWeight: "bold" }}
                   align="center"
                 >
-                  Cập nhật
+                  Update
                 </TableCell>
                 <TableCell
                   sx={{ color: "#fff", fontWeight: "bold" }}
                   align="center"
                 >
-                  Xóa
+                  Delete
                 </TableCell>
                 <TableCell
                   sx={{ color: "#fff", fontWeight: "bold" }}
                   align="center"
                 >
-                  Chi tiết
+                  Detail
                 </TableCell>
               </TableRow>
             </TableHead>
@@ -448,29 +447,23 @@ const ServiceOptional = () => {
                     </div>
                   </TableCell>
                   <TableCell align="center">
-                    {row.active ? "Đang hoạt dộng" : "Không hoat động"}
+                    {row.active ? "True" : "False"}
                   </TableCell>
                   <TableCell align="center">
-                    <button
-                      onClick={() => handleOpen(row)}
-                      style={{ fontSize: "0.8rem", width: "90px" }}
-                    >
-                      Cập nhật
-                    </button>
+                    <button onClick={() => handleOpen(row)}>Edit</button>
                   </TableCell>
                   <TableCell align="center">
                     <button onClick={() => handleDelete(row.serviceId)}>
-                      Xóa
+                      Delete
                     </button>
                   </TableCell>
                   <TableCell align="center">
                     <Button
                       onClick={() =>
-                        navigate(`/serviceoptional/${row.serviceId}`)
+                        navigate(`/serviceoptional1/${row.serviceId}`)
                       }
-                      sx={{ fontSize: "0.75rem", width: "84px" }}
                     >
-                      Chi tiết
+                      Detail
                     </Button>
                   </TableCell>
                 </TableRow>
@@ -536,4 +529,4 @@ const ServiceOptional = () => {
   );
 };
 
-export default ServiceOptional;
+export default ManageServiceOptional1;
