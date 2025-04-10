@@ -6,7 +6,7 @@ import {
   faChartBar,
   faUsers,
   faCalendarCheck,
-  faCog
+  faCog,
 } from "@fortawesome/free-solid-svg-icons";
 // làm trang giao dịch
 export default function Sidebar() {
@@ -17,7 +17,7 @@ export default function Sidebar() {
           <img src={img1} alt="Logo" className={styles.imageLogo} />
         </span>
         <span>
-          <h2 className={styles.logo}>Adopt Pet</h2>
+          <h2 className={styles.logo}>Adopt A Pet</h2>
         </span>
         <ul className={styles.navLinks}>
           <li>
@@ -34,10 +34,7 @@ export default function Sidebar() {
           </li>
           <li>
             <Link to="/managebooking" className={styles.navLink}>
-              <FontAwesomeIcon
-                icon={faCalendarCheck}
-                className={styles.icon}
-              />{" "}
+              <FontAwesomeIcon icon={faCalendarCheck} className={styles.icon} />{" "}
               Quản lí đặt lịch
             </Link>
           </li>

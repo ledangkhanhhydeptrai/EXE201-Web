@@ -1,4 +1,3 @@
-
 import styles from "./Footer.module.scss";
 import img1 from "../assets/z6223063894468_38357e99297b491d9712cb1e17076215.jpg";
 export default function Footer() {
@@ -7,7 +6,7 @@ export default function Footer() {
       <div className={styles.footerLeft}>
         <div className={styles.logo}>
           <img src={img1} alt="Logo" />
-          <div className={styles.brandName}>Adopt Pet!</div>
+          <div className={styles.brandName}>Adopt A Pet!</div>
         </div>
         <div className={styles.contactInfo}>
           <p>Địa chỉ: Đường D1, Khu Công Nghệ Cao, Quận 9</p>

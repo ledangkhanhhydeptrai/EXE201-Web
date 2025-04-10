@@ -240,11 +240,11 @@ export default function Matching() {
                 alt="Card Image"
               />
               <div className={styles.cardContent}>
-                <h3 className={styles.cardTitle}>OREO</h3>
+                <h3 className={styles.cardTitle}>Miu Miu</h3>
                 <p className={styles.cardDescription}>
-                  Male • American Staffordshire T…
+                  Cái • Lông trắng, mắt xanh, rất hiền...
                 </p>
-                <p className={styles.location}>Los Angeles, CA</p>
+                <p className={styles.location}>Quận 3, TP.HCM</p>
               </div>
             </div>
             <div className={styles.card}>
@@ -260,11 +260,11 @@ export default function Matching() {
                 alt="Card Image"
               />
               <div className={styles.cardContent}>
-                <h3 className={styles.cardTitle}>JACK SPARROW</h3>
+                <h3 className={styles.cardTitle}>Bingo</h3>
                 <p className={styles.cardDescription}>
-                  Male • American Staffordshire T…
+                Đực • Lông vàng, thích chạy nhảy, thông minh
                 </p>
-                <p className={styles.location}>Los Angeles, CA</p>
+                <p className={styles.location}>Quận 1, TP.HCM</p>
               </div>
             </div>
             <div className={styles.card}>
@@ -280,11 +280,11 @@ export default function Matching() {
                 alt="Card Image"
               />
               <div className={styles.cardContent}>
-                <h3 className={styles.cardTitle}>REY</h3>
+                <h3 className={styles.cardTitle}>Mực</h3>
                 <p className={styles.cardDescription}>
-                  Female • German Shepherd Dog
+                  Cái • Lông vàng, rất trung thành
                 </p>
-                <p className={styles.location}>Los Angeles, CA</p>
+                <p className={styles.location}>Quận 5, TP.HCM</p>
               </div>
             </div>
             <div className={styles.card}>
@@ -300,9 +300,9 @@ export default function Matching() {
                 alt="Card Image"
               />
               <div className={styles.cardContent}>
-                <h3 className={styles.cardTitle}>DJ</h3>
-                <p className={styles.cardDescription}>Female • Mixed Breed</p>
-                <p className={styles.location}>Los Angeles, CA</p>
+                <h3 className={styles.cardTitle}>Na Na</h3>
+                <p className={styles.cardDescription}>Cái • Lông trắng, thân thiện với trẻ em</p>
+                <p className={styles.location}>Phú Nhuận</p>
               </div>
             </div>
           </div>

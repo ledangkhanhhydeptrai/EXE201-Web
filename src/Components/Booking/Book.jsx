@@ -92,7 +92,7 @@ const Book = () => {
       );
       const mapOption = response.data?.data?.map((item) => ({
         value: item.serviceId,
-        label: `${item.serviceName} - ${item.price} vnd`
+        label: `${item.serviceName} - ${item.price.toLocaleString('de-DE')} vnd`
       }));
       setDataOptionService(mapOption);
     } catch (error) {
@@ -310,7 +310,7 @@ const Book = () => {
                     {formDataBooking.date && (
                       <>
                         <p>Thời gian bắt đầu: {formDataBooking.startTime}</p>
-                        <p>Thời gian kết thúc: {formDataBooking.endTime}</p>
+                        {/* <p>Thời gian kết thúc: {formDataBooking.endTime}</p> */}
                       </>
                     )}
                     <button

@@ -57,25 +57,25 @@ export default function Feed() {
             <div className={styles.card}>
               <div className={styles.dogicon}>
                 <img src={dog} alt="" />
-                <p>Dog</p>
+                <p>Chó</p>
               </div>
             </div>
             <div className={styles.card}>
               <div className={styles.dogicon}>
                 <img src={cat} alt="" />
-                <p>Cat</p>
+                <p>Mèo</p>
               </div>
             </div>
             <div className={styles.card}>
               <div className={styles.dogicon}>
                 <img src={foot} alt="" />
-                <p>Other Animals</p>
+                <p>Động vật khác</p>
               </div>
             </div>
             <div className={styles.card}>
               <div className={styles.dogicon}>
                 <img src={shelter} alt="" />
-                <p>Shelters & Rescues</p>
+                <p>Nơi ở và cứu hộ</p>
               </div>
             </div>
           </div>
@@ -90,14 +90,14 @@ export default function Feed() {
                 <img src={img2} alt="Pet" />
                 <div className={styles.heart}>❤️</div>
               </div>
-              <p className={styles.littlepeanut}>Little Peanut</p>
+              <p className={styles.littlepeanut}>MiuMiu</p>
             </div>
             <div className={styles.card}>
               <div className={styles.imageContainer}>
                 <img src={img3} alt="" />
                 <div className={styles.heart}>❤️</div>
               </div>
-              <p className={styles.shirley}>Shirley</p>
+              <p className={styles.shirley}>Ken</p>
             </div>
             <div className={styles.card}>
               <div className={styles.imageContainer}>
@@ -105,14 +105,14 @@ export default function Feed() {
                 <img src={img4} alt="" />
                 <div className={styles.heart}>❤️</div>
               </div>
-              <p className={styles.jax}>Jax</p>
+              <p className={styles.jax}>Rô</p>
             </div>
             <div className={styles.card}>
               <div className={styles.imageContainer}>
                 <img src={img5} alt="" />
                 <div className={styles.heart}>❤️</div>
               </div>
-              <p className={styles.simba}>Simba</p>
+              <p className={styles.simba}>So</p>
             </div>
             <div className={styles.card1}>
               <img src={footanimal} alt="" />
@@ -322,7 +322,7 @@ export default function Feed() {
                 className={styles.littlepeanut}
                 style={{ width: "15.5%", marginLeft: "-1px", fontSize: "17px" }}
               >
-                Mr
+                Đen
               </p>
             </div>
             <div className={styles.card}>
@@ -334,7 +334,7 @@ export default function Feed() {
                 className={styles.shirley}
                 style={{ width: "15.5%", marginLeft: "-1px", fontSize: "17px" }}
               >
-                Sam
+                Đốm
               </p>
             </div>
             <div className={styles.card}>
@@ -347,7 +347,7 @@ export default function Feed() {
                 className={styles.jax}
                 style={{ width: "15.5%", marginLeft: "-1px", fontSize: "17px" }}
               >
-                Little Peanut
+                Mực
               </p>
             </div>
             <div className={styles.card}>
@@ -359,7 +359,7 @@ export default function Feed() {
                 className={styles.simba}
                 style={{ width: "15.5%", marginLeft: "-1px", fontSize: "17px" }}
               >
-                Roxie California
+                Ki
               </p>
             </div>
             <div className={styles.card1}>

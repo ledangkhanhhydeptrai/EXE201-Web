@@ -11,7 +11,7 @@ export default function Sidebar1() {
           <img src={img1} alt="Logo" className={styles.imageLogo} />
         </span>
         <span>
-          <h2 className={styles.logo}>Adopt Pet</h2>
+          <h2 className={styles.logo}>Adopt A Pet</h2>
         </span>
         <ul className={styles.navLinks}>
           <li>
