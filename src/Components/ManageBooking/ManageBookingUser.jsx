@@ -222,73 +222,89 @@ const ManageBookingUser = () => {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {currentData.map((booking, index) => (
-                      <TableRow
-                        key={index}
-                        hover
-                        sx={{ cursor: "pointer" }}
-                        onClick={() =>
-                          navigate(`/managebookinguser/${booking.bookinId}`)
-                        }
-                      >
-                        <TableCell>{booking.bookinId}</TableCell>
-                        <TableCell>{booking.serviceName}</TableCell>
-                        <TableCell>
-                          {booking.optinalServiceName ?? "không có"}
-                        </TableCell>
-                        <TableCell>{booking.petName}</TableCell>
-                        <TableCell>{booking.fullName}</TableCell>
-                        <TableCell>{booking.bookingDate}</TableCell>
-                        <TableCell>{booking.startTime}</TableCell>
-                        {/* <TableCell>{booking.endTime}</TableCell> */}
-                        <TableCell>
-                          <Typography
-                            color={
-                              booking.bookingStatus === "PENDING"
-                                ? "warning.main"
-                                : "success.main"
-                            }
+                    {currentData.length === 0 ? (
+                      <TableRow>
+                        <TableCell colSpan={11} align="center">
+                          <div
+                            style={{
+                              padding: "40px 0",
+                              color: "#999",
+                              fontSize: "18px"
+                            }}
                           >
-                            {getBookingStatus(booking.bookingStatus)}
-                          </Typography>
-                        </TableCell>
-                        <TableCell>
-                          {getBookingStatusPaid(booking.bookingStatusPaid)}
-                        </TableCell>
-                        <TableCell>
-                          {booking.bookingStatus === "NOTYET" && (
-                            <button
-                              style={{
-                                backgroundColor: "#1976d2",
-                                color: "white",
-                                padding: "6px 12px",
-                                border: "none",
-                                borderRadius: "4px",
-                                fontSize: "14px",
-                                fontWeight: "500",
-                                cursor: "pointer",
-                                transition:
-                                  "background-color 0.3s ease, transform 0.2s ease"
-                              }}
-                              onMouseOver={(e) =>
-                                (e.target.style.backgroundColor = "#115293")
-                              }
-                              onMouseOut={(e) =>
-                                (e.target.style.backgroundColor = "#1976d2")
-                              }
-                              onMouseDown={(e) =>
-                                (e.target.style.backgroundColor = "#0d3a7d")
-                              }
-                              onMouseUp={(e) =>
-                                (e.target.style.backgroundColor = "#115293")
-                              }
-                            >
-                              Thanh toán
-                            </button>
-                          )}
+                            Không có dữ liệu
+                          </div>
                         </TableCell>
                       </TableRow>
-                    ))}
+                    ) : (
+                      currentData.map((booking, index) => (
+                        <TableRow
+                          key={index}
+                          hover
+                          sx={{ cursor: "pointer" }}
+                          onClick={() =>
+                            navigate(`/managebookinguser/${booking.bookinId}`)
+                          }
+                        >
+                          <TableCell>{booking.bookinId}</TableCell>
+                          <TableCell>{booking.serviceName}</TableCell>
+                          <TableCell>
+                            {booking.optinalServiceName ?? "không có"}
+                          </TableCell>
+                          <TableCell>{booking.petName}</TableCell>
+                          <TableCell>{booking.fullName}</TableCell>
+                          <TableCell>{booking.bookingDate}</TableCell>
+                          <TableCell>{booking.startTime}</TableCell>
+                          {/* <TableCell>{booking.endTime}</TableCell> */}
+                          <TableCell>
+                            <Typography
+                              color={
+                                booking.bookingStatus === "PENDING"
+                                  ? "warning.main"
+                                  : "success.main"
+                              }
+                            >
+                              {getBookingStatus(booking.bookingStatus)}
+                            </Typography>
+                          </TableCell>
+                          <TableCell>
+                            {getBookingStatusPaid(booking.bookingStatusPaid)}
+                          </TableCell>
+                          <TableCell>
+                            {booking.bookingStatus === "NOTYET" && (
+                              <button
+                                style={{
+                                  backgroundColor: "#1976d2",
+                                  color: "white",
+                                  padding: "6px 12px",
+                                  border: "none",
+                                  borderRadius: "4px",
+                                  fontSize: "14px",
+                                  fontWeight: "500",
+                                  cursor: "pointer",
+                                  transition:
+                                    "background-color 0.3s ease, transform 0.2s ease"
+                                }}
+                                onMouseOver={(e) =>
+                                  (e.target.style.backgroundColor = "#115293")
+                                }
+                                onMouseOut={(e) =>
+                                  (e.target.style.backgroundColor = "#1976d2")
+                                }
+                                onMouseDown={(e) =>
+                                  (e.target.style.backgroundColor = "#0d3a7d")
+                                }
+                                onMouseUp={(e) =>
+                                  (e.target.style.backgroundColor = "#115293")
+                                }
+                              >
+                                Thanh toán
+                              </button>
+                            )}
+                          </TableCell>
+                        </TableRow>
+                      ))
+                    )}
                   </TableBody>
                 </Table>
               </TableContainer>
