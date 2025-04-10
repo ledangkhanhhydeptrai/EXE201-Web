@@ -15,11 +15,7 @@ import {
   MenuItem,
   Button,
   Pagination,
-  TextField,
-  DialogActions,
-  DialogTitle,
-  Dialog,
-  DialogContent
+  TextField
 } from "@mui/material";
 import styles from "./ManageBooking.module.scss";
 import Sidebar from "../Sidebar/Sidebar";
@@ -32,10 +28,8 @@ const ManageBooking = () => {
   const [bookingStatus, setBookingStatus] = useState("");
   const [bookingStatusPaid, setBookingStatusPaid] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [open, setOpen] = useState(false);
   const itemsPerPage = 10;
   const API_URL = import.meta.env.VITE_API_BASE_URL;
-  const [selectedBookingId, setSelectedBookingId] = useState(null);
   // bảng admin tất cả chuyển sang tiếng việt
   // active thì đổi true thành đang hoạt động, false thì không hoạt động
   //
@@ -67,12 +61,6 @@ const ManageBooking = () => {
         return "Không xác định";
     }
   };
-  const handleOpen = (bookingId) => {
-    setSelectedBookingId(bookingId);
-    setOpen(true);
-  };
-
-  const handleClose = () => setOpen(false);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const fetchAllBookings = useCallback(async () => {
     try {
@@ -139,20 +127,6 @@ const ManageBooking = () => {
     const paginatedData = data.slice(startIndex, startIndex + itemsPerPage);
     setCurrentData(paginatedData);
   }, [currentPage, data]);
-  const handleUpdate = async () => {
-    try {
-      const response = await axios.put(
-        `${API_URL}/booking/v1/setBookingStatusForAdminAndStaff`,
-        {
-          bookingId: selectedBookingId,
-          bookingStatus: bookingStatus
-        }
-      );
-      console.log("Update success:", response.data.data);
-    } catch (error) {
-      console.error("Update failed:", error.response?.data || error.message);
-    }
-  };
 
   return (
     <>
@@ -305,11 +279,7 @@ const ManageBooking = () => {
                       <Button
                         variant="contained"
                         color="primary"
-                        sx={{ fontSize: "0.75rem", width: "95px" }}
-                        onClick={() => {
-                          setSelectedBookingId(row.bookingId); // <-- lấy bookingId từ row
-                          handleOpen(); // mở popup
-                        }}
+                        sx={{ fontSize: "0.75rem", width: "95px" }} // chỉnh cỡ chữ nhỏ hơn
                       >
                         Cập nhật
                       </Button>
@@ -320,33 +290,6 @@ const ManageBooking = () => {
             </TableBody>
           </Table>
         </TableContainer>
-        <Dialog open={open} onClose={handleClose}>
-          <DialogTitle>Cập nhật trạng thái</DialogTitle>
-          <DialogContent>
-            <div style={{ marginBottom: "16px", fontSize: "14px" }}>
-              <strong>Booking ID:</strong> {selectedBookingId}
-            </div>
-            <FormControl fullWidth sx={{ mt: 2 }}>
-              <InputLabel id="status-label">Trạng thái</InputLabel>
-              <Select
-                labelId="status-label"
-                value={bookingStatus}
-                label="Trạng thái"
-                onChange={(e) => setBookingStatus(e.target.value)}
-              >
-                <MenuItem value="INPROGRESS">INPROGRESS</MenuItem>
-                <MenuItem value="COMPLETED">COMPLETED</MenuItem>
-              </Select>
-            </FormControl>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleClose}>Hủy</Button>
-            <Button variant="contained" onClick={handleUpdate}>
-              Xác nhận
-            </Button>
-          </DialogActions>
-        </Dialog>
-
         <div className={styles.pagination}>
           <Pagination
             count={Math.ceil(data.length / itemsPerPage)}
