@@ -16,7 +16,8 @@ import {
   FormControl,
   Select,
   MenuItem,
-  Pagination
+  Pagination,
+  Button
 } from "@mui/material";
 import Header from "../../Header/Header";
 import styles from "./ManageBooking.module.scss";
@@ -25,7 +26,7 @@ import Loading from "../Loading/Loading";
 const ManageBookingUser = () => {
   const [data, setData] = useState([]);
   const [currentData, setCurrentData] = useState([]);
-  const [bookingDate, setBookingDate] = useState("");
+  const [bookDate, setBookDate] = useState("");
   const [bookingStatus, setBookingStatus] = useState("");
   const [bookingStatusPaid, setBookingStatusPaid] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
@@ -37,9 +38,11 @@ const ManageBookingUser = () => {
     switch (status) {
       case "NOTYET":
         return "Chưa diễn ra";
-      case "PENDING":
+      case "INPROGRESS":
         return "Đang diễn ra";
-      case "COMPLETE":
+      case "PENDING":
+        return "Đang chờ";
+      case "COMPLETED":
         return "Hoàn thành";
       case "CANCELLED":
         return "Đã hủy";
@@ -49,12 +52,12 @@ const ManageBookingUser = () => {
   };
   const getBookingStatusPaid = (status) => {
     switch (status) {
-      case "UNPAID":
-        return "Chưa thanh toán";
-      case "DEPOSIT":
-        return "Đặt cọc";
       case "PAIDALL":
         return "Thanh toán toàn bộ";
+      case "DEPOSIT":
+        return "Đặt cọc";
+      case "UNPAID":
+        return "Chưa thanh toán";
       case "FAILED":
         return "Thanh toán thất bại";
       default:
@@ -85,7 +88,7 @@ const ManageBookingUser = () => {
   };
   const fetchFilteredBookings = useCallback(async () => {
     const params = {};
-    if (bookingDate) params.bookingDate = bookingDate;
+    if (bookDate) params.bookingDate = bookDate;
     if (bookingStatus) params.bookingStatus = bookingStatus;
     if (bookingStatusPaid) params.bookingStatusPaid = bookingStatusPaid;
     console.log("🔥 Params lọc booking gửi đi:", params);
@@ -101,39 +104,36 @@ const ManageBookingUser = () => {
         }
       );
       const bookings = response.data.data || [];
-      // const filtered = bookings.filter((booking) => {
-      //   const matchDate = bookingDate
-      //     ? booking.transactionDateTime.includes(bookingDate)
-      //     : true;
-      //   const matchStatus = bookingStatus
-      //     ? booking.status === bookingStatus
-      //     : true;
-      //   const matchStatusPaid = bookingStatusPaid
-      //     ? booking.bookingStatusPaid === bookingStatusPaid
-      //     : true;
-      //   return matchDate && matchStatus && matchStatusPaid;
-      // });
-      // setData(filtered);
+      const filtered = bookings.filter((booking) => {
+        const matchDate = bookDate
+          ? booking.bookingDate?.startsWith(bookDate)
+          : true;
+        const matchStatus = bookingStatus
+          ? booking.status === bookingStatus
+          : true;
+        const matchStatusPaid = bookingStatusPaid
+          ? booking.bookingStatusPaid === bookingStatusPaid
+          : true;
+        return matchDate && matchStatus && matchStatusPaid;
+      });
+      setData(filtered);
       setCurrentData(response.data.data.slice(0, itemsPerPage));
-      // if (filtered.length > 0) {
-      //   console.log("Không có dữ liệu phù hợp");
-      // }
+      if (filtered.length > 0) {
+        console.log("Không có dữ liệu phù hợp");
+      }
     } catch (error) {
       console.error("Lỗi khi lọc danh sách booking:", error);
     }
-  }, [bookingDate, bookingStatus, bookingStatusPaid]);
+  }, [bookDate, bookingStatus, bookingStatusPaid]);
   useEffect(() => {
     fetchAllBookings();
   }, []);
-  useEffect(() => {
-    fetchFilteredBookings();
-  }, [fetchFilteredBookings]);
   useEffect(() => {
     const startIndex = (currentPage - 1) * itemsPerPage;
     const paginatedData = data.slice(startIndex, startIndex + itemsPerPage);
     setCurrentData(paginatedData);
   }, [currentPage, data]);
-  console.log({currentData});
+  console.log({ currentData });
   return (
     <>
       {loading ? (
@@ -150,8 +150,8 @@ const ManageBookingUser = () => {
                 <TextField
                   label="Ngày đặt chỗ"
                   type="date"
-                  value={bookingDate}
-                  onChange={(e) => setBookingDate(e.target.value)}
+                  value={bookDate}
+                  onChange={(e) => setBookDate(e.target.value)}
                   className={styles.datePicker}
                   InputLabelProps={{ shrink: true }}
                 />
@@ -181,6 +181,16 @@ const ManageBookingUser = () => {
                     <MenuItem value="FAILED">Thanh toán thất bại</MenuItem>
                   </Select>
                 </FormControl>
+                <div className={styles.buttonWrapper}>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={fetchFilteredBookings}
+                    className={styles.filterButton}
+                  >
+                    Lọc
+                  </Button>
+                </div>
               </div>
               <TableContainer component={Paper} sx={{ boxShadow: 3 }}>
                 <Table>

@@ -11,12 +11,20 @@ import {
   Paper,
   Button,
   Pagination,
-  TextField
+  TextField,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  DialogActions
 } from "@mui/material";
 import styles from "./ManageBooking.module.scss";
 import Sidebar1 from "../Sidebar/Sidebar1";
 import Header1 from "../HeaderAdmin/Header1";
-
+import { UilBookmark } from "@iconscout/react-unicons";
 const ManageBooking1 = () => {
   const navigate = useNavigate();
   const [data, setData] = useState([]);
@@ -25,14 +33,27 @@ const ManageBooking1 = () => {
   // const [bookingStatus, setBookingStatus] = useState("");
   // const [bookingStatusPaid, setBookingStatusPaid] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
+  const [selectedBookingId, setSelectedBookingId] = useState(null);
+  const [bookingStatus, setBookingStatus] = useState("INPROGRESS");
+  const [open, setOpen] = useState(false);
   const API_URL = import.meta.env.VITE_API_BASE_URL;
   const itemsPerPage = 10;
+  const handleClose = () => {
+    setOpen(false);
+  };
+  const handleOpen = (id) => {
+    setSelectedBookingId(id);
+    setBookingStatus(""); // Reset trạng thái nếu cần
+    setOpen(true);
+  };
   const getBookingStatus = (status) => {
     switch (status) {
       case "NOTYET":
         return "Chưa diễn ra";
-      case "PENDING":
+      case "INPROGRESS":
         return "Đang diễn ra";
+      case "PENDING":
+        return "Đang chờ";
       case "COMPLETED":
         return "Hoàn thành";
       case "CANCELLED":
@@ -91,14 +112,45 @@ const ManageBooking1 = () => {
     fetchAllBookings();
   }, []);
   useEffect(() => {
-    fetchFilteredBookings();
-  }, [fetchFilteredBookings]);
-  useEffect(() => {
     const startIndex = (currentPage - 1) * itemsPerPage;
     const paginatedData = data.slice(startIndex, startIndex + itemsPerPage);
     setCurrentData(paginatedData);
   }, [currentPage, data]);
+  const handleUpdate = async () => {
+    if (!selectedBookingId || !bookingStatus) {
+      console.warn("Thiếu bookingId hoặc bookingStatus");
+      return;
+    }
 
+    console.log("Selected bookingId:", selectedBookingId);
+    console.log("Booking Status:", bookingStatus);
+
+    const url = `${API_URL}/booking/v1/setBookingStatusForAdminAndStaff`;
+    const params = {
+      bookingId: selectedBookingId,
+      bookingStatus: bookingStatus
+    };
+
+    console.log("Gửi request đến:", url);
+    console.log("Với params:", params);
+
+    try {
+      const response = await axios.put(
+        url,
+        null, // PUT request không có body, chỉ dùng params
+        {
+          params
+        }
+      );
+
+      console.log("Cập nhật thành công:", response.data.data);
+      console.log("Trạng thái trả về:", response.data.data.bookingStatus);
+      handleClose();
+      window.location.reload();
+    } catch (error) {
+      console.error("Lỗi khi cập nhật:", error.response?.data || error.message);
+    }
+  };
   return (
     <>
       <Sidebar1 />
@@ -137,6 +189,16 @@ const ManageBooking1 = () => {
               <MenuItem value="FAILED">Thanh toán thất bại</MenuItem>
             </Select>
           </FormControl> */}
+          <div className={styles.buttonWrapper}>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={fetchFilteredBookings}
+              className={styles.filterButton}
+            >
+              Lọc
+            </Button>
+          </div>
         </div>
         <TableContainer component={Paper} className={styles.tableContainer}>
           <Table className={styles.table} aria-label="user table">
@@ -144,40 +206,43 @@ const ManageBooking1 = () => {
               <TableRow className={styles.tableHead}>
                 <TableCell className={styles.tableCell}>Booking ID</TableCell>
                 <TableCell className={styles.tableCell} align="center">
-                  Service Name
+                  Tên dịch vụ
                 </TableCell>
                 <TableCell className={styles.tableCell} align="center">
-                  Optional Service Name
+                  Tên dịch vụ phụ{" "}
                 </TableCell>
                 <TableCell className={styles.tableCell} align="center">
-                  Pet Name
+                  Tên thú cưng
                 </TableCell>
                 <TableCell className={styles.tableCell} align="center">
-                  Full Name
+                  Tên đầy đủ
                 </TableCell>
                 <TableCell className={styles.tableCell} align="center">
-                  Booking Date
+                  Ngày đặt lịch
                 </TableCell>
                 <TableCell className={styles.tableCell} align="center">
-                  Start Time
+                  Thời gian bắt đầu
+                </TableCell>
+                {/* <TableCell className={styles.tableCell} align="center">
+                  Thời gian kết thúc
+                </TableCell> */}
+                <TableCell className={styles.tableCell} align="center">
+                  Ngày kết thúc
                 </TableCell>
                 <TableCell className={styles.tableCell} align="center">
-                  End Time
+                  Tổng tiền
                 </TableCell>
                 <TableCell className={styles.tableCell} align="center">
-                  End Date
+                  Trạng thái đặt lịch
                 </TableCell>
                 <TableCell className={styles.tableCell} align="center">
-                  Total Amount
-                </TableCell>
-                <TableCell className={styles.tableCell} align="center">
-                  Booking Status
-                </TableCell>
-                <TableCell className={styles.tableCell} align="center">
-                  Booking Status Paid
+                  Trạng thái đặt lịch thanh toán
                 </TableCell>
                 <TableCell align="center" className={styles.tableCell}>
-                  Detail
+                  Chi tiết
+                </TableCell>
+                <TableCell align="center" className={styles.tableCell}>
+                  Cập nhật
                 </TableCell>
               </TableRow>
             </TableHead>
@@ -187,15 +252,15 @@ const ManageBooking1 = () => {
                   <TableCell align="center">{row.bookinId}</TableCell>
                   <TableCell align="center">{row.serviceName}</TableCell>
                   <TableCell align="center">
-                    {row.optionalServiceName}
+                    {row.optinalServiceName || "Không có"}
                   </TableCell>
                   <TableCell align="center">{row.petName}</TableCell>
                   <TableCell align="center">{row.fullName}</TableCell>
                   <TableCell align="center">{row.bookingDate}</TableCell>
                   <TableCell align="center">{row.startTime}</TableCell>
-                  <TableCell align="center">{row.endTime}</TableCell>
+                  {/* <TableCell align="center">{row.endTime}</TableCell> */}
                   <TableCell align="center">{row.endDate}</TableCell>
-                  <TableCell align="center">{row.totalAmount}</TableCell>
+                  <TableCell align="center">{row.totalAmmount}</TableCell>
                   <TableCell align="center">
                     {getBookingStatus(row.bookingStatus)}
                   </TableCell>
@@ -211,11 +276,51 @@ const ManageBooking1 = () => {
                       Detail
                     </Button>
                   </TableCell>
+                  <TableCell align="center">
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      sx={{ fontSize: "0.75rem", width: "95px" }} // chỉnh cỡ chữ nhỏ hơn
+                      onClick={() => handleOpen(row.bookinId)}
+                    >
+                      Cập nhật
+                    </Button>
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
           </Table>
         </TableContainer>
+        <Dialog open={open} onClose={handleClose}>
+          <DialogTitle>Cập nhật trạng thái Booking</DialogTitle>
+          <DialogContent>
+            <div className={styles.bookingInfo}>
+              <UilBookmark className={styles.icon} />
+              <span className={styles.label}>Booking ID:</span>
+              <span className={styles.id}>{selectedBookingId}</span>
+            </div>
+            <FormControl fullWidth>
+              <InputLabel id="booking-status-label">Trạng thái</InputLabel>
+              <Select
+                value={bookingStatus}
+                onChange={(e) => {
+                  console.log("Selected:", e.target.value);
+                  setBookingStatus(e.target.value);
+                }}
+                label="Trạng thái"
+              >
+                <MenuItem value="INPROGRESS">Đang diễn ra</MenuItem>
+                <MenuItem value="COMPLETED">Hoàn thành</MenuItem>
+              </Select>
+            </FormControl>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose}>Hủy</Button>
+            <Button onClick={handleUpdate} variant="contained" color="primary">
+              Cập nhật
+            </Button>
+          </DialogActions>
+        </Dialog>
         <div className={styles.pagination}>
           <Pagination
             count={Math.ceil(data.length / itemsPerPage)}

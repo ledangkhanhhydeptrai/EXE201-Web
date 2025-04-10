@@ -73,6 +73,9 @@ export default function ManageUser() {
                   Username
                 </TableCell>
                 <TableCell className={styles.tableCell} align="center">
+                  Họ và Tên
+                </TableCell>
+                <TableCell className={styles.tableCell} align="center">
                   Email
                 </TableCell>
                 <TableCell className={styles.tableCell} align="center">
@@ -99,6 +102,7 @@ export default function ManageUser() {
                     {row.userId}
                   </TableCell>
                   <TableCell align="center">{row.userName}</TableCell>
+                  <TableCell align="center">{row.fulName}</TableCell>
                   <TableCell align="center">{row.email}</TableCell>
                   <TableCell align="center">{row.phone}</TableCell>
                   <TableCell align="center">{row.address}</TableCell>
