@@ -122,34 +122,40 @@ const ManageBooking1 = () => {
       return;
     }
 
-    console.log("Selected bookingId:", selectedBookingId);
-    console.log("Booking Status:", bookingStatus);
-
     const url = `${API_URL}/booking/v1/setBookingStatusForAdminAndStaff`;
     const params = {
       bookingId: selectedBookingId,
       bookingStatus: bookingStatus
     };
 
-    console.log("Gửi request đến:", url);
-    console.log("Với params:", params);
-
     try {
-      const response = await axios.put(
-        url,
-        null, // PUT request không có body, chỉ dùng params
-        {
-          params
-        }
-      );
+      const response = await axios.put(url, null, { params });
 
-      console.log("Cập nhật thành công:", response.data.data);
-      console.log("Trạng thái trả về:", response.data.data.bookingStatus);
+      const updatedBooking = response?.data?.data;
+
+      if (!updatedBooking || !updatedBooking.bookingStatus) {
+        alert("Lỗi: Không nhận được trạng thái từ server.");
+        console.error("Phản hồi không hợp lệ:", response.data);
+        return;
+      }
+
+      if (updatedBooking.bookingStatus !== bookingStatus) {
+        alert(
+          `Lỗi: Trạng thái trả về (${updatedBooking.bookingStatus}) không khớp với trạng thái gửi lên (${bookingStatus}).`
+        );
+        return;
+      }
+
+      alert("Cập nhật trạng thái thành công!");
       handleClose();
       window.location.reload();
-      alert("Cập nhật trạng thái thành công!");
     } catch (error) {
-      console.error("Lỗi khi cập nhật:", error.response?.data || error.message);
+      const message =
+        error.response?.data?.message ||
+        "Đã xảy ra lỗi không xác định khi cập nhật.";
+
+      console.error("Lỗi khi cập nhật:", message);
+      alert(message);
     }
   };
   return (
