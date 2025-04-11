@@ -25,6 +25,7 @@ import Footer from "../Footer/Footer";
 import axios from "axios";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { useEffect } from "react";
+import { message } from "antd";
 export default function Homepage() {
   const [searchParams] = useSearchParams();
 
@@ -58,9 +59,9 @@ export default function Homepage() {
           const data = axios.get(
             `https://bookingpetservice.onrender.com/api/payment/order?orderCode=${params.orderCode}`
           );
-          alert("Thanh toán thành công");
+          message.success("Thanh toán thành công");
         } else {
-          alert("Thanh toán không thành công");
+          message.error("Thanh toán không thành công");
           const data = await axios.get(
             `https://bookingpetservice.onrender.com/api/payment/cancel?orderCode=${params.orderCode}`
           );
