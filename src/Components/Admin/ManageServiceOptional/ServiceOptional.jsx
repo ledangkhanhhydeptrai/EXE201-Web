@@ -410,71 +410,79 @@ const ServiceOptional = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {currentData.map((row, index) => (
-                <TableRow
-                  key={index}
-                  sx={{
-                    "&:last-child td, &:last-child th": { border: 0 },
-                    "&:hover": {
-                      backgroundColor: "#ffe6ea",
-                      cursor: "pointer"
-                    }
-                  }}
-                >
-                  <TableCell component="th" scope="row">
-                    {row.serviceId}
-                  </TableCell>
-                  <TableCell align="center">{row.serviceName}</TableCell>
-                  <TableCell align="center">{row.description}</TableCell>
-                  <TableCell align="center">{row.price}</TableCell>
-                  <TableCell align="center">
-                    <div
-                      style={{
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center"
-                      }}
-                    >
-                      <img
-                        src={`${row.imageServiceBase64}?t=${Date.now()}`}
-                        alt="Service"
-                        style={{
-                          width: "50px",
-                          height: "50px",
-                          objectFit: "cover",
-                          borderRadius: "8px"
-                        }}
-                      />
-                    </div>
-                  </TableCell>
-                  <TableCell align="center">
-                    {row.active ? "Đang hoạt dộng" : "Không hoat động"}
-                  </TableCell>
-                  <TableCell align="center">
-                    <button
-                      onClick={() => handleOpen(row)}
-                      style={{ fontSize: "0.8rem", width: "90px" }}
-                    >
-                      Cập nhật
-                    </button>
-                  </TableCell>
-                  <TableCell align="center">
-                    <button onClick={() => handleDelete(row.serviceId)}>
-                      Xóa
-                    </button>
-                  </TableCell>
-                  <TableCell align="center">
-                    <Button
-                      onClick={() =>
-                        navigate(`/serviceoptional/${row.serviceId}`)
-                      }
-                      sx={{ fontSize: "0.75rem", width: "84px" }}
-                    >
-                      Chi tiết
-                    </Button>
+              {currentData.length === 0 ? (
+                <TableRow>
+                  <TableCell colSpan={9} align="center">
+                    Không có dữ liệu
                   </TableCell>
                 </TableRow>
-              ))}
+              ) : (
+                currentData.map((row, index) => (
+                  <TableRow
+                    key={index}
+                    sx={{
+                      "&:last-child td, &:last-child th": { border: 0 },
+                      "&:hover": {
+                        backgroundColor: "#ffe6ea",
+                        cursor: "pointer"
+                      }
+                    }}
+                  >
+                    <TableCell component="th" scope="row">
+                      {row.serviceId}
+                    </TableCell>
+                    <TableCell align="center">{row.serviceName}</TableCell>
+                    <TableCell align="center">{row.description}</TableCell>
+                    <TableCell align="center">{row.price}</TableCell>
+                    <TableCell align="center">
+                      <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center"
+                        }}
+                      >
+                        <img
+                          src={`${row.imageServiceBase64}?t=${Date.now()}`}
+                          alt="Service"
+                          style={{
+                            width: "50px",
+                            height: "50px",
+                            objectFit: "cover",
+                            borderRadius: "8px"
+                          }}
+                        />
+                      </div>
+                    </TableCell>
+                    <TableCell align="center">
+                      {row.active ? "Đang hoạt dộng" : "Không hoat động"}
+                    </TableCell>
+                    <TableCell align="center">
+                      <button
+                        onClick={() => handleOpen(row)}
+                        style={{ fontSize: "0.8rem", width: "90px" }}
+                      >
+                        Cập nhật
+                      </button>
+                    </TableCell>
+                    <TableCell align="center">
+                      <button onClick={() => handleDelete(row.serviceId)}>
+                        Xóa
+                      </button>
+                    </TableCell>
+                    <TableCell align="center">
+                      <Button
+                        onClick={() =>
+                          navigate(`/serviceoptional/${row.serviceId}`)
+                        }
+                        sx={{ fontSize: "0.75rem", width: "84px" }}
+                      >
+                        Chi tiết
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                ))
+              )}
             </TableBody>
           </Table>
         </TableContainer>
