@@ -96,43 +96,53 @@ export default function ManageUser() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {currentData.map((row, index) => (
-                <TableRow key={index} className={styles.tableRow}>
-                  <TableCell component="th" scope="row" align="center">
-                    {row.userId}
-                  </TableCell>
-                  <TableCell align="center">{row.userName}</TableCell>
-                  <TableCell align="center">{row.fulName}</TableCell>
-                  <TableCell align="center">{row.email}</TableCell>
-                  <TableCell align="center">{row.phone}</TableCell>
-                  <TableCell align="center">{row.address}</TableCell>
-                  <TableCell align="center">
-                    <span
-                      className={
-                        row.active ? styles.activeStatus : styles.bannedStatus
-                      }
-                    >
-                      {row.active ? "Đang hoạt động" : "Bị cấm"}
-                    </span>
-                  </TableCell>
-                  <TableCell align="center">
-                    <img
-                      src={row.avatarBase64}
-                      alt="Avatar"
-                      className={styles.avatar}
-                    />
-                  </TableCell>
-                  <TableCell align="center">
-                    <Button
-                      variant="contained"
-                      color={row.active ? "error" : "success"}
-                      onClick={() => handleToggleStatus(row.userId, row.active)}
-                    >
-                      {row.active ? "Ban" : "Unban"}
-                    </Button>
+              {currentData.length === 0 ? (
+                <TableRow>
+                  <TableCell colSpan={9} align="center">
+                    Không có dữ liệu
                   </TableCell>
                 </TableRow>
-              ))}
+              ) : (
+                currentData.map((row, index) => (
+                  <TableRow key={index} className={styles.tableRow}>
+                    <TableCell component="th" scope="row" align="center">
+                      {row.userId}
+                    </TableCell>
+                    <TableCell align="center">{row.userName}</TableCell>
+                    <TableCell align="center">{row.fulName}</TableCell>
+                    <TableCell align="center">{row.email}</TableCell>
+                    <TableCell align="center">{row.phone}</TableCell>
+                    <TableCell align="center">{row.address}</TableCell>
+                    <TableCell align="center">
+                      <span
+                        className={
+                          row.active ? styles.activeStatus : styles.bannedStatus
+                        }
+                      >
+                        {row.active ? "Đang hoạt động" : "Bị cấm"}
+                      </span>
+                    </TableCell>
+                    <TableCell align="center">
+                      <img
+                        src={row.avatarBase64}
+                        alt="Avatar"
+                        className={styles.avatar}
+                      />
+                    </TableCell>
+                    <TableCell align="center">
+                      <Button
+                        variant="contained"
+                        color={row.active ? "error" : "success"}
+                        onClick={() =>
+                          handleToggleStatus(row.userId, row.active)
+                        }
+                      >
+                        {row.active ? "Ban" : "Unban"}
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                ))
+              )}
             </TableBody>
           </Table>
         </TableContainer>
