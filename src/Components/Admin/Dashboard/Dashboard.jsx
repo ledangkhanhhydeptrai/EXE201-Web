@@ -30,6 +30,8 @@ export default function Dashboard() {
   const [currentData, setCurrentData] = useState([]);
   const [noData, setNoData] = useState(false);
   const navigate = useNavigate();
+  console.log("currentData:", currentData);
+  console.log("noData:", noData);
   const handleStatus = (booking) => {
     switch (booking) {
       case "PAIDALL":
@@ -53,6 +55,7 @@ export default function Dashboard() {
       if (response.status >= 200 && response.status < 300) {
         const sortedData = response.data.data.sort((a, b) => a.id - b.id);
         setData(sortedData);
+        setNoData(sortedData.length === 0);
       }
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -80,7 +83,7 @@ export default function Dashboard() {
       });
       setData(filtered);
       setNoData(filtered.length === 0);
-      if (filtered.length > 0) {
+      if (filtered.length === 0) {
         console.log("Không có dữ liệu phù hợp");
       }
     } catch (error) {
@@ -102,6 +105,7 @@ export default function Dashboard() {
     const startIndex = (currentPage - 1) * itemsPerPage;
     const paginatedData = data.slice(startIndex, startIndex + itemsPerPage);
     setCurrentData(paginatedData);
+    setNoData(paginatedData.length === 0);
   }, [currentPage, data]);
   return (
     <>
