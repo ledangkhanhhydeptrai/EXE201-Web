@@ -221,9 +221,9 @@ const ManageBooking1 = () => {
                 <TableCell className={styles.tableCell} align="center">
                   Tên thú cưng
                 </TableCell>
-                <TableCell className={styles.tableCell} align="center">
+                {/* <TableCell className={styles.tableCell} align="center">
                   Tên đầy đủ
-                </TableCell>
+                </TableCell> */}
                 <TableCell className={styles.tableCell} align="center">
                   Ngày đặt lịch
                 </TableCell>
@@ -262,7 +262,7 @@ const ManageBooking1 = () => {
                     {row.optinalServiceName || "Không có"}
                   </TableCell>
                   <TableCell align="center">{row.petName}</TableCell>
-                  <TableCell align="center">{row.fullName}</TableCell>
+                  {/* <TableCell align="center">{row.fullName}</TableCell> */}
                   <TableCell align="center">{row.bookingDate}</TableCell>
                   <TableCell align="center">{row.startTime}</TableCell>
                   {/* <TableCell align="center">{row.endTime}</TableCell> */}

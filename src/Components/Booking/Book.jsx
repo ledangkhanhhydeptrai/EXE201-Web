@@ -344,7 +344,7 @@ const Book = () => {
                                 <div>
                                   <h4>{pet.petName}</h4>
                                   <p>Id: {pet.petId}</p>
-                                  <p>Tuổi: {pet.age} năm</p>
+                                  <p>Tuổi: {pet.age} tháng</p>
                                   <p>Giới tính: {pet.petGenderEnum}</p>
                                   <p>Loại: {pet.petTypeEnum}</p>
                                   <p>Ghi chú: {pet.notes}</p>
@@ -377,7 +377,7 @@ const Book = () => {
                                 <strong>Tên:</strong> {selectedPet.petName}
                               </p>
                               <p>
-                                <strong>Tuổi:</strong> {selectedPet.age} năm
+                                <strong>Tuổi:</strong> {selectedPet.age} tháng
                               </p>
                               <p>
                                 <strong>Giới tính:</strong>{" "}
