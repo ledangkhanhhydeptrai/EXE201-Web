@@ -244,7 +244,7 @@ const ManageBooking = () => {
           <Table className={styles.table} aria-label="user table">
             <TableHead>
               <TableRow className={styles.tableHead}>
-                <TableCell className={styles.tableCell}>Booking ID</TableCell>
+                {/* <TableCell className={styles.tableCell}>Booking ID</TableCell> */}
                 <TableCell className={styles.tableCell} align="center">
                   Tên Dịch Vụ
                 </TableCell>
@@ -304,7 +304,7 @@ const ManageBooking = () => {
               ) : (
                 currentData.map((row, index) => (
                   <TableRow key={index} className={styles.tableRow}>
-                    <TableCell align="center">{row.bookinId}</TableCell>
+                    {/* <TableCell align="center">{row.bookinId}</TableCell> */}
                     <TableCell align="center">{row.serviceName}</TableCell>
                     <TableCell align="center">
                       {row.optinalServiceName || "Không có dịch vụ phụ"}

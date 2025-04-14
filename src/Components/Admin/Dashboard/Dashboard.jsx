@@ -141,14 +141,14 @@ export default function Dashboard() {
           <Table className={styles.table} aria-label="user table">
             <TableHead>
               <TableRow className={styles.tableHead}>
-                <TableCell className={styles.tableCell} align="center">
+                {/* <TableCell className={styles.tableCell} align="center">
                   Id
+                </TableCell> */}
+                <TableCell className={styles.tableCell} align="center">
+                  Tổng tiền
                 </TableCell>
                 <TableCell className={styles.tableCell} align="center">
-                  Số lượng
-                </TableCell>
-                <TableCell className={styles.tableCell} align="center">
-                  Số lượng đã thanh toán
+                  Số tiền đã thanh toán
                 </TableCell>
                 <TableCell className={styles.tableCell} align="center">
                   Số tiền còn lại
@@ -192,7 +192,7 @@ export default function Dashboard() {
                     className={styles.tableRow}
                     onClick={() => navigate(`/dashboard/${row.id}`)}
                   >
-                    <TableCell align="center">{row.id}</TableCell>
+                    {/* <TableCell align="center">{row.id}</TableCell> */}
                     <TableCell align="center">{row.amount}</TableCell>
                     <TableCell align="center">{row.amountPaid}</TableCell>
                     <TableCell align="center">{row.amountRemaining}</TableCell>

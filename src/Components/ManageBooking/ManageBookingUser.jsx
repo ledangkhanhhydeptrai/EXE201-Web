@@ -201,9 +201,9 @@ const ManageBookingUser = () => {
                 <Table>
                   <TableHead>
                     <TableRow sx={{ backgroundColor: "#f5f5f5" }}>
-                      <TableCell>
+                      {/* <TableCell>
                         <strong>ID</strong>
-                      </TableCell>
+                      </TableCell> */}
                       <TableCell>
                         <strong>Dịch vụ</strong>
                       </TableCell>
@@ -261,7 +261,7 @@ const ManageBookingUser = () => {
                             navigate(`/managebookinguser/${booking.bookinId}`)
                           }
                         >
-                          <TableCell>{booking.bookinId}</TableCell>
+                          {/* <TableCell>{booking.bookinId}</TableCell> */}
                           <TableCell>{booking.serviceName}</TableCell>
                           <TableCell>
                             {booking.optinalServiceName ?? "không có"}
