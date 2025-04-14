@@ -356,9 +356,9 @@ const ServiceOptional = () => {
           <Table sx={{ minWidth: 650 }} aria-label="service table">
             <TableHead>
               <TableRow sx={{ backgroundColor: "#f50057" }}>
-                <TableCell sx={{ color: "#fff", fontWeight: "bold" }}>
+                {/* <TableCell sx={{ color: "#fff", fontWeight: "bold" }}>
                   Service ID
-                </TableCell>
+                </TableCell> */}
                 <TableCell
                   sx={{ color: "#fff", fontWeight: "bold" }}
                   align="center"
@@ -428,9 +428,9 @@ const ServiceOptional = () => {
                       }
                     }}
                   >
-                    <TableCell component="th" scope="row">
+                    {/* <TableCell component="th" scope="row">
                       {row.serviceId}
-                    </TableCell>
+                    </TableCell> */}
                     <TableCell align="center">{row.serviceName}</TableCell>
                     <TableCell align="center">{row.description}</TableCell>
                     <TableCell align="center">{row.price}</TableCell>

@@ -66,9 +66,9 @@ export default function ManageUser() {
           <Table className={styles.table} aria-label="user table">
             <TableHead>
               <TableRow className={styles.tableHead}>
-                <TableCell className={styles.tableCell} align="center">
+                {/* <TableCell className={styles.tableCell} align="center">
                   userId
-                </TableCell>
+                </TableCell> */}
                 <TableCell className={styles.tableCell} align="center">
                   Tên tài khoản
                 </TableCell>
@@ -105,9 +105,9 @@ export default function ManageUser() {
               ) : (
                 currentData.map((row, index) => (
                   <TableRow key={index} className={styles.tableRow}>
-                    <TableCell component="th" scope="row" align="center">
+                    {/* <TableCell component="th" scope="row" align="center">
                       {row.userId}
-                    </TableCell>
+                    </TableCell> */}
                     <TableCell align="center">{row.userName}</TableCell>
                     <TableCell align="center">{row.fulName}</TableCell>
                     <TableCell align="center">{row.email}</TableCell>

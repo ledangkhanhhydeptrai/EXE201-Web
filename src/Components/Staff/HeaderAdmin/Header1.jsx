@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import styles from "./Header.module.scss";
+import { useNavigate } from "react-router-dom";
 
 export default function Header1() {
   const [isDropdownVisible, setDropdownVisible] = useState(false);
   const [user, setUser] = useState(null);
+  const navigate = useNavigate();
   useEffect(() => {
     const storedToken = localStorage.getItem("jwt");
     const storedUsername = localStorage.getItem("username");
@@ -17,11 +19,15 @@ export default function Header1() {
   const toggleDropdown = () => {
     setDropdownVisible(!isDropdownVisible);
   };
-
+  const handleNavigate = () => {
+    navigate("/profilestaff");
+  };
+  const handleLogout = () => {
+    localStorage.removeItem("jwt");
+    navigate("/login");
+  };
   return (
     <div className={styles.container}>
-      <input type="text" placeholder="Search" className={styles.searchInput} />
-
       <div className={styles.userDropdown}>
         <img
           src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/2048px-User-avatar.svg.png"
@@ -30,15 +36,15 @@ export default function Header1() {
           onClick={toggleDropdown}
         />
         <p style={{ marginTop: "-30px", marginLeft: "40px" }}>
-          Hello: {user?.userName}
+          Chào: {user?.userName}
         </p>
         <div
           className={`${styles.dropdownMenu} ${
             isDropdownVisible ? styles.active : ""
           }`}
         >
-          <a href="/profile">Manage Profile</a>
-          <a href="/login">Logout</a>
+          <a onClick={handleNavigate}>Quản lí Hồ Sơ</a>
+          <a onClick={handleLogout}>Đăng xuất</a>
         </div>
       </div>
     </div>

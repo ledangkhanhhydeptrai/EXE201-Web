@@ -46,6 +46,7 @@ const ManageBooking1 = () => {
     setBookingStatus(""); // Reset trạng thái nếu cần
     setOpen(true);
   };
+  
   const getBookingStatus = (status) => {
     switch (status) {
       case "NOTYET":
@@ -172,30 +173,6 @@ const ManageBooking1 = () => {
             className={styles.datePicker}
             InputLabelProps={{ shrink: true }}
           />
-          {/* <FormControl className={styles.select}>
-            <InputLabel>Trạng thái đặt chỗ</InputLabel>
-            <Select
-              value={bookingStatus}
-              onChange={(e) => setBookingStatus(e.target.value)}
-            >
-              <MenuItem value="NOTYET">Chưa diễn ra</MenuItem>
-              <MenuItem value="PENDING">Đang diễn ra</MenuItem>
-              <MenuItem value="COMPLETED">Hoàn thành</MenuItem>
-              <MenuItem value="CANCELLED">Đã hủy</MenuItem>
-            </Select>
-          </FormControl>
-          <FormControl className={styles.select}>
-            <InputLabel>Trạng thái thanh toán</InputLabel>
-            <Select
-              value={bookingStatusPaid}
-              onChange={(e) => setBookingStatusPaid(e.target.value)}
-            >
-              <MenuItem value="PAIDALL">Thanh toán toàn bộ</MenuItem>
-              <MenuItem value="DEPOSIT">Đặt cọc</MenuItem>
-              <MenuItem value="UNPAID">Chưa thanh toán</MenuItem>
-              <MenuItem value="FAILED">Thanh toán thất bại</MenuItem>
-            </Select>
-          </FormControl> */}
           <div className={styles.buttonWrapper}>
             <Button
               variant="contained"
@@ -211,7 +188,7 @@ const ManageBooking1 = () => {
           <Table className={styles.table} aria-label="user table">
             <TableHead>
               <TableRow className={styles.tableHead}>
-                <TableCell className={styles.tableCell}>Booking ID</TableCell>
+                {/* <TableCell className={styles.tableCell}>Booking ID</TableCell> */}
                 <TableCell className={styles.tableCell} align="center">
                   Tên dịch vụ
                 </TableCell>
@@ -256,7 +233,7 @@ const ManageBooking1 = () => {
             <TableBody>
               {currentData.map((row, index) => (
                 <TableRow key={index} className={styles.tableRow}>
-                  <TableCell align="center">{row.bookinId}</TableCell>
+                  {/* <TableCell align="center">{row.bookinId}</TableCell> */}
                   <TableCell align="center">{row.serviceName}</TableCell>
                   <TableCell align="center">
                     {row.optinalServiceName || "Không có"}

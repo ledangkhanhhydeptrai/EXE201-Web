@@ -29,7 +29,6 @@ export default function Header() {
   };
   return (
     <div className={styles.container}>
-      <input type="text" placeholder="Search" className={styles.searchInput} />
       <div className={styles.userDropdown}>
         <img
           src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/2048px-User-avatar.svg.png"
@@ -38,15 +37,15 @@ export default function Header() {
           onClick={toggleDropdown}
         />
         <p style={{ marginTop: "-25px", marginLeft: "40px" }}>
-          Hello: {user?.userName}
+          Chào: {user?.userName}
         </p>
         <div
           className={`${styles.dropdownMenu} ${
             isDropdownVisible ? styles.active : ""
           }`}
         >
-          <a onClick={handleNavigate}>Manage Profile</a>
-          <a onClick={handleLogout}>Logout</a>
+          <a onClick={handleNavigate}>Quản lí Hồ Sơ</a>
+          <a onClick={handleLogout}>Đăng xuất</a>
         </div>
       </div>
     </div>
