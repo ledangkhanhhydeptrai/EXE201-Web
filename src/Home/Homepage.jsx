@@ -33,6 +33,9 @@ export default function Homepage() {
   const navigate = useNavigate();
   const queryParams = new URLSearchParams(window.location.search);
 
+  const handleClearAll = () => {
+    navigate(location.pathname, {replace: true})
+  }
   // Extract parameters
   const params = {
     code: queryParams.get("code"),
@@ -56,16 +59,18 @@ export default function Homepage() {
                 
       console.log(params?.status );
           // alert("Thanh toán thành công")
-          const data = axios.get(
+           await axios.get(
             `https://bookingpetservice.onrender.com/api/payment/order?orderCode=${params.orderCode}`
           );
           message.success("Thanh toán thành công");
+          handleClearAll()
         } else {
-          message.error("Thanh toán không thành công");
-          const data = await axios.get(
+          await axios.get(
             `https://bookingpetservice.onrender.com/api/payment/cancel?orderCode=${params.orderCode}`
           );
-          console.log("gui be thanh cong", data.data);
+          message.error("Thanh toán không thành công");
+
+          handleClearAll()
         }
       }
     };
