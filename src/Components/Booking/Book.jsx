@@ -92,7 +92,7 @@ const Book = () => {
       );
       const mapOption = response.data?.data?.map((item) => ({
         value: item.serviceId,
-        label: `${item.serviceName} - ${item.price.toLocaleString('de-DE')} vnd`
+        label: `${item.serviceName} - ${item.price.toLocaleString("de-DE")} vnd`
       }));
       setDataOptionService(mapOption);
     } catch (error) {
@@ -433,7 +433,9 @@ const Book = () => {
                 </form>
               </main>
             </div>
-            <Footer />
+            <div style={{ width: "100px", marginLeft: "-1397px" }}>
+              <Footer />
+            </div>
           </div>
         </div>
       )}
