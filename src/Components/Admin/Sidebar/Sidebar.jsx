@@ -20,6 +20,12 @@ export default function Sidebar() {
           <h2 className={styles.logo}>Adopt A Pet</h2>
         </span>
         <ul className={styles.navLinks}>
+        <li>
+            <Link to="/chart" className={styles.navLink}>
+              <FontAwesomeIcon icon={faChartBar} className={styles.icon} /> Bảng
+              Số lượng Truy cập
+            </Link>
+          </li>
           <li>
             <Link to="/dashboard" className={styles.navLink}>
               <FontAwesomeIcon icon={faChartBar} className={styles.icon} /> Bảng

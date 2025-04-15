@@ -48,6 +48,7 @@ import OptionalDetail1 from "./Components/Staff/ManageServiceOptionalDetail/Opti
 import ProfileAdmin from "./Components/Admin/Profile/Profile";
 import DashboardBy from "./Components/Admin/DashboardById/DashboardBy";
 import ProfileStaff from "./Components/Staff/Profile1/ProfileStaff";
+import DashboardFor from "./Components/Admin/DashboardForUser/DashboardFor";
 function App() {
   return (
     <Routes>
@@ -110,6 +111,7 @@ function App() {
       <Route path="/profileadmin" element={<ProfileAdmin />} />
       <Route path="/dashboard/:id" element={<DashboardBy />} />
       <Route path="/profilestaff" element={<ProfileStaff />} />
+      <Route path="/chart" element={<DashboardFor />} />
     </Routes>
   );
 }
