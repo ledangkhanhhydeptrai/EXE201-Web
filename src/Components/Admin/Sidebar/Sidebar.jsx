@@ -6,7 +6,7 @@ import {
   faChartBar,
   faUsers,
   faCalendarCheck,
-  faCog,
+  faCog
 } from "@fortawesome/free-solid-svg-icons";
 // làm trang giao dịch
 export default function Sidebar() {
@@ -20,7 +20,7 @@ export default function Sidebar() {
           <h2 className={styles.logo}>Adopt A Pet</h2>
         </span>
         <ul className={styles.navLinks}>
-        <li>
+          <li>
             <Link to="/chart" className={styles.navLink}>
               <FontAwesomeIcon icon={faChartBar} className={styles.icon} /> Bảng
               Số lượng Truy cập
